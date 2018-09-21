@@ -9,10 +9,10 @@ import time
 
 
 PATH = "./calibration/"
-LEFT_PATH_POINTS = "./calibration/capture/points/left/{:06d}.jpg"
-RIGHT_PATH_POINTS = "./calibration/capture/points/right/{:06d}.jpg"
-LEFT_PATH = "./calibration/left/{:06d}.jpg"
-RIGHT_PATH = "./calibration/right/{:06d}.jpg"
+LEFT_PATH_POINTS = "./images/capture/points/left/{:06d}.jpg"
+RIGHT_PATH_POINTS = "./images/capture/points/right/{:06d}.jpg"
+LEFT_PATH = "./images/left/{:06d}.jpg"
+RIGHT_PATH = "./images/right/{:06d}.jpg"
 
 PiIP = '192.168.2.118'
 LEFT_URL = "http://192.168.2.118:8082/"

@@ -4,9 +4,9 @@ import time
 from multiprocessing.pool import ThreadPool
 from matplotlib import pyplot as plt
 
-PATH_CALIB = "./calibration/calibration.npz"
-PATH_IMG_LEFT = "./calibration//left/{:06d}.jpg"
-PATH_IMG_RIGHT = "./calibration/right"
+PATH_CALIB = "./data/calibration.npz"
+PATH_IMG_LEFT = "./images/left/{:06d}.jpg"
+PATH_IMG_RIGHT = "./images/right"
 
 data = np.load(PATH_CALIB, allow_pickle=False)
 

@@ -3,14 +3,17 @@ import cv2
 import numpy as np
 import os
 from multiprocessing.pool import ThreadPool
-import pprint
 import time
+import picamera
 
+
+# wichtig !!
+#"""
 
 
 PATH = "./images/"
-LEFT_PATH = "./images/left/{:06d}.jpg"
-RIGHT_PATH = "./images/right/{:06d}.jpg"
+LEFT_PATH = "./images/onBoardCalib/left/{:06d}.jpg"
+RIGHT_PATH = "./images/onBoardCalib/right/{:06d}.jpg"
 
 PiIP = '192.168.2.118'
 LEFT_URL = "http://192.168.2.118:8082/"
@@ -124,47 +127,78 @@ imgpoints1 = [] # 2d points in image plane.
 
 
 found = 0
-imageSize = (0,0)
+
+
+#"""
 
 #Todo everything
-cap0 = cv2.VideoCapture(LEFT_URL)
-cap1 = cv2.VideoCapture(Right_URL)
 
-def captureSerialImage(src,left, frameId):
+#cap0 = cv2.VideoCapture(LEFT_URL)
+#cap1 = cv2.VideoCapture(Right_URL)
+
+ 
+# initialize the camera and grab a reference to the raw camera capture
+pool = ThreadPool(processes=2)
+
+imageSize = (int(2952/4), int(1944/4))
+
+camera0 = PiCamera(0)
+camera0.resolution = imageSize
+camera0.rotation = 90
+camera0.framerate = 30
+
+camera1 = PiCamera(1)
+camera1.resolution = imageSize
+camera1.rotation = 90
+camera1.framerate = 30
+ 
+# allow the camera to warmup
+time.sleep(0.1)
+
+
+def captureSerialImage(camera,left,frameId):
     if left:
         path = LEFT_PATH
     else: 
         path = RIGHT_PATH
 
-    cap = cv2.VideoCapture(src)
-
-    if not (cap.grab():
-        print("No more frames")
-        brake
-
-    _, img = cap.retrieve()
-    cv2.imwrite(path.format(frameId), img)
-
-    imageSize = img.shape[:2]
-    gray = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
-    keypoints = blobDetector.detect(gray) # Detect blobs.
+    rawCapture = PiRGBArray(camera, size=imageSize)
 
 
-    # Draw detected blobs as red circles. This helps cv2.findCirclesGrid() .
-    im_with_keypoints = cv2.drawKeypoints(img, keypoints, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-    im_with_keypoints_gray = cv2.cvtColor(im_with_keypoints, cv2.COLOR_BGR2GRAY)
-    ret, corners = cv2.findCirclesGrid(im_with_keypoints, pattern_size, None, flags = cv2.CALIB_CB_ASYMMETRIC_GRID)   # Find the circle grid
+    with picamera.PiCamera() as camera:
+        with picamera.array.PiRGBArray(camera) as output:
+            camera.capture(output, 'rgb')
+            print('Captured %dx%d image' % (
+                    output.array.shape[1], output.array.shape[0]))
+            # Construct a numpy array from the stream
+            data = np.fromstring(stream.getvalue(), dtype=np.uint8)
+            # "Decode" the image from the array, preserving colour
+            img = cv2.imdecode(data, 1)
+            
+            cv2.imwrite(path.format(frameId), img)
 
-    return = ret, img, corners, im_with_keypoints, im_with_keypoints_gray
-    
+            imageSize = img.shape[:2]
+            gray = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
+            keypoints = blobDetector.detect(gray) # Detect blobs.
+
+
+            # Draw detected blobs as red circles. This helps cv2.findCirclesGrid() .
+            im_with_keypoints = cv2.drawKeypoints(img, keypoints, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+            im_with_keypoints_gray = cv2.cvtColor(im_with_keypoints, cv2.COLOR_BGR2GRAY)
+            ret, corners = cv2.findCirclesGrid(im_with_keypoints, pattern_size, None, flags = cv2.CALIB_CB_ASYMMETRIC_GRID)   # Find the circle grid
+
+            # clear the stream in preparation for the next frame
+            rawCapture.truncate(0)
+
+            return = ret, corners, im_with_keypoints, im_with_keypoints_gray
 
 while(True):  # Here, 10 can be changed to whatever number you like to choose
-
-    try:
-        ret0, img0, corners0, im_with_keypoints0, im_with_keypoints_gray0 = captureSerialImage(0,True, frameId)
-        ret1, img1, corners1, im_with_keypoints1, im_with_keypoints_gray1 = captureSerialImage(1,False,frameId)
-    except:
-        print ("error while capture")
+    
+    async_result_left = pool.apply_async(captureSerialImage,(camera0,True,frameId))
+    async_result_right = pool.apply_async(captureSerialImage,(camera1,False,frameId))
+    
+    ret0, img0, corners0, im_with_keypoints0, im_with_keypoints_gray0 = async_result_left.get()
+    ret1, img1, corners1, im_with_keypoints1, im_with_keypoints_gray1 = async_result_right.get()
 
     if (ret0 == True) & (ret1 == True):
 

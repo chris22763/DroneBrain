@@ -8,11 +8,15 @@ import time
 
 
 
+<<<<<<< HEAD
+PATH = "./images/"
+=======
 PATH = "./calibration/"
-LEFT_PATH_POINTS = "./calibration/capture/points/left/{:06d}.jpg"
-RIGHT_PATH_POINTS = "./calibration/capture/points/right/{:06d}.jpg"
-LEFT_PATH = "./calibration/left/{:06d}.jpg"
-RIGHT_PATH = "./calibration/right/{:06d}.jpg"
+LEFT_PATH_POINTS = "./images/capture/points/left/{:06d}.jpg"
+RIGHT_PATH_POINTS = "./images/capture/points/right/{:06d}.jpg"
+>>>>>>> f33563da1011ef694d16647d6fe76d1dd7e73364
+LEFT_PATH = "./images/left/{:06d}.jpg"
+RIGHT_PATH = "./images/right/{:06d}.jpg"
 
 PiIP = '192.168.2.118'
 LEFT_URL = "http://192.168.2.118:8082/"
@@ -29,7 +33,7 @@ OPTIMIZE_ALPHA = 0.25
 TERMINATION_CRITERIA = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 #TERMINATION_CRITERIA = cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER
 
-outputFile = "./calibration/calibration"
+outputFile = "./images/onBoardCalib"
 
 ########################################Blob Detector##############################################
 

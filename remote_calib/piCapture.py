@@ -192,7 +192,7 @@ def captureSerialImage(camera,left,frameId, imageSize):
             ret, corners = cv2.findCirclesGrid(im_with_keypoints, pattern_size, None, flags = cv2.CALIB_CB_ASYMMETRIC_GRID)   # Find the circle grid
 
             # clear the stream in preparation for the next frame
-            camera.truncate()
+            camera.close()
 
             return ret, corners, im_with_keypoints, im_with_keypoints_gray
 

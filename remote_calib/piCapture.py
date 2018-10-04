@@ -127,6 +127,7 @@ imgpoints1 = [] # 2d points in image plane.
 
 
 found = 0
+frameid = 0
 
 
 #"""
@@ -225,6 +226,7 @@ while(True):  # Here, 10 can be changed to whatever number you like to choose
         #cv2.imwrite(LEFT_PATH_POINTS.format(frameId0), im_with_keypoints0)
         #cv2.imwrite(RIGHT_PATH_POINTS.format(frameId1), im_with_keypoints1)
 
-        frameId = frameId + 1
+        frameId0 = frameId0 + 1
+        frameId1 = frameId1 + 1
 
     

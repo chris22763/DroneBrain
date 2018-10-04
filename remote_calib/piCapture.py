@@ -147,12 +147,12 @@ imageSize = (int(2952/4), int(1944/4))
 
 print(imageSize)
 
-camera0 = PiCamera()
+camera0 = PiCamera(0)
 camera0.resolution = imageSize
 camera0.rotation = 90
 camera0.framerate = 30
 
-camera1 = PiCamera()
+camera1 = PiCamera(1)
 camera1.resolution = imageSize
 camera1.rotation = 90
 camera1.framerate = 30
@@ -171,30 +171,29 @@ def captureSerialImage(camera,left,frameId, imageSize):
     #rawCapture = picamera.array.PiRGBArray(camera, size=imageSize)
 
 
-    with picamera.PiCamera() as camera:
-        with picamera.array.PiRGBArray(camera, size=imageSize) as output:
-            camera.capture(output, 'rgb')
-            print('Captured %dx%d image' % (output.array.shape[1], output.array.shape[0]))
-            # Construct a numpy array from the stream
-            data = np.fromstring(stream.getvalue(), dtype=np.uint8)
-            # "Decode" the image from the array, preserving colour
-            img = cv2.imdecode(data, 1)
-            
-            cv2.imwrite(path.format(frameId), img)
+    with picamera.array.PiRGBArray(camera, size=imageSize) as output:
+        camera.capture(output, 'rgb')
+        print('Captured %dx%d image' % (output.array.shape[1], output.array.shape[0]))
+        # Construct a numpy array from the stream
+        data = np.fromstring(stream.getvalue(), dtype=np.uint8)
+        # "Decode" the image from the array, preserving colour
+        img = cv2.imdecode(data, 1)
+        
+        cv2.imwrite(path.format(frameId), img)
 
-            gray = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
-            keypoints = blobDetector.detect(gray) # Detect blobs.
+        gray = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
+        keypoints = blobDetector.detect(gray) # Detect blobs.
 
 
-            # Draw detected blobs as red circles. This helps cv2.findCirclesGrid() .
-            im_with_keypoints = cv2.drawKeypoints(img, keypoints, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-            im_with_keypoints_gray = cv2.cvtColor(im_with_keypoints, cv2.COLOR_BGR2GRAY)
-            ret, corners = cv2.findCirclesGrid(im_with_keypoints, pattern_size, None, flags = cv2.CALIB_CB_ASYMMETRIC_GRID)   # Find the circle grid
+        # Draw detected blobs as red circles. This helps cv2.findCirclesGrid() .
+        im_with_keypoints = cv2.drawKeypoints(img, keypoints, np.array([]), (0,255,0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+        im_with_keypoints_gray = cv2.cvtColor(im_with_keypoints, cv2.COLOR_BGR2GRAY)
+        ret, corners = cv2.findCirclesGrid(im_with_keypoints, pattern_size, None, flags = cv2.CALIB_CB_ASYMMETRIC_GRID)   # Find the circle grid
 
-            # clear the stream in preparation for the next frame
-            camera.close()
+        # clear the stream in preparation for the next frame
+        camera.truncate()
 
-            return ret, corners, im_with_keypoints, im_with_keypoints_gray
+        return ret, corners, im_with_keypoints, im_with_keypoints_gray
 
 while(True):  # Here, 10 can be changed to whatever number you like to choose
     

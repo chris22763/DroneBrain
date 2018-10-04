@@ -159,13 +159,13 @@ camera1.framerate = 30
 time.sleep(0.1)
 
 
-def captureSerialImage(camera,left,frameId):
+def captureSerialImage(camera,left,frameId,):
     if left:
         path = LEFT_PATH
     else: 
         path = RIGHT_PATH
 
-    rawCapture = picamera.array.PiRGBArray(camera, size=imageSize)
+    #rawCapture = picamera.array.PiRGBArray(camera, size=imageSize)
 
 
     with picamera.PiCamera() as camera:

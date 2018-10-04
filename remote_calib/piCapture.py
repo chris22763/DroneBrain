@@ -4,7 +4,7 @@ import numpy as np
 import os
 from multiprocessing.pool import ThreadPool
 import time
-import picamera
+from picamera import PiCamera
 
 
 #wichtig !!
@@ -142,12 +142,12 @@ pool = ThreadPool(processes=2)
 
 imageSize = (int(2952/4), int(1944/4))
 
-camera0 = picamera(0)
+camera0 = PiCamera(0)
 camera0.resolution = imageSize
 camera0.rotation = 90
 camera0.framerate = 30
 
-camera1 = picamera(1)
+camera1 = PiCamera(1)
 camera1.resolution = imageSize
 camera1.rotation = 90
 camera1.framerate = 30

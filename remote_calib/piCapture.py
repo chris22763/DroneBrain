@@ -165,7 +165,7 @@ def captureSerialImage(camera,left,frameId):
     else: 
         path = RIGHT_PATH
 
-    rawCapture = PiRGBArray(camera, size=imageSize)
+    rawCapture = picamera.array.PiRGBArray(camera, size=imageSize)
 
 
     with picamera.PiCamera() as camera:

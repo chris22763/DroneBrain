@@ -127,7 +127,7 @@ imgpoints1 = [] # 2d points in image plane.
 
 
 found = 0
-frameid = 0
+frameId = 0
 
 
 #"""

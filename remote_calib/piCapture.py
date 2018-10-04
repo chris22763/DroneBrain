@@ -145,6 +145,8 @@ pool = ThreadPool(processes=2)
 
 imageSize = (int(2952/4), int(1944/4))
 
+print(imageSize)
+
 camera0 = PiCamera(0)
 camera0.resolution = imageSize
 camera0.rotation = 90
@@ -159,7 +161,7 @@ camera1.framerate = 30
 time.sleep(0.1)
 
 
-def captureSerialImage(camera,left,frameId,):
+def captureSerialImage(camera,left,frameId):
     if left:
         path = LEFT_PATH
     else: 
@@ -171,8 +173,7 @@ def captureSerialImage(camera,left,frameId,):
     with picamera.PiCamera() as camera:
         with picamera.array.PiRGBArray(camera) as output:
             camera.capture(output, 'rgb')
-            print('Captured %dx%d image' % (
-                    output.array.shape[1], output.array.shape[0]))
+            print('Captured %dx%d image' % (output.array.shape[1], output.array.shape[0]))
             # Construct a numpy array from the stream
             data = np.fromstring(stream.getvalue(), dtype=np.uint8)
             # "Decode" the image from the array, preserving colour

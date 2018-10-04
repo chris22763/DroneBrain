@@ -5,6 +5,7 @@ import os
 from multiprocessing.pool import ThreadPool
 import time
 from picamera import PiCamera
+import picamera.array
 
 
 #wichtig !!
@@ -18,6 +19,9 @@ RIGHT_PATH = "./images/onBoardCalib/right/{:06d}.jpg"
 PiIP = '192.168.2.118'
 LEFT_URL = "http://192.168.2.118:8082/"
 Right_URL = "http://192.168.2.118:8081/"
+
+found = 0
+frameId = 0
 frameId0 = 0
 frameId1 = 0
 
@@ -126,8 +130,6 @@ imgpoints0 = [] # 2d points in image plane.
 imgpoints1 = [] # 2d points in image plane.
 
 
-found = 0
-frameId = 0
 
 
 #"""

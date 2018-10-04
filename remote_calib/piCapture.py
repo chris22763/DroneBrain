@@ -147,12 +147,12 @@ imageSize = (int(2952/4), int(1944/4))
 
 print(imageSize)
 
-camera0 = PiCamera(0)
+camera0 = PiCamera()
 camera0.resolution = imageSize
 camera0.rotation = 90
 camera0.framerate = 30
 
-camera1 = PiCamera(1)
+camera1 = PiCamera()
 camera1.resolution = imageSize
 camera1.rotation = 90
 camera1.framerate = 30

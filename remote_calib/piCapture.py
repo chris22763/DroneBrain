@@ -7,7 +7,7 @@ import time
 import picamera
 
 
-# wichtig !!
+#wichtig !!
 #"""
 
 
@@ -190,7 +190,7 @@ def captureSerialImage(camera,left,frameId):
             # clear the stream in preparation for the next frame
             rawCapture.truncate(0)
 
-            return = ret, corners, im_with_keypoints, im_with_keypoints_gray
+            return ret, corners, im_with_keypoints, im_with_keypoints_gray
 
 while(True):  # Here, 10 can be changed to whatever number you like to choose
     
@@ -222,8 +222,8 @@ while(True):  # Here, 10 can be changed to whatever number you like to choose
         # Draw and display the corners.
         im_with_keypoints1 = cv2.drawChessboardCorners(img1, (4, 11), corners11, ret1)
 
-        cv2.imwrite(LEFT_PATH_POINTS.format(frameId0), im_with_keypoints0)
-        cv2.imwrite(RIGHT_PATH_POINTS.format(frameId1), im_with_keypoints1)
+        #cv2.imwrite(LEFT_PATH_POINTS.format(frameId0), im_with_keypoints0)
+        #cv2.imwrite(RIGHT_PATH_POINTS.format(frameId1), im_with_keypoints1)
 
         frameId = frameId + 1
 

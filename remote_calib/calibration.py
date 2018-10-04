@@ -8,13 +8,13 @@ import time
 
 
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
 PATH = "./images/"
-=======
+#=======
 PATH = "./calibration/"
 LEFT_PATH_POINTS = "./images/capture/points/left/{:06d}.jpg"
 RIGHT_PATH_POINTS = "./images/capture/points/right/{:06d}.jpg"
->>>>>>> f33563da1011ef694d16647d6fe76d1dd7e73364
+#>>>>>>> f33563da1011ef694d16647d6fe76d1dd7e73364
 LEFT_PATH = "./images/left/{:06d}.jpg"
 RIGHT_PATH = "./images/right/{:06d}.jpg"
 

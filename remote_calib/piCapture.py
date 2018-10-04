@@ -162,6 +162,7 @@ time.sleep(0.1)
 
 
 def captureSerialImage(camera,left,frameId, imageSize):
+    print(frameId)
     if left:
         path = LEFT_PATH
     else: 
@@ -181,7 +182,6 @@ def captureSerialImage(camera,left,frameId, imageSize):
             
             cv2.imwrite(path.format(frameId), img)
 
-            imageSize = img.shape[:2]
             gray = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
             keypoints = blobDetector.detect(gray) # Detect blobs.
 

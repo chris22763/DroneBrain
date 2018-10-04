@@ -161,7 +161,7 @@ camera1.framerate = 30
 time.sleep(0.1)
 
 
-def captureSerialImage(camera,left,frameId):
+def captureSerialImage(camera,left,frameId, imageSize):
     if left:
         path = LEFT_PATH
     else: 
@@ -171,7 +171,7 @@ def captureSerialImage(camera,left,frameId):
 
 
     with picamera.PiCamera() as camera:
-        with picamera.array.PiRGBArray(camera) as output:
+        with picamera.array.PiRGBArray(camera, size=imageSize) as output:
             camera.capture(output, 'rgb')
             print('Captured %dx%d image' % (output.array.shape[1], output.array.shape[0]))
             # Construct a numpy array from the stream
@@ -192,7 +192,7 @@ def captureSerialImage(camera,left,frameId):
             ret, corners = cv2.findCirclesGrid(im_with_keypoints, pattern_size, None, flags = cv2.CALIB_CB_ASYMMETRIC_GRID)   # Find the circle grid
 
             # clear the stream in preparation for the next frame
-            rawCapture.truncate(0)
+            camera.truncate(0)
 
             return ret, corners, im_with_keypoints, im_with_keypoints_gray
 

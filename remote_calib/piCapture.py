@@ -180,7 +180,7 @@ def captureSerialImage(camera,left,frameId, imageSize):
         
         cv2.imwrite(path.format(frameId), img)
 
-        gray = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         keypoints = blobDetector.detect(gray) # Detect blobs.
 
 

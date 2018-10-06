@@ -171,14 +171,12 @@ def captureSerialImage(camera,left,frameId, imageSize):
     #rawCapture = picamera.array.PiRGBArray(camera, size=imageSize)
 
     with picamera.array.PiRGBArray(camera, size=imageSize) as output:
-        camera.capture(output, 'rgb')
-        # Construct a numpy array from the stream
-        data = np.fromstring(output.getvalue(), dtype=np.uint8)
-        # "Decode" the image from the array, preserving colour
-        img = cv2.imdecode(data, 1)
+        camera.capture(output, format='bgr')
+        # At this point the image is available as stream.array
+        img = output.array
         
         cv2.imwrite(path.format(frameId), img)
-        cv2.imshow("test", img)
+
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         keypoints = blobDetector.detect(gray) # Detect blobs.
 

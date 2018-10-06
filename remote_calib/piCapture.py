@@ -193,15 +193,15 @@ def captureSerialImage(camera,left,frameId, imageSize):
         # clear the stream in preparation for the next frame
         camera.truncate()
 
-        return ret, corners, im_with_keypoints, im_with_keypoints_gray
+        return ret, img, corners, im_with_keypoints, im_with_keypoints_gray
 
 while(True):  # Here, 10 can be changed to whatever number you like to choose
     
-    #async_result_left = pool.apply_async(captureSerialImage,(camera0,True,frameId,imageSize))
+    async_result_left = pool.apply_async(captureSerialImage,(camera0,True,frameId,imageSize))
     async_result_right = pool.apply_async(captureSerialImage,(camera1,False,frameId,imageSize))
     
-    #ret0, img0, corners0, im_with_keypoints0, im_with_keypoints_gray0 = async_result_left.get()
-    #ret1, img1, corners1, im_with_keypoints1, im_with_keypoints_gray1 = async_result_right.get()
+    ret0, img0, corners0, im_with_keypoints0, im_with_keypoints_gray0 = async_result_left.get()
+    ret1, img1, corners1, im_with_keypoints1, im_with_keypoints_gray1 = async_result_right.get()
 
     if (ret0 == True) & (ret1 == True):
 

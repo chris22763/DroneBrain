@@ -175,7 +175,7 @@ def captureSerialImage(camera,left,frameId, imageSize):
         camera.capture(output, 'rgb')
         print('Captured %dx%d image' % (output.array.shape[1], output.array.shape[0]))
         # Construct a numpy array from the stream
-        data = np.fromstring(stream.getvalue(), dtype=np.uint8)
+        data = np.fromstring(camera.getvalue(), dtype=np.uint8)
         # "Decode" the image from the array, preserving colour
         img = cv2.imdecode(data, 1)
         

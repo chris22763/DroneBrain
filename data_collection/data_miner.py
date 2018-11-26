@@ -3,7 +3,9 @@ import pyrealsense2 as rs
 import cv2
 import numpy as np
 
-import gps
+import multiprocessing
+
+# import gps
 
 
 #### Constant ####
@@ -28,16 +30,11 @@ def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
             y1 = (y * NSIZE) + (NSIZE-1)
 
 			mask = img[y0:y1, x0:x1]
-		    minMax = cv.minMaxLoc(mask) 
+		    minMax = cv2.minMaxLoc(mask)
 		    val = 1 / minMax[1]
 
 		    cropedimg[y][x] = val
 	return cropedimg
-
-def getgps(gpsObject):
-	lon = 0
-	lat = 0
-	return lon, lat
 
 def getCompass(bno055Object):
 	offset (0,0,0)

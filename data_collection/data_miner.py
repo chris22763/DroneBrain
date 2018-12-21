@@ -25,6 +25,8 @@ NEIMGY = OCIMGY / NSIZE
 #### the work ###
 
 def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
+    cropedimg = np.zeros((NEIMGY, NEIMGX, 4), 'uint8')
+
     for x in range(newImgSize[0]):
         for y in range(newImgSize[1]):
             x0 = (x * NSIZE)
@@ -39,6 +41,18 @@ def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
 
             cropedimg[y][x] = val
     return cropedimg
+
+def init_realsense():
+    pipeline = rs.pipeline()
+    config = rs.config()
+    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
+    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+
+    # Start streaming
+    pipeline.start(config)
+
+    return pipeline
+
 
 def init_bno():
     bno = BNO055.BNO055(serial_port='/dev/serial0', rst=18)
@@ -101,37 +115,67 @@ def get_bno_data(_device, data_chooser):
                 _data.append(output[entry])
             return _data
         except:
-            print(('data_choser is in the fromt format')
+            print(('data_choser is in the fromt format'))
+
+def get_realsense_data(pipeline):
+    # Wait for a coherent pair of frames: depth and color
+    frames = pipeline.wait_for_frames()
+    depth_frame = frames.get_depth_frame()
+    color_frame = frames.get_color_frame()
+
+    return depth_frame, color_frame
+
+def realsense_to_numpy(frame):
+
+    image = np.asanyarray(frame.get_data())
+
+    return image
+
+
+def make_image(color_image, depth_image):
+    # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
+    depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
+
+    # Stack both images horizontally
+    images = np.hstack((color_image, depth_colormap))
+
+    # Show images
+    cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+    cv2.imshow('RealSense', images)
+    cv2.waitKey(1)
 
 
 bno = init_bno()
+pipeline = init_realsense()
+try:
+    while True:
+        bno_data = get_bno_data(bno, 0)
 
-bno_data = get_bno_data(bno, 0)
 
-print(bno_data)
-while True:
-    # Read the Euler angles for heading, roll, pitch (all in degrees).
-    heading, roll, pitch = bno.read_euler()
-    # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
-    sys, gyro, accel, mag = bno.get_calibration_status()
-    # Print everything out.
-    print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(heading, roll, pitch, sys, gyro, accel, mag))
-    # Other values you can optionally read:
-    # Orientation as a quaternion:
-    #x,y,z,w = bno.read_quaterion()
-    # Sensor temperature in degrees Celsius:
-    #temp_c = bno.read_temp()
-    # Magnetometer data (in micro-Teslas):
-    #x,y,z = bno.read_magnetometer()
-    # Gyroscope data (in degrees per second):
-    #x,y,z = bno.read_gyroscope()
-    # Accelerometer data (in meters per second squared):
-    #x,y,z = bno.read_accelerometer()
-    # Linear acceleration data (i.e. acceleration from movement, not gravity--
-    # returned in meters per second squared):
-    #x,y,z = bno.read_linear_acceleration()
-    # Gravity acceleration data (i.e. acceleration just from gravity--returned
-    # in meters per second squared):
-    #x,y,z = bno.read_gravity()
-    # Sleep for a second until the next reading.
-    time.sleep(1)
+        depth_frame, color_frame = get_realsense_data(pipeline)
+
+        if not depth_frame and not color_frame:
+            continue
+
+        depth_image = realsense_to_numpy(depth_frame)
+        color_image = realsense_to_numpy(color_image)
+
+        # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
+        depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
+
+        # Stack both images horizontally
+        images = np.hstack((color_image, depth_colormap))
+
+        # Show images
+        cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+        cv2.imshow('RealSense', images)
+        cv2.waitKey(1)
+
+        print(bno_data)
+
+        time.sleep(1)
+
+finally:
+
+    # Stop streaming
+    pipeline.stop()

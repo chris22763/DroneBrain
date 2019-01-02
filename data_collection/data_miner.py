@@ -24,7 +24,8 @@ def edit_sys_path():
                    '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages',
                    '../Adafruit_Python_GPIO',
                    '../Adafruit_Python_BNO055']
-    path_to_delete = ['/usr/local/lib/python3.5/dist-packages/Adafruit_GPIO-1.0.0-py3.5.egg']
+    path_to_delete = ['/usr/local/lib/python3.5/dist-packages/Adafruit_GPIO-1.0.0-py3.5.egg',
+                      '/home/up/.virtualenvs/drone/lib/python3.5/site-packages']
     for to_del in path_to_delete:
         if to_del in sys.path:
             sys.path.remove(to_del)

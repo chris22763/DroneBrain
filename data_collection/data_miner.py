@@ -16,13 +16,24 @@ NEIMGY = OCIMGY / NSIZE
 
 #### init  ####
 def edit_sys_path():
-	path_to_add = ['', '/home/up/.virtualenvs/drone/lib/python35.zip', '/home/up/.virtualenvs/drone/lib/python3.5', '/home/up/.virtualenvs/drone/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/lib/python3.5/lib-dynload', '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages', '/home/up/.virtualenvs/drone/lib/python3.5/site-packages']
-	for e in path_to_add:
-	    sys.path.append(e)
+    path_to_add = ['/home/up/.virtualenvs/drone/lib/python35.zip', 
+                   '/home/up/.virtualenvs/drone/lib/python3.5', 
+                   '/home/up/.virtualenvs/drone/lib/python3.5/plat-x86_64-linux-gnu', 
+                   '/home/up/.virtualenvs/drone/lib/python3.5/lib-dynload', 
+                   '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', 
+                   '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages', 
+                   '/home/up/.virtualenvs/drone/lib/python3.5/site-packages',
+                   '../Adafruit_Python_GPIO',
+                   '../Adafruit_Python_BNO055']
+    path_to_delete = ['/usr/local/lib/python3.5/dist-packages/Adafruit_GPIO-1.0.0-py3.5.egg']
+    while to_del in sys.path:
+        sys.path.remove(to_del)
+    for e in path_to_add:
+        sys.path.append(e)
 
 edit_sys_path()
 
-print(sys.path)
+print(sys.path[0])
 
 import cv2
 import numpy as np

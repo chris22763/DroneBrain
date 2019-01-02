@@ -20,6 +20,8 @@ def edit_sys_path():
 	for e in path_to_add:
 	    sys.path.append()
 
+edit_sys_path()
+
 print(sys.path)
 
 import cv2

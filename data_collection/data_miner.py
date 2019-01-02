@@ -1,4 +1,3 @@
-import pyrealsense2 as rs
 import cv2
 import numpy as np
 import logging
@@ -40,6 +39,8 @@ def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
     return cropedimg
 
 def init_realsense():
+	import pyrealsense2 as rs
+
     pipeline = rs.pipeline()
     config = rs.config()
     config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
@@ -148,6 +149,7 @@ path_to_add = ['', '/home/up/.virtualenvs/drone/lib/python35.zip', '/home/up/.vi
 for e in path_to_add:
     if e not in sys.path:
         sys.path.append()
+
 
 bno = init_bno()
 pipeline = init_realsense()

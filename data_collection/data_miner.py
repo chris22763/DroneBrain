@@ -4,9 +4,6 @@ import numpy as np
 import logging
 import sys
 import time
-
-from Adafruit_BNO055 import BNO055
-
 import multiprocessing
 
 # import gps
@@ -55,7 +52,10 @@ def init_realsense():
 
 
 def init_bno():
-    bno = BNO055.BNO055(serial_port='/dev/serial0', rst=18)
+
+	from Adafruit_BNO055 import BNO055
+
+    bno = BNO055.BNO055(rst=13)
 
     if len(sys.argv) == 2 and sys.argv[1].lower() == '-v':
         logging.basicConfig(level=logging.DEBUG)
@@ -144,6 +144,10 @@ def make_image(color_image, depth_image):
     cv2.imshow('RealSense', images)
     cv2.waitKey(1)
 
+path_to_add = ['', '/home/up/.virtualenvs/drone/lib/python35.zip', '/home/up/.virtualenvs/drone/lib/python3.5', '/home/up/.virtualenvs/drone/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/lib/python3.5/lib-dynload', '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages', '/home/up/.virtualenvs/drone/lib/python3.5/site-packages']
+for e in path_to_add:
+	if e not in sys.path:
+		sys.path.append(e)
 
 bno = init_bno()
 pipeline = init_realsense()

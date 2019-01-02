@@ -39,7 +39,7 @@ def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
     return cropedimg
 
 def init_realsense():
-	import pyrealsense2 as rs
+    import pyrealsense2 as rs
 
     pipeline = rs.pipeline()
     config = rs.config()

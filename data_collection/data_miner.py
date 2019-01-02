@@ -26,8 +26,9 @@ def edit_sys_path():
                    '../Adafruit_Python_GPIO',
                    '../Adafruit_Python_BNO055']
     path_to_delete = ['/usr/local/lib/python3.5/dist-packages/Adafruit_GPIO-1.0.0-py3.5.egg']
-    while to_del in sys.path:
-        sys.path.remove(to_del)
+    for to_del in path_to_delete:
+        if to_del in sys.path:
+            sys.path.remove(to_del)
     for e in path_to_add:
         sys.path.append(e)
 

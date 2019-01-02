@@ -1,7 +1,11 @@
+import sys
+print(sys.path)
+
+edit_sys_path()
+
 import cv2
 import numpy as np
 import logging
-import sys
 import time
 import multiprocessing
 
@@ -16,6 +20,11 @@ NEIMGX = OCIMGX / NSIZE
 NEIMGY = OCIMGY / NSIZE
 
 #### init  ####
+def edit_sys_path()
+	path_to_add = ['', '/home/up/.virtualenvs/drone/lib/python35.zip', '/home/up/.virtualenvs/drone/lib/python3.5', '/home/up/.virtualenvs/drone/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/lib/python3.5/lib-dynload', '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages', '/home/up/.virtualenvs/drone/lib/python3.5/site-packages']
+	for e in path_to_add:
+	    if e not in sys.path:
+	        sys.path.append()
 
 
 #### the work ###
@@ -144,11 +153,6 @@ def make_image(color_image, depth_image):
     cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
     cv2.imshow('RealSense', images)
     cv2.waitKey(1)
-
-path_to_add = ['', '/home/up/.virtualenvs/drone/lib/python35.zip', '/home/up/.virtualenvs/drone/lib/python3.5', '/home/up/.virtualenvs/drone/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/lib/python3.5/lib-dynload', '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages', '/home/up/.virtualenvs/drone/lib/python3.5/site-packages']
-for e in path_to_add:
-    if e not in sys.path:
-        sys.path.append()
 
 
 bno = init_bno()

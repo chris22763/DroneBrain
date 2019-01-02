@@ -1,10 +1,5 @@
 import sys
-print(sys.path)
 
-edit_sys_path()
-
-import cv2
-import numpy as np
 import logging
 import time
 import multiprocessing
@@ -26,7 +21,10 @@ def edit_sys_path():
 	    if e not in sys.path:
 	        sys.path.append()
 
+print(sys.path)
 
+import cv2
+import numpy as np
 #### the work ###
 
 def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):

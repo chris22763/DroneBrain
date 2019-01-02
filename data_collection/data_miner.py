@@ -21,8 +21,7 @@ def edit_sys_path():
                    '/home/up/.virtualenvs/drone/lib/python3.5/plat-x86_64-linux-gnu', 
                    '/home/up/.virtualenvs/drone/lib/python3.5/lib-dynload', 
                    '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', 
-                   '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages', 
-                   '/home/up/.virtualenvs/drone/lib/python3.5/site-packages',
+                   '/home/up/.virtualenvs/drone/local/lib/python3.5/site-packages',
                    '../Adafruit_Python_GPIO',
                    '../Adafruit_Python_BNO055']
     path_to_delete = ['/usr/local/lib/python3.5/dist-packages/Adafruit_GPIO-1.0.0-py3.5.egg']

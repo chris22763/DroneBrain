@@ -106,6 +106,63 @@ def init_bno():
 
     return bno
 
+
+def tupel_to_pixel(data):
+    tlen = data.__len__()
+    output = []
+    _flags = {
+        'list': [0, 0 , 255],
+        'float': [255, 0, 255],
+        'int_small' : [0, 128, 128],
+        'int_large' : [0, 255, 255]
+    }
+    for d in range(tlen):
+        t = data[d]
+        if isinstance(t, list):
+            output.append(_flags['list'])
+            for i in range(t.__len__()):
+                if t[i] <= 255*3:
+                    if t[i] <= 255:
+                        pt = [t[0], 0, 0]
+                    elif t[i] <= 255*2:
+                        pt = [255, t[i]-255, 0]
+                    elif t[i] <= 255*3:
+                        pt = [255, 255, t[i]-(255*2)]
+                output.append(pt)
+        elif isinstance(t, int):
+            if t <= 255*3:
+                output.append(_flags['int_small'])
+                if t <= 255:
+                    pt = [t[0], 0, 0]
+                elif t <= 255*2:
+                    pt = [255, t-255, 0]
+                elif t <= 255*3:
+                    pt = [255, 255, t-(255*2)]
+            elif t <= 255^3:
+                output.append(_flags['int_large'])
+                if t <= 255^2:
+                    pt = [255, t/255, 0]
+                elif t <= 255^3:
+                    pt = [255, 255, t/(255^2)]
+            output.append(pt)
+        elif isinstance(t, float):
+            output.append(_flags['float'])
+
+        return output
+
+
+def append_to_img(img, data):
+    img_width = img.__len__()
+    data_len = data.__len__()
+
+    if data_len <= img_width:
+        for i in range(data_len, img_width):
+            data.append([0, 0, 0])
+        img.append(data)
+
+    return img
+
+
 def get_bno_data(_device, data_chooser):
     output = {
         0: _device.read_quaterion(),             # Orientation as a quaternion:                             x,y,z,w
@@ -138,6 +195,7 @@ def get_bno_data(_device, data_chooser):
         except:
             print(('data_choser is in the fromt format'))
 
+
 def get_realsense_data(pipeline):
     # Wait for a coherent pair of frames: depth and color
     frames = pipeline.wait_for_frames()
@@ -145,6 +203,7 @@ def get_realsense_data(pipeline):
     color_frame = frames.get_color_frame()
 
     return depth_frame, color_frame
+
 
 def realsense_to_numpy(frame):
 
@@ -161,8 +220,9 @@ def make_image(color_image, depth_image):
     images = np.hstack((color_image, depth_colormap))
 
     # Show images
-    cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-    cv2.imshow('RealSense', images)
+    # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+    # cv2.imshow('RealSense', images)
+
     cv2.waitKey(1)
 
 
@@ -170,8 +230,7 @@ bno = init_bno()
 pipeline = init_realsense()
 try:
     while True:
-        bno_data = get_bno_data(bno, 0)
-
+        data_row = [tupel_to_pixel(get_bno_data(bno, i)) for i in range(6)]
 
         depth_frame, color_frame = get_realsense_data(pipeline)
 
@@ -179,20 +238,23 @@ try:
             continue
 
         depth_image = realsense_to_numpy(depth_frame)
-        color_image = realsense_to_numpy(color_image)
+        # color_image = realsense_to_numpy(color_image)
 
         # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
 
+        data_img = append_to_img(depth_colormap, data_row)
+
         # Stack both images horizontally
-        images = np.hstack((color_image, depth_colormap))
+        # images = np.hstack((color_image, depth_colormap))
 
         # Show images
-        cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('RealSense', images)
+        # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+        # cv2.imshow('RealSense', images)
+
         cv2.waitKey(1)
 
-        print(bno_data)
+        print(data_row)
 
         time.sleep(1)
 

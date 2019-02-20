@@ -91,6 +91,8 @@ def init_bno():
 
 
 def tupel_to_pixel(data):
+    print(data)
+    print(type(data))
     output = []
     _flags = {
         'list': [0, 0 , 255],
@@ -135,8 +137,6 @@ def tupel_to_pixel(data):
 def append_to_img(img, data):
     img_width = img.__len__()
     data_len = data.__len__()
-    print(data)
-    print(type(data))
 
     #if data_len <= img_width:
     #    for i in range(data_len, img_width):

@@ -16,13 +16,13 @@ NEIMGY = OCIMGY / NSIZE
 
 #### init  ####
 def edit_sys_path():
-    path_to_add = ['/home/up/.virtualenvs/brain/lib/python35.zip',
-                   '/home/up/.virtualenvs/brain/lib/python3.5',
-                   '/home/up/.virtualenvs/brain/lib/python3.5/plat-x86_64-linux-gnu',
-                   '/home/up/.virtualenvs/brain/lib/python3.5/lib-dynload',
-                   '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', 
-                   '/home/up/.virtualenvs/brain/local/lib/python3.5/site-packages',
-                   '/home/up/.virtualenvs/brain/lib/python3.5/site-packages',
+    path_to_add = ['', '/home/up/brain/lib/python35.zip',
+                   '/home/up/brain/lib/python3.5',
+                   '/home/up/brain/lib/python3.5/plat-x86_64-linux-gnu',
+                   '/home/up/brain/lib/python3.5/lib-dynload',
+                   '/usr/lib/python3.5',
+                   '/usr/lib/python3.5/plat-x86_64-linux-gnu',
+                   '/home/up/brain/lib/python3.5/site-packages'
                    '../Adafruit_Python_GPIO',
                    '../Adafruit_Python_BNO055']
     path_to_delete = ['/usr/local/lib/python3.5/dist-packages/Adafruit_GPIO-1.0.0-py3.5.egg']

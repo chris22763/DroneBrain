@@ -139,9 +139,10 @@ def append_to_img(img, data):
     if data_len <= img_width:
         for i in range(data_len, img_width):
             data.append([0, 0, 0])
-        img.append(data)
+        out = np.concatenate(img , data)
 
-    return img
+
+    return out
 
 
 def get_bno_data(_device, data_chooser):

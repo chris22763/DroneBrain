@@ -140,10 +140,9 @@ def append_to_img(img, data):
         for i in range(data_len, img_width):
             data.append([0, 0, 0])
         #out = np.concatenate(img , data)
+        npdata = np.array(data)
         print(data)
         print(type(data))
-        print(img)
-        print(type(img))
 
 
 

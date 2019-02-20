@@ -137,11 +137,12 @@ def append_to_img(img, data):
     data_len = data.__len__()
     print(data)
     print(type(data))
-    if data_len <= img_width:
-        for i in range(data_len, img_width):
-            data.append([0, 0, 0])
+
+    #if data_len <= img_width:
+    #    for i in range(data_len, img_width):
+    #        data.append([0, 0, 0])
         #out = np.concatenate(img , data)
-        npdata = np.array(data)
+    #    npdata = np.array(data)
 
 
 

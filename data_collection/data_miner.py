@@ -91,7 +91,6 @@ def init_bno():
 
 
 def tupel_to_pixel(data):
-    tlen = data.__len__()
     output = []
     _flags = {
         'list': [0, 0 , 255],
@@ -99,39 +98,38 @@ def tupel_to_pixel(data):
         'int_small' : [0, 128, 128],
         'int_large' : [0, 255, 255]
     }
-    for d in range(tlen):
-        t = data[d]
-        if isinstance(t, list):
-            output.append(_flags['list'])
-            for i in range(t.__len__()):
-                if t[i] <= 255*3:
-                    if t[i] <= 255:
-                        pt = [t[0], 0, 0]
-                    elif t[i] <= 255*2:
-                        pt = [255, t[i]-255, 0]
-                    elif t[i] <= 255*3:
-                        pt = [255, 255, t[i]-(255*2)]
-                output.append(pt)
-        elif isinstance(t, int):
-            if t <= 255*3:
-                output.append(_flags['int_small'])
-                if t <= 255:
-                    pt = [t[0], 0, 0]
-                elif t <= 255*2:
-                    pt = [255, t-255, 0]
-                elif t <= 255*3:
-                    pt = [255, 255, t-(255*2)]
-            elif t <= 255^3:
-                output.append(_flags['int_large'])
-                if t <= 255^2:
-                    pt = [255, t/255, 0]
-                elif t <= 255^3:
-                    pt = [255, 255, t/(255^2)]
-            output.append(pt)
-        elif isinstance(t, float):
-            output.append(_flags['float'])
 
-        return output
+    if isinstance(data, list):
+        output.append(_flags['list'])
+        for i in range(data.__len__()):
+            if data[i] <= 255*3:
+                if data[i] <= 255:
+                    pt = [data[0], 0, 0]
+                elif data[i] <= 255*2:
+                    pt = [255, data[i]-255, 0]
+                elif data[i] <= 255*3:
+                    pt = [255, 255, data[i]-(255*2)]
+            output.append(pt)
+    elif isinstance(data, int):
+        if data <= 255*3:
+            output.append(_flags['int_small'])
+            if data <= 255:
+                pt = [data[0], 0, 0]
+            elif data <= 255*2:
+                pt = [255, data-255, 0]
+            elif data <= 255*3:
+                pt = [255, 255, data-(255*2)]
+        elif data <= 255^3:
+            output.append(_flags['int_large'])
+            if data <= 255^2:
+                pt = [255, data/255, 0]
+            elif data <= 255^3:
+                pt = [255, 255, data/(255^2)]
+        output.append(pt)
+    elif isinstance(data, float):
+        output.append(_flags['float'])
+
+    return output
 
 
 def append_to_img(img, data):

@@ -148,7 +148,7 @@ def append_to_img(img, data):
 
 def get_bno_data(_device, data_chooser):
     output = {
-        0: _device.read_quaterion(),             # Orientation as a quaternion:                             x,y,z,w
+        0: _device.read_euler(),             # Orientation as a quaternion:                             x,y,z,w
         1: _device.read_temp(),                    # Sensor temperature in degrees Celsius:                temp_c
         2: _device.read_magnetometer(),            # Magnetometer data (in micro-Teslas):                    x,y,z
         3: _device.read_gyroscope(),            # Gyroscope data (in degrees per second):                s.o.

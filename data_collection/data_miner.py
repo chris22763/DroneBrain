@@ -2,6 +2,7 @@ import sys
 
 import logging
 import time
+import struct
 import multiprocessing
 
 # import gps
@@ -90,44 +91,59 @@ def init_bno():
     return bno
 
 
+def encode_float(f, _output, _flag):
+    packed = struct.pack('!f', f)
+    integers = [ord(c) for c in packed]  # inverse => [chr(i) for i in integer]
+    if integers.__len__() <= 4:
+        _output.append(_flag['float_single'])
+        pt0 = [integers[0], integers[1+], integers[2]]
+        pt1 = [integers[3], 0, 0]
+
+        _output.append(pt0,pt1)
+    else:
+        _output.append(_flag['float_double'])
+        pt0 = [integers[0], integers[1], integers[2]]
+        pt1 = [integers[3], integers[4], integers[5]]
+        pt2 = [integers[6], integers[7], 0]
+        _output.append(pt0, pt1, pt2)
+
+    return _output
+
+
+def encode_int(i, _output, _flag):
+    _output.append(_flag['int'])
+    if i <= 255:
+        pt = [i, 0, 0]
+    elif i <= 255^2:
+        pt = [255, i/255, 0]
+    elif i <= 255^3:
+        pt = [255, 255, i/(255^2)]
+
+    _output.append(pt)
+    return _output
+
+
 def tupel_to_pixel(data):
     output = []
     _flags = {
-        'list': [0, 0 , 255],
-        'float': [255, 0, 255],
-        'int_small' : [0, 128, 128],
-        'int_large' : [0, 255, 255]
+        'tupel': [0, 0 , 255],
+        'float_single': [128, 0, 255],
+        'float_double': [255, 0, 255],
+        'int' : [0, 255, 255]
     }
 
     if isinstance(data, tuple):
-        output.append(_flags['list'])
+        output.append(_flags['tupel'])
         for i in range(data.__len__()):
-            if data[i] <= 255*3:
-                if data[i] <= 255:
-                    pt = [data[0], 0, 0]
-                elif data[i] <= 255*2:
-                    pt = [255, data[i]-255, 0]
-                elif data[i] <= 255*3:
-                    pt = [255, 255, data[i]-(255*2)]
+            if isinstance(data[i], int):
+                output = encode_int(data, output, _flags)
+            elif isinstance(data[i], float):
+                output = encode_float(data, output, _flags)
             output.append(pt)
     elif isinstance(data, int):
-        if data <= 255*3:
-            output.append(_flags['int_small'])
-            if data <= 255:
-                pt = [data, 0, 0]
-            elif data <= 255*2:
-                pt = [255, data-255, 0]
-            elif data <= 255*3:
-                pt = [255, 255, data-(255*2)]
-        elif data <= 255^3:
-            output.append(_flags['int_large'])
-            if data <= 255^2:
-                pt = [255, data/255, 0]
-            elif data <= 255^3:
-                pt = [255, 255, data/(255^2)]
-        output.append(pt)
+        output = encode_int(data, output, _flags)
     elif isinstance(data, float):
-        output.append(_flags['float'])
+        output = encode_float(data, output, _flags)
 
     return output
 

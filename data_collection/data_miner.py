@@ -114,7 +114,7 @@ def tupel_to_pixel(data):
         if data <= 255*3:
             output.append(_flags['int_small'])
             if data <= 255:
-                pt = [data[0], 0, 0]
+                pt = [data, 0, 0]
             elif data <= 255*2:
                 pt = [255, data-255, 0]
             elif data <= 255*3:

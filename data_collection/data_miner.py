@@ -139,10 +139,13 @@ def append_to_img(img, data):
     if data_len <= img_width:
         for i in range(data_len, img_width):
             data.append([0, 0, 0])
-        out = np.concatenate(img , data)
+        #out = np.concatenate(img , data)
+        print(data)
+        print(type(data))
+        print(img)
+        print(type(img))
 
 
-    return out
 
 
 def get_bno_data(_device, data_chooser):
@@ -225,7 +228,7 @@ try:
         # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
 
-        data_img = append_to_img(depth_colormap, data_row)
+        append_to_img(depth_colormap, data_row)
 
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))

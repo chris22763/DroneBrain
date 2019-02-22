@@ -156,7 +156,7 @@ def append_to_img(img, data):
         for i in range(data_len, img_width):
             data.append([0, 0, 0])
         npdata = np.array(data)
-
+        print(img)
         out = np.append(img, npdata)
 
     return out

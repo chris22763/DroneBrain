@@ -23,6 +23,15 @@ print(sys.path[0])
 import cv2
 import numpy as np
 #### the work ###
+def create_img_from_data(data, faktor):
+    x = data.__len__() * 10
+    y = 10
+    new_img = np.zeros((y, x, 4), 'uint8')
+    for x in range(y):
+        for y in range(x):
+            new_img[y][x] = data[int(x/10)]
+
+    return new_img
 
 def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
     cropedimg = np.zeros((NEIMGY, NEIMGX, 4), 'uint8')
@@ -276,12 +285,11 @@ try:
         cv2.imshow('RealSense', depth_image)
         cv2.imshow('RealSense_Color', depth_colormap)
         cv2.imshow('Data_IMG', data_image)
-        data_row_mat = np.asanyarray(data_row)
-        r = 100.0 / data_row_mat.shape[1]
-        dim = (100, int(data_row_mat.shape[0] * r))
-        big = cv2.resize(data_row_mat, dim, interpolation = cv2.INTER_CUBIC)
+        #data_row_mat = np.asanyarray(data_row)
 
-        cv2.imshow('Big_Data_IMG', big)
+        big_img = create_img_from_data(data_row)
+
+        cv2.imshow('Big_Data_IMG', big_img)
         cv2.waitKey(1)
 
 

@@ -159,9 +159,9 @@ def append_to_img(img, data):
         print(type(npdata))
         print(type(img))
 
-        out = np.concatenate(img , npdata)
+        img.append(npdata)
 
-    return out
+    return img
 
 
 

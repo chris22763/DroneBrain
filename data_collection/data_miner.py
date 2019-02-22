@@ -273,8 +273,8 @@ try:
         #print(data_image.shape[:2])
         # Show images
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('RealSense', depth_image)
-        cv2.imshow('RealSense_Color', depth_colormap)
+        #cv2.imshow('RealSense', depth_image)
+        #cv2.imshow('RealSense_Color', depth_colormap)
         cv2.imshow('Data_IMG', data_image)
 
         big = cv2.resize(data_row, (0,0), fx=10, fy=10)

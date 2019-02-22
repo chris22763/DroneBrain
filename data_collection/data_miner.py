@@ -152,6 +152,14 @@ def append_to_img(img, data):
     img_width = img[0].__len__()
     data_len = data.__len__()
 
+    print('------')
+    #print(npdata.shape[:2])
+    print(img.shape[:2])
+    print(img[0][0].shape[:2])
+    print(data.shape[:2])
+    print(data[0].shape[:2])
+    print('------')
+
     if data_len <= img_height:
         for i in range(img_width):
             if i > data_len:
@@ -161,12 +169,6 @@ def append_to_img(img, data):
         #npdata = np.array(data)
 
     #data_img = np.append(img, npdata)
-
-    print('------')
-    #print(npdata.shape[:2])
-    print(img.shape[:2])
-    print(data.shape[:2])
-    print('------')
 
 
     return img

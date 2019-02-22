@@ -121,8 +121,7 @@ def encode_int(i, _output, _flag):
     return _output
 
 
-def tupel_to_pixel(data):
-    output = []
+def tupel_to_pixel(data, output):
     _flags = {
         'tupel_start': [0, 0 , 128],
         'tupel_end': [0, 0 , 255],
@@ -174,7 +173,7 @@ def append_to_img(img, data):
     return img
 
 
-def get_bno_data(_device, data_chooser):
+def get_bno_data(_device, data_chooser, _list):
     output = {
         0: _device.read_euler(),             # Orientation as a quaternion:                             x,y,z,w
         1: _device.read_temp(),                    # Sensor temperature in degrees Celsius:                temp_c
@@ -188,23 +187,23 @@ def get_bno_data(_device, data_chooser):
 
     if isinstance(data_chooser, int):
         _data = output[data_chooser]
-        return _data
+        return _list.append(_data)
 
     elif isinstance(data_chooser, str):
         try:
             index = int(data_chooser)
             _data = output[index]
-            return _data
+            return _list.append(_data)
         except:
-            print('data_choser is in the fromt format')
+            print('data_choser is in the wrong format')
     else:
         try:
             _data = []
             for entry in data_chooser:
                 _data.append(output[entry])
-            return _data
+            return _list.append(_data)
         except:
-            print(('data_choser is in the fromt format'))
+            print('data_choser is in the wrong format')
 
 
 def get_realsense_data(pipeline):
@@ -241,7 +240,14 @@ bno = init_bno()
 pipeline = init_realsense()
 try:
     while True:
-        data_row = [tupel_to_pixel(get_bno_data(bno, i)) for i in range(6)]
+
+        output = []
+        data_groupe = []
+        
+        for i in range(6):
+            data_groupe = get_bno_data(bno, i, data_groupe)
+
+        data_row = tupel_to_pixel(data_groupe, output)
 
         depth_frame, color_frame = get_realsense_data(pipeline)
 

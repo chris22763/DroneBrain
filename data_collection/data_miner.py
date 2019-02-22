@@ -132,12 +132,11 @@ def tupel_to_pixel(data):
 
     if isinstance(data, tuple):
         output.append(_flags['tupel_start'])
-        for i in range(data.__len__()):
-            if isinstance(data[i], int):
-                output = encode_int(data, output, _flags)
-            elif isinstance(data[i], float):
-                output = encode_float(data, output, _flags)
-            output.append(pt)
+        for d in data:
+            if isinstance(d, int):
+                output = encode_int(d, output, _flags)
+            elif isinstance(d, float):
+                output = encode_float(d, output, _flags)
         output.append(_flags['tupel_end'])
     elif isinstance(data, int):
         output = encode_int(data, output, _flags)

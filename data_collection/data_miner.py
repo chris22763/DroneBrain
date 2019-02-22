@@ -227,7 +227,8 @@ def make_image(color_image, depth_image):
 bno = init_bno()
 pipeline = init_realsense()
 depth_frame, color_frame = get_realsense_data(pipeline)
-print(depth_frame)
+depth_image = realsense_to_numpy(depth_frame)
+print(depth_image)
 try:
     while True:
         data_row = [tupel_to_pixel(get_bno_data(bno, i)) for i in range(6)]

@@ -129,7 +129,6 @@ def tupel_to_pixel(data, output):
         'float_end': [255, 0, 255],
         'int' : [0, 255, 255]
     }
-    output.append(['ewre'])
     if isinstance(data, tuple):
         output.append(_flags['tupel_start'])
         for d in data:
@@ -155,8 +154,6 @@ def append_to_img(img, data):
     #print(npdata.shape[:2])
     print(img.shape[:2])
     print(img[0][0].shape[:2])
-    print(data)
-    print(data[0])
     print('------')
 
     if data_len <= img_height:

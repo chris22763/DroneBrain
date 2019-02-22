@@ -121,7 +121,7 @@ def encode_int(i, _output, _flag):
     return _output
 
 
-def tupel_to_pixel(data, output):
+def tupel_to_pixel(input_data, output_list):
     _flags = {
         'tupel_start': [0, 0 , 128],
         'tupel_end': [0, 0 , 255],
@@ -129,20 +129,21 @@ def tupel_to_pixel(data, output):
         'float_end': [255, 0, 255],
         'int' : [0, 255, 255]
     }
-    if isinstance(data, tuple):
-        output.append(_flags['tupel_start'])
-        for d in data:
-            if isinstance(d, int):
-                output = encode_int(d, output, _flags)
-            elif isinstance(d, float):
-                output = encode_float(d, output, _flags)
-        output.append(_flags['tupel_end'])
-    elif isinstance(data, int):
-        output = encode_int(data, output, _flags)
-    elif isinstance(data, float):
-        output = encode_float(data, output, _flags)
+    for data in input_data:
+        if isinstance(data, tuple):
+            output_list.append(_flags['tupel_start'])
+            for d in data:
+                if isinstance(d, int):
+                    output_list = encode_int(d, output_list, _flags)
+                elif isinstance(d, float):
+                    output_list = encode_float(d, output_list, _flags)
+            output_list.append(_flags['tupel_end'])
+        elif isinstance(data, int):
+            output_list = encode_int(data, output_list, _flags)
+        elif isinstance(data, float):
+            output_list = encode_float(data, output_list, _flags)
 
-    return output
+    return output_list
 
 
 def append_to_img(img, data):

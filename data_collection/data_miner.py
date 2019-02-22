@@ -156,8 +156,8 @@ def append_to_img(img, data):
     #print(npdata.shape[:2])
     print(img.shape[:2])
     print(img[0][0].shape[:2])
-    print(data.shape[:2])
-    print(data[0].shape[:2])
+    print(data.__len__())
+    print(data[0].__len__())
     print('------')
 
     if data_len <= img_height:

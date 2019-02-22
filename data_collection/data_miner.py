@@ -174,7 +174,6 @@ def append_to_img(img, data):
 
 
 def get_bno_data(_device, data_chooser, _list):
-    print(_list)
     output = {
         0: _device.read_euler(),             # Orientation as a quaternion:                             x,y,z,w
         1: _device.read_temp(),                    # Sensor temperature in degrees Celsius:                temp_c
@@ -246,7 +245,7 @@ try:
         data_groupe = []
 
         for i in range(6):
-            data_groupe = get_bno_data(bno, i, data_groupe)
+            data_groupe = get_bno_data(bno, i, [])
 
         data_row = tupel_to_pixel(data_groupe, output)
 

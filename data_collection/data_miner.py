@@ -251,8 +251,8 @@ try:
             data_groupe = get_bno_data(bno, i, data_groupe)
 
         data_row = tupel_to_pixel(data_groupe, output)
-        print(data_groupe)
-        print(data_row)
+        # print(data_groupe)
+        # print(data_row)
         depth_frame, color_frame = get_realsense_data(pipeline)
 
         if not depth_frame and not color_frame:
@@ -273,9 +273,9 @@ try:
         #print(data_image.shape[:2])
         # Show images
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        #cv2.imshow('RealSense', depth_image)
-        #cv2.imshow('RealSense_Color', depth_colormap)
-        #cv2.imshow('Data_IMG', data_image)
+        cv2.imshow('RealSense', depth_image)
+        cv2.imshow('RealSense_Color', depth_colormap)
+        cv2.imshow('Data_IMG', data_image)
 
         cv2.waitKey(1)
 

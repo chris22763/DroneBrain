@@ -148,24 +148,40 @@ def tupel_to_pixel(data):
 
 
 def append_to_img(img, data):
-    img_width = img.__len__()
+    img_height = img.__len__()
+    img_width = img[0].__len__()
     data_len = data.__len__()
 
+    img_size = img.shape[:2]
 
-    if data_len <= img_width:
+    test = np.zeros(img_size[0] + 1 , img_size[1], 3)
+
+    for y in range(img_height):
+        for x in range(img_width):
+            test[x][y] = img[x][y]
+
+    if data_len <= img_height:
         for i in range(data_len, img_width):
             data.append([0, 0, 0])
-        npdata = np.array(data)
-        out = np.append(img, npdata)
+        #npdata = np.array(data)
+
+    for y in range(img_height):
+        test[-1][y] = data[y]
+
+
+
+    #data_img = np.append(img, npdata)
+
+    out = np.reshape
 
     print('------')
-    print(npdata.shape[:2])
+    #print(npdata.shape[:2])
     print(img.shape[:2])
-    print(out.shape[:2])
+    print(test.shape[:2])
     print('------')
 
 
-    return out
+    return test
 
 
 def get_bno_data(_device, data_chooser):

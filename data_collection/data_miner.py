@@ -246,10 +246,11 @@ try:
         # print(depth_colormap)
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))
-
+        data_image = append_to_img(depth_colormap, data_row)
         # Show images
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        # cv2.imshow('RealSense', images)
+        cv2.imshow('RealSense', depth_image)
+        cv2.imshow('Data_stored', data_image)
 
         cv2.waitKey(1)
 

@@ -149,4 +149,3 @@ cmake-build-*/
 # File-based project format
 *.iws
 
-.idea/workspace.xml

@@ -187,7 +187,7 @@ def get_bno_data(_device, data_chooser, _list):
         _data = output[data_chooser]
         _list.append(_data)
         return _list
-    
+
     elif isinstance(data_chooser, str):
         try:
             index = int(data_chooser)
@@ -247,9 +247,10 @@ try:
 
         for i in range(6):
             data_groupe = get_bno_data(bno, i, data_groupe)
-            print(data_groupe)
-        data_row = tupel_to_pixel(data_groupe, output)
 
+        data_row = tupel_to_pixel(data_groupe, output)
+        print(data_groupe)
+        print(data_row)
         depth_frame, color_frame = get_realsense_data(pipeline)
 
         if not depth_frame and not color_frame:

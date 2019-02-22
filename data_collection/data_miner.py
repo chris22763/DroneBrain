@@ -92,21 +92,16 @@ def init_bno():
 
 
 def encode_float(f, _output, _flag):
+    output.append(_flags['float_start'])
     packed = struct.pack('!f', f)
     integers = [ord(c) for c in packed]  # inverse => [chr(i) for i in integer]
-    if integers.__len__() <= 4:
-        _output.append(_flag['float_single'])
-        pt0 = [integers[0], integers[1+], integers[2]]
-        pt1 = [integers[3], 0, 0]
-
-        _output.append(pt0,pt1)
-    else:
-        _output.append(_flag['float_double'])
-        pt0 = [integers[0], integers[1], integers[2]]
-        pt1 = [integers[3], integers[4], integers[5]]
-        pt2 = [integers[6], integers[7], 0]
-        _output.append(pt0, pt1, pt2)
-
+    for i in range(integers.__len__()):
+        if i%2 == 0:
+            if i+1 <= integers.__len__():
+                pt = [integers[i], integers[i+1], 0]
+                _output.append(pt)
+    
+    output.append(_flags['float_end'])
     return _output
 
 
@@ -126,20 +121,22 @@ def encode_int(i, _output, _flag):
 def tupel_to_pixel(data):
     output = []
     _flags = {
-        'tupel': [0, 0 , 255],
-        'float_single': [128, 0, 255],
-        'float_double': [255, 0, 255],
+        'tupel_start': [0, 0 , 128],
+        'tupel_end': [0, 0 , 255],
+        'float_start': [128, 0, 255],
+        'float_end': [255, 0, 255],
         'int' : [0, 255, 255]
     }
 
     if isinstance(data, tuple):
-        output.append(_flags['tupel'])
+        output.append(_flags['tupel_start'])
         for i in range(data.__len__()):
             if isinstance(data[i], int):
                 output = encode_int(data, output, _flags)
             elif isinstance(data[i], float):
                 output = encode_float(data, output, _flags)
             output.append(pt)
+        output.append(_flags['tupel_end'])
     elif isinstance(data, int):
         output = encode_int(data, output, _flags)
     elif isinstance(data, float):
@@ -155,11 +152,12 @@ def append_to_img(img, data):
     print(data)
     print(type(data))
 
-    #if data_len <= img_width:
-    #    for i in range(data_len, img_width):
-    #        data.append([0, 0, 0])
-        #out = np.concatenate(img , data)
-    #    npdata = np.array(data)
+    if data_len <= img_width:
+        for i in range(data_len, img_width):
+            data.append([0, 0, 0])
+        npdata = np.array(data)
+        out = np.concatenate(img , npdata)
+    return out
 
 
 
@@ -245,8 +243,7 @@ try:
         # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
 
-        append_to_img(depth_colormap, data_row)
-
+        data_img = append_to_img(depth_colormap, data_row)
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))
 

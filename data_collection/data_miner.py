@@ -252,7 +252,6 @@ try:
 
         cv2.waitKey(1)
 
-        print(data_row)
 
         time.sleep(1)
 

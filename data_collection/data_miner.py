@@ -172,9 +172,26 @@ def append_to_img(img, data):
         for i in range(img_width):
             if i >= data_len:
                 img[-1][i] = [0, 0, 0]
+                img[-2][i] = [0, 0, 0]
+                img[-3][i] = [0, 0, 0]
+                img[-4][i] = [0, 0, 0]
+                img[-5][i] = [0, 0, 0]
+                img[-6][i] = [0, 0, 0]
+                img[-7][i] = [0, 0, 0]
+                img[-8][i] = [0, 0, 0]
+                img[-9][i] = [0, 0, 0]
+                img[-10][i] = [0, 0, 0]
             else:
-
                 img[-1][i] = data[i]
+                img[-2][i] = data[i]
+                img[-3][i] = data[i]
+                img[-4][i] = data[i]
+                img[-5][i] = data[i]
+                img[-6][i] = data[i]
+                img[-7][i] = data[i]
+                img[-8][i] = data[i]
+                img[-9][i] = data[i]
+                img[-10][i] = data[i]
         #npdata = np.array(data)
 
     #data_img = np.append(img, npdata)

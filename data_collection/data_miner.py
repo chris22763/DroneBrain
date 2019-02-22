@@ -185,13 +185,15 @@ def get_bno_data(_device, data_chooser, _list):
 
     if isinstance(data_chooser, int):
         _data = output[data_chooser]
-        return _list.append(_data)
-
+        _list.append(_data)
+        return _list
+    
     elif isinstance(data_chooser, str):
         try:
             index = int(data_chooser)
             _data = output[index]
-            return _list.append(_data)
+            _list.append(_data)
+            return _list
         except:
             print('data_choser is in the wrong format')
     else:
@@ -199,7 +201,8 @@ def get_bno_data(_device, data_chooser, _list):
             _data = []
             for entry in data_chooser:
                 _data.append(output[entry])
-            return _list.append(_data)
+                _list.append(_data)
+            return _list
         except:
             print('data_choser is in the wrong format')
 
@@ -244,7 +247,7 @@ try:
 
         for i in range(6):
             data_groupe = get_bno_data(bno, i, data_groupe)
-
+            print(data_groupe)
         data_row = tupel_to_pixel(data_groupe, output)
 
         depth_frame, color_frame = get_realsense_data(pipeline)

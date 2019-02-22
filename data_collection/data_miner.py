@@ -30,7 +30,7 @@ def create_img_from_data(data, faktor):
     for y in range(y):
         for x in range(x):
             i = int(x/10)
-            new_img[y][x] = data[0]
+            new_img[y][x] = data[i]
 
     return new_img
 
@@ -288,9 +288,9 @@ try:
         cv2.imshow('Data_IMG', data_image)
         #data_row_mat = np.asanyarray(data_row)
 
-        big_img = create_img_from_data(data_row, 10)
+        #big_img = create_img_from_data(data_row, 10)
 
-        cv2.imshow('Big_Data_IMG', big_img)
+        #cv2.imshow('Big_Data_IMG', big_img)
         cv2.waitKey(1)
 
 

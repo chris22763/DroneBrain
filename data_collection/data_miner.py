@@ -226,9 +226,6 @@ def make_image(color_image, depth_image):
 
 bno = init_bno()
 pipeline = init_realsense()
-depth_frame, color_frame = get_realsense_data(pipeline)
-depth_image = realsense_to_numpy(depth_frame)
-print(depth_image)
 try:
     while True:
         data_row = [tupel_to_pixel(get_bno_data(bno, i)) for i in range(6)]
@@ -247,6 +244,7 @@ try:
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))
         data_image = append_to_img(depth_colormap, data_row)
+        print(type(data_image))
         # Show images
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
         cv2.imshow('RealSense', depth_image)

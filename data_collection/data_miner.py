@@ -152,36 +152,24 @@ def append_to_img(img, data):
     img_width = img[0].__len__()
     data_len = data.__len__()
 
-    img_size = img.shape[:2]
-
-    test = np.zeros(img_size[0] + 1 , img_size[1], 3)
-
-    for y in range(img_height):
-        for x in range(img_width):
-            test[x][y] = img[x][y]
-
     if data_len <= img_height:
-        for i in range(data_len, img_width):
-            data.append([0, 0, 0])
+        for i in range(img_width):
+            if i > data_len:
+                img[-1][i] = [0, 0, 0]
+            else:
+                img[-1][i] = data[i]
         #npdata = np.array(data)
 
-    for y in range(img_height):
-        test[-1][y] = data[y]
-
-
-
     #data_img = np.append(img, npdata)
-
-    out = np.reshape
 
     print('------')
     #print(npdata.shape[:2])
     print(img.shape[:2])
-    print(test.shape[:2])
+    print(data.shape[:2])
     print('------')
 
 
-    return test
+    return img
 
 
 def get_bno_data(_device, data_chooser):

@@ -25,11 +25,15 @@ import numpy as np
 #### the work ###
 def create_img_from_data(data, faktor):
     x = data.__len__() * faktor
-    y = 10
+    y = faktor * 5
     new_img = np.zeros((y, x, 3), 'uint8')
-    for x in range(y):
-        for y in range(x):
-            new_img[y][x] = data[int(x/faktor)]
+    for y in range(y):
+        for x in range(x):
+            if x % 10:
+                new_img[y][x] = data[x]
+            else:
+                i = int(x/10)
+                new_img[y][x] = data[i]
 
     return new_img
 

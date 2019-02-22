@@ -275,7 +275,7 @@ try:
         # print(depth_colormap)
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))
-        data_image = append_to_img(depth_colormap, data_row)
+        # data_image = append_to_img(depth_colormap, data_row)
         #print(type(depth_image))
         #print(depth_image.shape[:2])
         #print(type(data_image))

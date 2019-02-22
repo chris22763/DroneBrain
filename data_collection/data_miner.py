@@ -24,12 +24,12 @@ import cv2
 import numpy as np
 #### the work ###
 def create_img_from_data(data, faktor):
-    x = data.__len__() * 10
+    x = data.__len__() * faktor
     y = 10
     new_img = np.zeros((y, x, 4), 'uint8')
     for x in range(y):
         for y in range(x):
-            new_img[y][x] = data[int(x/10)]
+            new_img[y][x] = data[int(x/faktor)]
 
     return new_img
 
@@ -287,7 +287,7 @@ try:
         cv2.imshow('Data_IMG', data_image)
         #data_row_mat = np.asanyarray(data_row)
 
-        big_img = create_img_from_data(data_row)
+        big_img = create_img_from_data(data_row, 10)
 
         cv2.imshow('Big_Data_IMG', big_img)
         cv2.waitKey(1)

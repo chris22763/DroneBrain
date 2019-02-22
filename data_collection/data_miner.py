@@ -277,6 +277,8 @@ try:
         cv2.imshow('RealSense_Color', depth_colormap)
         cv2.imshow('Data_IMG', data_image)
 
+        big = cv2.resize(data_row, (0,0), fx=10, fy=10)
+        cv2.imshow('Big_Data_IMG', big)
         cv2.waitKey(1)
 
 

@@ -156,15 +156,10 @@ def append_to_img(img, data):
         for i in range(data_len, img_width):
             data.append([0, 0, 0])
         npdata = np.array(data)
-        print(type(npdata))
-        print(type(img))
 
-        img.append(npdata)
+        out = np.append(img, npdata)
 
-    return img
-
-
-
+    return out
 
 
 def get_bno_data(_device, data_chooser):

@@ -226,6 +226,8 @@ def make_image(color_image, depth_image):
 
 bno = init_bno()
 pipeline = init_realsense()
+depth_frame, color_frame = get_realsense_data(pipeline)
+print(depth_frame)
 try:
     while True:
         data_row = [tupel_to_pixel(get_bno_data(bno, i)) for i in range(6)]
@@ -240,8 +242,7 @@ try:
 
         # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
-        print(depth_colormap)
-        data_img = append_to_img(depth_colormap, data_row)
+        # print(depth_colormap)
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))
 

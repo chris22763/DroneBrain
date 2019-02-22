@@ -113,6 +113,10 @@ def encode_float(f, _output, _flag):
             if i+1 <= integers.__len__():
                 pt = [integers[i], integers[i+1], 0]
                 _output.append(pt)
+                _output.append(pt)
+                _output.append(pt)
+                _output.append(pt)
+                _output.append(pt)
     
     _output.append(_flag['float_end'])
     return _output
@@ -127,6 +131,10 @@ def encode_int(i, _output, _flag):
     elif i <= 255^3:
         pt = [255, 255, i/(255^2)]
 
+    _output.append(pt)
+    _output.append(pt)
+    _output.append(pt)
+    _output.append(pt)
     _output.append(pt)
     return _output
 

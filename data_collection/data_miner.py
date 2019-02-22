@@ -243,7 +243,7 @@ try:
         data_groupe = []
 
         for i in range(6):
-            data_groupe = get_bno_data(bno, i, [])
+            data_groupe = get_bno_data(bno, i, data_groupe)
 
         data_row = tupel_to_pixel(data_groupe, output)
 

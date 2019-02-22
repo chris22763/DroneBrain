@@ -113,10 +113,6 @@ def encode_float(f, _output, _flag):
             if i+1 <= integers.__len__():
                 pt = [integers[i], integers[i+1], 0]
                 _output.append(pt)
-                _output.append(pt)
-                _output.append(pt)
-                _output.append(pt)
-                _output.append(pt)
     
     _output.append(_flag['float_end'])
     return _output
@@ -131,10 +127,6 @@ def encode_int(i, _output, _flag):
     elif i <= 255^3:
         pt = [255, 255, i/(255^2)]
 
-    _output.append(pt)
-    _output.append(pt)
-    _output.append(pt)
-    _output.append(pt)
     _output.append(pt)
     return _output
 
@@ -180,26 +172,8 @@ def append_to_img(img, data):
         for i in range(img_width):
             if i >= data_len:
                 img[-1][i] = [0, 0, 0]
-                img[-2][i] = [0, 0, 0]
-                img[-3][i] = [0, 0, 0]
-                img[-4][i] = [0, 0, 0]
-                img[-5][i] = [0, 0, 0]
-                img[-6][i] = [0, 0, 0]
-                img[-7][i] = [0, 0, 0]
-                img[-8][i] = [0, 0, 0]
-                img[-9][i] = [0, 0, 0]
-                img[-10][i] = [0, 0, 0]
             else:
                 img[-1][i] = data[i]
-                img[-2][i] = data[i]
-                img[-3][i] = data[i]
-                img[-4][i] = data[i]
-                img[-5][i] = data[i]
-                img[-6][i] = data[i]
-                img[-7][i] = data[i]
-                img[-8][i] = data[i]
-                img[-9][i] = data[i]
-                img[-10][i] = data[i]
         #npdata = np.array(data)
 
     #data_img = np.append(img, npdata)
@@ -278,7 +252,7 @@ bno = init_bno()
 pipeline = init_realsense()
 try:
     while True:
-
+        start = time.time()
         output = []
         data_groupe = []
 
@@ -308,14 +282,15 @@ try:
         #print(data_image.shape[:2])
         # Show images
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('RealSense', depth_image)
-        cv2.imshow('RealSense_Color', depth_colormap)
-        cv2.imshow('Data_IMG', data_image)
+
+
         #data_row_mat = np.asanyarray(data_row)
 
         #big_img = create_img_from_data(data_row, 10)
 
         #cv2.imshow('Big_Data_IMG', big_img)
+        end = time.time()
+        print(end-start)
         cv2.waitKey(1)
 
 

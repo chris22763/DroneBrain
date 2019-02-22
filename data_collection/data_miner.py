@@ -29,11 +29,8 @@ def create_img_from_data(data, faktor):
     new_img = np.zeros((y, x, 3), 'uint8')
     for y in range(y):
         for x in range(x):
-            if x % 10:
-                new_img[y][x] = data[x]
-            else:
-                i = int(x/10)
-                new_img[y][x] = data[i]
+            i = int(x/10)
+            new_img[y][x] = data[0]
 
     return new_img
 

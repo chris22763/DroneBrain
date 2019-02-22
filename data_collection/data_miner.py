@@ -92,7 +92,7 @@ def init_bno():
 
 
 def encode_float(f, _output, _flag):
-    output.append(_flags['float_start'])
+    _output.append(_flag['float_start'])
     packed = struct.pack('!f', f)
     integers = [ord(c) for c in packed]  # inverse => [chr(i) for i in integer]
     for i in range(integers.__len__()):
@@ -101,7 +101,7 @@ def encode_float(f, _output, _flag):
                 pt = [integers[i], integers[i+1], 0]
                 _output.append(pt)
     
-    output.append(_flags['float_end'])
+    _output.append(_flag['float_end'])
     return _output
 
 

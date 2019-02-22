@@ -158,6 +158,13 @@ def append_to_img(img, data):
         npdata = np.array(data)
         out = np.append(img, npdata)
 
+    print('------')
+    print(npdata.shape[:2])
+    print(img.shape[:2])
+    print(out.shape[:2])
+    print('------')
+
+
     return out
 
 
@@ -244,14 +251,14 @@ try:
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))
         data_image = append_to_img(depth_colormap, data_row)
-        print(type(depth_image))
-        print(depth_image.shape[:2])
-        print(type(data_image))
-        print(data_image.shape[:2])
+        #print(type(depth_image))
+        #print(depth_image.shape[:2])
+        #print(type(data_image))
+        #print(data_image.shape[:2])
         # Show images
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('RealSense', depth_image)
-        cv2.imshow('RealSense_Color', depth_colormap)
+        #cv2.imshow('RealSense', depth_image)
+        #cv2.imshow('RealSense_Color', depth_colormap)
         #cv2.imshow('Data_IMG', data_image)
 
         cv2.waitKey(1)

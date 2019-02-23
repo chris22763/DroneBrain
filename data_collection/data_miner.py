@@ -2,6 +2,7 @@ import sys
 
 import logging
 import time
+import struct
 import multiprocessing
 
 # import gps
@@ -15,30 +16,23 @@ NEIMGX = OCIMGX / NSIZE
 NEIMGY = OCIMGY / NSIZE
 
 #### init  ####
-def edit_sys_path():
-    path_to_add = ['/home/up/.virtualenvs/brain/lib/python35.zip',
-                   '/home/up/.virtualenvs/brain/lib/python3.5',
-                   '/home/up/.virtualenvs/brain/lib/python3.5/plat-x86_64-linux-gnu',
-                   '/home/up/.virtualenvs/brain/lib/python3.5/lib-dynload',
-                   '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', 
-                   '/home/up/.virtualenvs/brain/local/lib/python3.5/site-packages',
-                   '/home/up/.virtualenvs/brain/lib/python3.5/site-packages',
-                   '../Adafruit_Python_GPIO',
-                   '../Adafruit_Python_BNO055']
-    path_to_delete = ['/usr/local/lib/python3.5/dist-packages/Adafruit_GPIO-1.0.0-py3.5.egg']
-    for to_del in path_to_delete:
-        if to_del in sys.path:
-            sys.path.remove(to_del)
-    for e in path_to_add:
-        sys.path.append(e)
 
-edit_sys_path()
-
+sys.path.append('/home/up/brain/lib/python3.5/site-packages')
 print(sys.path[0])
 
 import cv2
 import numpy as np
 #### the work ###
+def create_img_from_data(data, faktor):
+    x = data.__len__() * faktor
+    y = faktor * 5
+    new_img = np.zeros((y, x, 3), 'uint8')
+    for y in range(y):
+        for x in range(x):
+            i = int(x/10)
+            new_img[y][x] = data[i]
+
+    return new_img
 
 def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
     cropedimg = np.zeros((NEIMGY, NEIMGX, 4), 'uint8')
@@ -107,65 +101,90 @@ def init_bno():
     return bno
 
 
-def tupel_to_pixel(data):
-    tlen = data.__len__()
-    output = []
-    _flags = {
-        'list': [0, 0 , 255],
-        'float': [255, 0, 255],
-        'int_small' : [0, 128, 128],
-        'int_large' : [0, 255, 255]
-    }
-    for d in range(tlen):
-        t = data[d]
-        if isinstance(t, list):
-            output.append(_flags['list'])
-            for i in range(t.__len__()):
-                if t[i] <= 255*3:
-                    if t[i] <= 255:
-                        pt = [t[0], 0, 0]
-                    elif t[i] <= 255*2:
-                        pt = [255, t[i]-255, 0]
-                    elif t[i] <= 255*3:
-                        pt = [255, 255, t[i]-(255*2)]
-                output.append(pt)
-        elif isinstance(t, int):
-            if t <= 255*3:
-                output.append(_flags['int_small'])
-                if t <= 255:
-                    pt = [t[0], 0, 0]
-                elif t <= 255*2:
-                    pt = [255, t-255, 0]
-                elif t <= 255*3:
-                    pt = [255, 255, t-(255*2)]
-            elif t <= 255^3:
-                output.append(_flags['int_large'])
-                if t <= 255^2:
-                    pt = [255, t/255, 0]
-                elif t <= 255^3:
-                    pt = [255, 255, t/(255^2)]
-            output.append(pt)
-        elif isinstance(t, float):
-            output.append(_flags['float'])
+def encode_float(f, _output, _flag):
+    _output.append(_flag['float_start'])
+    packed = struct.pack('!f', f)
+    if isinstance(packed[0], float):
+        integers = [ord(c) for c in packed]  # inverse => [chr(i) for i in integer]
+    else:
+        integers = [c for c in packed]
+    for i in range(integers.__len__()):
+        if i%2 == 0:
+            if i+1 <= integers.__len__():
+                pt = [integers[i], integers[i+1], 0]
+                _output.append(pt)
+    
+    _output.append(_flag['float_end'])
+    return _output
 
-        return output
+
+def encode_int(i, _output, _flag):
+    _output.append(_flag['int'])
+    if i <= 255:
+        pt = [i, 0, 0]
+    elif i <= 255^2:
+        pt = [255, i/255, 0]
+    elif i <= 255^3:
+        pt = [255, 255, i/(255^2)]
+
+    _output.append(pt)
+    return _output
+
+
+def tupel_to_pixel(input_data, output_list):
+    _flags = {
+        'tupel_start': [0, 0 , 128],
+        'tupel_end': [0, 0 , 255],
+        'float_start': [128, 0, 255],
+        'float_end': [255, 0, 255],
+        'int' : [0, 255, 255]
+    }
+    for data in input_data:
+        if isinstance(data, tuple):
+            output_list.append(_flags['tupel_start'])
+            for d in data:
+                if isinstance(d, int):
+                    output_list = encode_int(d, output_list, _flags)
+                elif isinstance(d, float):
+                    output_list = encode_float(d, output_list, _flags)
+            output_list.append(_flags['tupel_end'])
+        elif isinstance(data, int):
+            output_list = encode_int(data, output_list, _flags)
+        elif isinstance(data, float):
+            output_list = encode_float(data, output_list, _flags)
+
+    return output_list
 
 
 def append_to_img(img, data):
-    img_width = img.__len__()
+    img_height = img.__len__()
+    img_width = img[0].__len__()
     data_len = data.__len__()
 
-    if data_len <= img_width:
-        for i in range(data_len, img_width):
-            data.append([0, 0, 0])
-        img.append(data)
+
+    # print('------')
+    # print(npdata.shape[:2])
+    # print(img[-1].__len__())
+    # print(data.__len__())
+    # print('------')
+
+    if data_len <= img_height:
+        for i in range(img_width):
+            if i >= data_len:
+                img[-1][i] = [0, 0, 0]
+            else:
+                img[-1][i] = data[i]
+        #npdata = np.array(data)
+
+    #data_img = np.append(img, npdata)
+
 
     return img
 
 
-def get_bno_data(_device, data_chooser):
+def get_bno_data(_device, data_chooser, _list):
     output = {
-        0: _device.read_quaterion(),             # Orientation as a quaternion:                             x,y,z,w
+        0: _device.read_euler(),             # Orientation as a quaternion:                             x,y,z,w
         1: _device.read_temp(),                    # Sensor temperature in degrees Celsius:                temp_c
         2: _device.read_magnetometer(),            # Magnetometer data (in micro-Teslas):                    x,y,z
         3: _device.read_gyroscope(),            # Gyroscope data (in degrees per second):                s.o.
@@ -177,23 +196,26 @@ def get_bno_data(_device, data_chooser):
 
     if isinstance(data_chooser, int):
         _data = output[data_chooser]
-        return _data
+        _list.append(_data)
+        return _list
 
     elif isinstance(data_chooser, str):
         try:
             index = int(data_chooser)
             _data = output[index]
-            return _data
+            _list.append(_data)
+            return _list
         except:
-            print('data_choser is in the fromt format')
+            print('data_choser is in the wrong format')
     else:
         try:
             _data = []
             for entry in data_chooser:
                 _data.append(output[entry])
-            return _data
+                _list.append(_data)
+            return _list
         except:
-            print(('data_choser is in the fromt format'))
+            print('data_choser is in the wrong format')
 
 
 def get_realsense_data(pipeline):
@@ -230,8 +252,16 @@ bno = init_bno()
 pipeline = init_realsense()
 try:
     while True:
-        data_row = [tupel_to_pixel(get_bno_data(bno, i)) for i in range(6)]
+        start = time.time()
+        output = []
+        data_groupe = []
 
+        for i in range(6):
+            data_groupe = get_bno_data(bno, i, data_groupe)
+
+        data_row = tupel_to_pixel(data_groupe, output)
+        # print(data_groupe)
+        # print(data_row)
         depth_frame, color_frame = get_realsense_data(pipeline)
 
         if not depth_frame and not color_frame:
@@ -241,20 +271,28 @@ try:
         # color_image = realsense_to_numpy(color_image)
 
         # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
-        depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
-
-        data_img = append_to_img(depth_colormap, data_row)
-
+        # depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
+        # print(depth_colormap)
         # Stack both images horizontally
         # images = np.hstack((color_image, depth_colormap))
-
+        # data_image = append_to_img(depth_colormap, data_row)
+        #print(type(depth_image))
+        #print(depth_image.shape[:2])
+        #print(type(data_image))
+        #print(data_image.shape[:2])
         # Show images
         # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-        # cv2.imshow('RealSense', images)
 
+
+        #data_row_mat = np.asanyarray(data_row)
+
+        #big_img = create_img_from_data(data_row, 10)
+
+        #cv2.imshow('Big_Data_IMG', big_img)
+        end = time.time()
+        print(end-start)
         cv2.waitKey(1)
 
-        print(data_row)
 
         time.sleep(1)
 

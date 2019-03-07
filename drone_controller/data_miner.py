@@ -55,10 +55,11 @@ def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
 def init_realsense():
     import pyrealsense2 as rs
 
+    # todo custom config
     pipeline = rs.pipeline()
     config = rs.config()
-    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
-    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+    config.enable_stream(rs.stream.depth, 848, 480, rs.format.z16, 60)
+    # config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
     # Start streaming
     pipeline.start(config)
@@ -78,7 +79,7 @@ def init_bno():
     # Initialize the BNO055 and stop if something went wrong.
     if not bno.begin():
         raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
-
+    """
     # Print system status and self test result.
     status, self_test, error = bno.get_system_status()
     print('System status: {0}'.format(status))
@@ -97,6 +98,8 @@ def init_bno():
     print('Gyroscope ID:       0x{0:02X}\n'.format(gyro))
 
     print('Reading BNO055 data, press Ctrl-C to quit...')
+    
+    """
 
     return bno
 
@@ -222,9 +225,9 @@ def get_realsense_data(pipeline):
     # Wait for a coherent pair of frames: depth and color
     frames = pipeline.wait_for_frames()
     depth_frame = frames.get_depth_frame()
-    color_frame = frames.get_color_frame()
+    # color_frame = frames.get_color_frame()
 
-    return depth_frame, color_frame
+    return depth_frame #, color_frame
 
 
 def realsense_to_numpy(frame):
@@ -248,55 +251,56 @@ def make_image(color_image, depth_image):
     cv2.waitKey(1)
 
 
-bno = init_bno()
-pipeline = init_realsense()
-try:
-    while True:
-        start = time.time()
-        output = []
-        data_groupe = []
+def get_test_data():
+    bno = init_bno()
+    pipeline = init_realsense()
+    try:
+        while True:
+            start = time.time()
+            output = []
+            data_groupe = []
 
-        for i in range(6):
-            data_groupe = get_bno_data(bno, i, data_groupe)
+            for i in range(6):
+                data_groupe = get_bno_data(bno, i, data_groupe)
 
-        data_row = tupel_to_pixel(data_groupe, output)
-        # print(data_groupe)
-        # print(data_row)
-        depth_frame, color_frame = get_realsense_data(pipeline)
+            data_row = tupel_to_pixel(data_groupe, output)
+            # print(data_groupe)
+            # print(data_row)
+            depth_frame, color_frame = get_realsense_data(pipeline)
 
-        if not depth_frame and not color_frame:
-            continue
+            if not depth_frame and not color_frame:
+                continue
 
-        depth_image = realsense_to_numpy(depth_frame)
-        # color_image = realsense_to_numpy(color_image)
+            depth_image = realsense_to_numpy(depth_frame)
+            # color_image = realsense_to_numpy(color_image)
 
-        # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
-        # depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
-        # print(depth_colormap)
-        # Stack both images horizontally
-        # images = np.hstack((color_image, depth_colormap))
-        # data_image = append_to_img(depth_colormap, data_row)
-        #print(type(depth_image))
-        #print(depth_image.shape[:2])
-        #print(type(data_image))
-        #print(data_image.shape[:2])
-        # Show images
-        # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-
-
-        #data_row_mat = np.asanyarray(data_row)
-
-        #big_img = create_img_from_data(data_row, 10)
-
-        #cv2.imshow('Big_Data_IMG', big_img)
-        end = time.time()
-        print(end-start)
-        cv2.waitKey(1)
+            # Apply colormap on depth image (image must be converted to 8-bit per pixel first)
+            # depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
+            # print(depth_colormap)
+            # Stack both images horizontally
+            # images = np.hstack((color_image, depth_colormap))
+            # data_image = append_to_img(depth_colormap, data_row)
+            #print(type(depth_image))
+            #print(depth_image.shape[:2])
+            #print(type(data_image))
+            #print(data_image.shape[:2])
+            # Show images
+            # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
 
 
-        time.sleep(1)
+            #data_row_mat = np.asanyarray(data_row)
 
-finally:
+            #big_img = create_img_from_data(data_row, 10)
 
-    # Stop streaming
-    pipeline.stop()
+            #cv2.imshow('Big_Data_IMG', big_img)
+            end = time.time()
+            print(end-start)
+            cv2.waitKey(1)
+
+
+            time.sleep(1)
+
+    finally:
+
+        # Stop streaming
+        pipeline.stop()

@@ -1,13 +1,10 @@
 import data_miner as steve
 import sys
 import time
-import pickle
 
 sys.path.append('/home/up/brain/lib/python3.5/site-packages')
 
 from numpysocket import NumpySocket
-import cv2
-from scipy.misc import imresize
 import cv2
 import numpy as np
 

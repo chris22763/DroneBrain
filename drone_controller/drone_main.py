@@ -8,6 +8,11 @@ from numpysocket import NumpySocket
 import cv2
 import numpy as np
 
+
+def avoid_Obstacles(img):
+
+
+
 def main():
     try:
         bno = steve.init_bno()
@@ -40,3 +45,6 @@ def main():
         # Stop streaming
         pipeline.stop()
         npSocket.endServer()
+
+
+main()

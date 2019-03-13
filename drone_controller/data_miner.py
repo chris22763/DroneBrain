@@ -34,6 +34,22 @@ def create_img_from_data(data, faktor):
 
     return new_img
 
+
+def thresh_pull(img, limit):
+    out_flat = np.where(img >= limit)
+    out_list = []  # (value, x, y)
+
+    for loc in out_flat:
+        x = loc[0]
+        y = loc[1]
+        data = img[loc]
+        out_list.append([data, x, y])
+
+    out_list.sort(axis=0, kind='stable')
+
+    return out_flat, out_list
+
+
 def maxpull(img, oldImgSize=(OCIMGX,OCIMGY), newImgSize=(NEIMGX,NEIMGY)):
     cropedimg = np.zeros((NEIMGY, NEIMGX, 4), 'uint8')
 

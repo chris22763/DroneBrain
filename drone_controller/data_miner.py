@@ -302,7 +302,7 @@ def get_test_data():
             #print(data_image.shape[:2])
             # Show images
             # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-
+ 
 
             #data_row_mat = np.asanyarray(data_row)
 

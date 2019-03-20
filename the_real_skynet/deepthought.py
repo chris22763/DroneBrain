@@ -10,7 +10,7 @@ sys.path.append('/home/up/brain/lib/python3.5/site-packages')
 import cv2
 import numpy as np
 
-class Brain():
+class Deepthought():
 
     def __init__(self):
         self.type = 0           # 0 = Def., 1 = MainPc, 2 = Drone               # which part does the instance take
@@ -74,6 +74,17 @@ class Brain():
         return bno
 
 
+    def init_gps(self):
+        from sys import argv
+        import gps
+        import requests
+
+        #Listen on port 2947 of gpsd
+        session = gps.gps("localhost", "2947")
+        session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+        return session
+
+
     def get_bno_data(self, _device, data_chooser, _list):
         key = {
             0: 'eulerAngle',
@@ -117,6 +128,17 @@ class Brain():
                     self.sensor_data[key[entry]] = _data
             except:
                 print('data_choser is in the wrong format')
+
+
+    def get_gps(self, session):
+        rep = session.next()
+        try :
+            if rep["class"] == "TPV":
+                print(str(rep.lat) + "," + str(rep.lon))
+                return [rep.lat, rep.lon]
+
+        except Exception as e :
+            print("Got exception " + str(e))
 
 
     def get_realsense_data(self, pipeline):

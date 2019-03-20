@@ -149,3 +149,13 @@ cmake-build-*/
 # File-based project format
 *.iws
 
+/_mac/
+/codestyles/
+/remote_calib/
+/mothership/
+/drone_controller/
+/data_collection/
+/ui.lnf.xml
+/filetypes.xml
+/debugger.xml
+/colors.scheme.xml

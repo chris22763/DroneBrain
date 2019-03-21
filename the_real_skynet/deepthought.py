@@ -16,7 +16,7 @@ class Deepthought():
         self.type = 0           # 0 = Def., 1 = MainPc, 2 = Drone               # which part does the instance take
         self.movable = False    # True if could be moving
         self.addon = []         # 'GPS', 'BNO', 'realsense', 'Wifi' (-repeater) # Makes ist possible to check witch data is accsesible
-        self.addon_init = {}    # here were the objects stored to recive the sensor data
+        self.addon_init = {}    # Stores the objects, with a key (e.g. 'GPS' : gps_session), created to recieve the sensor data.
         self.sensor_data = {}
 
 

@@ -2,7 +2,7 @@
 # das wird die Main
 # Todo make super job managment
 
-import multiprocessing
+import multiprocessing as mp
 import sys
 import configparser
 import thalamus             # Alle Sensoren
@@ -10,12 +10,16 @@ import cerebellum           # Flugsteuerung
 import corpus_callosum      # Netzwerk interface
 import lobus_occipitalis    # Bild erkennung
 
+
 class Truncus_cerebri():
 
     def __init__(self):
         self._config_path = ''
         self._config = None
         self.schlafgemach = None
+        self.kleinhirn = None
+        self.balken = None
+
 
     def load_config(self):
         parser = configparser.ConfigParser()
@@ -26,6 +30,7 @@ class Truncus_cerebri():
                 self._config[key] = parser[key]
                 for sub_key in parser[key]:
                     self._config[key][sub_key] = parser[key][sub_key]
+
 
     def check_thalamus(self):
 
@@ -38,5 +43,39 @@ class Truncus_cerebri():
                 func = self.schlafgemach.get_init(module)
                 self.schlafgemach.addon_init[module] = func()
 
-    pass
 
+    def start(self):
+        q_list = []
+        p_list = []
+
+        # Flugsteuerung
+        if self._config['type']['movement'] != 'none':
+            self.kleinhirn = cerebellum.Cerebellum()
+            queue = mp.Queue()
+            q_list.append(queue)
+            process = mp.Process(target=self.kleinhirn.run, args=(self.schlafgemach, queue))
+            p_list.append(process)
+            process.start()
+
+        # Bilderkennung
+        if self._config['type'] == 'Mainframe':
+            self.sehrinde = lobus_occipitalis.Lobus_occipitalis()
+            queue = mp.Queue()
+            q_list.append(queue)
+            process = mp.Process(target=self.sehrinde.run, args=(self.schlafgemach, queue))
+            p_list.append(process)
+            process.start()
+
+        # Network
+        self.balken = corpus_callosum.Corpus_callosum()
+        queue = mp.Queue()
+        q_list.append(queue)
+        process = mp.Process(target=self.balken.run, args=q_list)
+        p_list.append(process)
+        process.start()
+
+
+
+hirnstamm = Truncus_cerebri()
+
+hirnstamm.start()

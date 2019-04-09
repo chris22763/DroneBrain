@@ -10,7 +10,7 @@ sys.path.append('/home/up/brain/lib/python3.5/site-packages')
 import cv2
 import numpy as np
 
-class Deepthought():
+class Thalamus():
 
     def __init__(self):
         self.type = 0           # 0 = Def., 1 = MainPc, 2 = Drone               # which part does the instance take

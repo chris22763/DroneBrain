@@ -15,10 +15,17 @@ class Thalamus():
     def __init__(self):
         self.type = 0           # 0 = Def., 1 = MainPc, 2 = Drone               # which part does the instance take
         self.movable = False    # True if could be moving
-        self.addon = []         # 'GPS', 'BNO', 'realsense', 'Wifi' (-repeater) # Makes ist possible to check witch data is accsesible
+        self.addons = []         # 'GPS', 'BNO', 'realsense', 'Wifi' (-repeater) # Makes ist possible to check witch data is accsesible
         self.addon_init = {}    # Stores the objects, with a key (e.g. 'GPS' : gps_session), created to recieve the sensor data.
         self.sensor_data = {}
 
+    def get_init(self, key):
+        func = {
+            'gps' : self.init_gps,
+            'bno' : self.init_bno,
+            'realsense' : self.init_realsense
+        }
+        return func[key]
 
     def init_realsense(self):
         import pyrealsense2 as rs

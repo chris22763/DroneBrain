@@ -30,7 +30,28 @@ class Truncus_cerebri():
                 self._config[key] = parser[key]
                 for sub_key in parser[key]:
                     self._config[key][sub_key] = parser[key][sub_key]
+    
+    def queue_handler(queue, key=None, data=None):
+        output = {
+            'network': None,
+            'command': None,
+        }
+        if data:
+            if key == 'network':
+                # example data
+                output[key] = {
+                    dev_name: data[0],  # 'drone_nr_00', 
+                    route: data[1],     # '192.168.2.1,192.168.2.2,192.168.2.3',
+                }
 
+            elif key == 'command':
+                pass
+
+            elif key == 'network':
+                pass
+            
+            for q in queue:
+                q.put(output)    
 
     def check_thalamus(self):
 

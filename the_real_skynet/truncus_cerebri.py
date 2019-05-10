@@ -30,28 +30,22 @@ class Truncus_cerebri():
                 self._config[key] = parser[key]
                 for sub_key in parser[key]:
                     self._config[key][sub_key] = parser[key][sub_key]
-    
+
+
     def queue_handler(queue, key=None, data=None):
-        output = {
-            'network': None,
-            'command': None,
-        }
+        output = {}
+
         if data:
-            if key == 'network':
-                # example data
+            if key :
                 output[key] = {
-                    dev_name: data[0],  # 'drone_nr_00', 
-                    route: data[1],     # '192.168.2.1,192.168.2.2,192.168.2.3',
+                    'dev_name': data[0],  # 'drone_nr_00',
+                    'command': data[1],     # '192.168.2.1,192.168.2.2,192.168.2.3',
+                    'data': data[2]
                 }
 
-            elif key == 'command':
-                pass
-
-            elif key == 'network':
-                pass
-            
             for q in queue:
                 q.put(output)    
+
 
     def check_thalamus(self):
 
@@ -70,8 +64,13 @@ class Truncus_cerebri():
         p_list = []
 
         # Flugsteuerung
-        if self._config['type']['movement'] != 'none':
+        if self._config['device']['moving'] == 'True':
+
             self.kleinhirn = cerebellum.Cerebellum()
+            self.kleinhirn.third_dimension = True if self._config['device']['movement'] == '0' else False
+
+            check_thalamus(self)
+
             queue = mp.Queue()
             q_list.append(queue)
             process = mp.Process(target=self.kleinhirn.run, args=(self.schlafgemach, queue))
@@ -79,7 +78,7 @@ class Truncus_cerebri():
             process.start()
 
         # Bilderkennung
-        if self._config['type'] == 'Mainframe':
+        if self._config['device']['type'] == '0':
             self.sehrinde = lobus_occipitalis.Lobus_occipitalis()
             queue = mp.Queue()
             q_list.append(queue)

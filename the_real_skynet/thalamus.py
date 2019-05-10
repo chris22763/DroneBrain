@@ -19,6 +19,7 @@ class Thalamus():
         self.addon_init = {}    # Stores the objects, with a key (e.g. 'GPS' : gps_session), created to recieve the sensor data.
         self.sensor_data = {}
 
+
     def get_init(self, key):
         func = {
             'gps' : self.init_gps,
@@ -26,6 +27,7 @@ class Thalamus():
             'realsense' : self.init_realsense
         }
         return func[key]
+
 
     def init_realsense(self):
         import pyrealsense2 as rs

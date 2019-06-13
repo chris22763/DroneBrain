@@ -12,7 +12,11 @@ import lobus_occipitalis    # Bild erkennung
 
 
 class Truncus_cerebri():
-
+    """
+    Truncus Cerebri oder der Hirnstamm ist bei uns die Main.py.
+    Hier werden alle process, basierend auf den daten eines configfiles, gestartet und angesteuert.
+    """
+    
     def __init__(self):
         self._config_path = ''
         self._config = None
@@ -33,6 +37,7 @@ class Truncus_cerebri():
 
 
     def queue_handler(queue, key=None, data=None):
+        """ Erhält kommandos und daten der Prozesse und schickt diese als Dictonary an die in data definierten Adresaten."""
         output = {}
 
         if data:
@@ -48,7 +53,7 @@ class Truncus_cerebri():
 
 
     def check_thalamus(self):
-
+        """ init funktion für thalamus.py, basierend auf den configdaten, werden hier alle angeschlossenen Sensoren initialisiert. """
         self.schlafgemach = thalamus.Thalamus()
 
         if 'addon' in self._config:
@@ -60,6 +65,10 @@ class Truncus_cerebri():
 
 
     def start(self):
+        """
+        Hier werden alle notwenidigen Processe gestartet und der netzwerkklasse werden alle queues übergeben.
+        """
+        
         q_list = []
         p_list = []
 

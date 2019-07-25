@@ -13,11 +13,31 @@ import numpy as np
 class Thalamus():
 
     def __init__(self):
+        self._search_array = []
         self.type = 0           # 0 = Def., 1 = MainPc, 2 = Drone               # which part does the instance take
         self.movable = False    # True if could be moving
         self.addons = []         # 'GPS', 'BNO', 'realsense', 'Wifi' (-repeater) # Makes ist possible to check witch data is accsesible
         self.addon_init = {}    # Stores the objects, with a key (e.g. 'GPS' : gps_session), created to recieve the sensor data.
         self.sensor_data = {}
+
+    def create_search_spiral(self, X, Y):
+        _search_array = []
+        x = y = 0
+        dx = 0
+        dy = -1
+        cx = int(X/2)  # center output to middle of image
+        cy = int(Y/2)
+        for i in range(max(X, Y)**2):
+            if (-X/2 < x <= X/2) and (-Y/2 < y <= Y/2):
+                print (x, y)
+                _search_array.append((x + cx, y + cy))
+
+            if x == y or (x < 0 and x == -y) or (x > 0 and x == 1-y):
+                dx, dy = -dy, dx
+            x, y = x + dx, y + dy
+
+        self._search_array = _search_array
+        return self._search_array.append
 
 
     def get_init(self, key):
@@ -32,10 +52,16 @@ class Thalamus():
     def init_realsense(self):
         import pyrealsense2 as rs
 
+        maxX = 848
+        maxY = 480
+
+        self.resolution = (maxX, maxY)
+
         # todo custom config
         pipeline = rs.pipeline()
         config = rs.config()
-        config.enable_stream(rs.stream.depth, 848, 480, rs.format.z16, 60)
+        config.enable_stream(rs.stream.depth, maxX, maxY, rs.format.z16, 60)
+
         # config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
         # Start streaming

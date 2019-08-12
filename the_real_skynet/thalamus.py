@@ -10,7 +10,7 @@ sys.path.append('/home/up/brain/lib/python3.5/site-packages')
 import cv2
 import numpy as np
 
-class Thalamus():
+class Thalamus:
 
     def __init__(self):
         self._search_array = []

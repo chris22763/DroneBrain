@@ -5,13 +5,9 @@
 import multiprocessing as mp
 import sys
 import configparser
-import thalamus             # Alle Sensoren
-import cerebellum           # Flugsteuerung
-import corpus_callosum      # Netzwerk interface
-import lobus_occipitalis    # Bild erkennung
 
 
-class Truncus_cerebri():
+class TruncusCerebri:
     """
     Truncus Cerebri oder der Hirnstamm ist bei uns die Main.py.
     Hier werden alle process, basierend auf den daten eines configfiles, gestartet und angesteuert.
@@ -54,6 +50,9 @@ class Truncus_cerebri():
 
     def check_thalamus(self):
         """ init funktion für thalamus.py, basierend auf den configdaten, werden hier alle angeschlossenen Sensoren initialisiert. """
+
+        import thalamus                 # Alle Sensoren
+
         self.schlafgemach = thalamus.Thalamus()
 
         if 'addon' in self._config:
@@ -65,15 +64,15 @@ class Truncus_cerebri():
 
 
     def start(self):
-        """
-        Hier werden alle notwenidigen Processe gestartet und der netzwerkklasse werden alle queues übergeben.
-        """
+        """ Hier werden alle notwenidigen Processe gestartet und der netzwerkklasse werden alle queues übergeben. """
         
         q_list = []
         p_list = []
 
         # Flugsteuerung
         if self._config['device']['moving'] == 'True':
+
+            import cerebellum           # Flugsteuerung
 
             self.kleinhirn = cerebellum.Cerebellum()
             self.kleinhirn.third_dimension = True if self._config['device']['movement'] == '0' else False
@@ -88,6 +87,9 @@ class Truncus_cerebri():
 
         # Bilderkennung
         if self._config['device']['type'] == '0':
+
+            import lobus_occipitalis    # Bild erkennung
+
             self.sehrinde = lobus_occipitalis.Lobus_occipitalis()
             queue = mp.Queue()
             q_list.append(queue)
@@ -96,7 +98,10 @@ class Truncus_cerebri():
             process.start()
 
         # Network
-        self.balken = corpus_callosum.Corpus_callosum()
+
+        import corpuscallosum           # Netzwerk interface
+
+        self.balken = corpuscallosum.Corpus_callosum()
         queue = mp.Queue()
         q_list.append(queue)
         process = mp.Process(target=self.balken.run, args=q_list)
@@ -105,6 +110,6 @@ class Truncus_cerebri():
 
 
 
-hirnstamm = Truncus_cerebri()
+hirnstamm = TruncusCerebri()
 
 hirnstamm.start()

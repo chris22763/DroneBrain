@@ -13,25 +13,6 @@ class Cerebellum ():
         self.risk_list = []
 
 
-    def avoid_obstacle(self, correction, rotation):
-        self.risk_list = []
-        _spiral_len = self.spiral.__len__()
-        depth_frame = self.schlafgemach.get_realsense_data()
-        depth_np = self.schlafgemach.realsense_to_numpy()
-
-        for cord, i in enumerate(self.spiral):
-
-            cell_val = depth_np[cord[0]][cord[1]]
-            risk_val = int((100/_spiral_len) * (_spiral_len - i))
-
-            if risk_val >= self.min_risk:
-                self.risk_list.append((cell_val, risk_val, i, cord))
-                if risk_val >= self.max_risk:
-                    break
-
-        return correction, rotation
-
-
     def good_enough(self, v, t, err):
         """ return true if v(alue) is equal to t(arget) within a margin of err(or).
         v & t können vom typ list, int und float sein"""
@@ -109,6 +90,47 @@ class Cerebellum ():
 
     def send_course(self, correction, rotation ):
         pass
+        return correction, rotation
+
+
+    def calc_risk(self, val, pos, max):
+
+        risk = 0
+        perc = pos/max * 100
+
+        if perc > 25:
+            pass
+
+        elif perc > 50:
+            pass
+
+        elif perc > 75:
+            pass
+
+        elif perc >= 100:
+            pass
+
+
+        return risk
+
+    def avoid_obstacle(self, correction, rotation):
+        self.risk_list = []
+        _spiral_len = self.spiral.__len__()
+        depth_frame = self.schlafgemach.get_realsense_data()
+        depth_np = self.schlafgemach.realsense_to_numpy()
+
+        for cord, i in enumerate(self.spiral):
+
+            cell_val = depth_np[cord[0]][cord[1]]
+            risk_val = self.calc_risk(cell_val,i ,_spiral_len)
+
+            #risk_val = int((100/_spiral_len) * (_spiral_len - i))
+
+            if risk_val >= self.min_risk:
+                self.risk_list.append((cell_val, risk_val, i, cord))
+                if risk_val >= self.max_risk:
+                    break
+
         return correction, rotation
 
 

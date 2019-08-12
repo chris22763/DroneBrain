@@ -33,7 +33,6 @@ class Cerebellum ():
         return correction, rotation
 
 
-
     def good_enough(self, v, t, err):
         """ return true if v(alue) is equal to t(arget) within a margin of err(or).
         v & t können vom typ list, int und float sein"""
@@ -58,7 +57,6 @@ class Cerebellum ():
 
         else:
             return False
-
 
 
     @staticmethod
@@ -104,9 +102,10 @@ class Cerebellum ():
 
         dif_vec, rad, deg = self.calc_direction_in_rad(pos_now, pos_tar)
 
+        correction = 0
+        rotation = 0
 
-
-        return self.correction, self.rotation
+        return correction, rotation
 
 
     def send_course(self, correction, rotation ):

@@ -95,7 +95,7 @@ class Cerebellum ():
         import math
 
         pos_now = sensor_data['GPS']
-        pos_tar = target
+        pos_tar = target[0]
 
         distance = self.haversine(pos_now, pos_tar)
 
@@ -115,11 +115,14 @@ class Cerebellum ():
     def fly_to_target(self):
         _sensor_data = self.schlafgemach.sensor_data
         if 'GPS' in _sensor_data:
-            while _sensor_data['GPS'] != self.target[0]:
-                correction, rotation = self.calculate_vector()
+            while True:  # _sensor_data['GPS'] != self.target[0]:
+                correction, rotation = self.calculate_vector(_sensor_data, self.target)
                 correction, rotation = self.avoid_obstacle(correction, rotation)
                 self.send_course(correction, rotation)
 
+                if self.good_enough(_sensor_data['GPS'], self.target[0], 1/1000):
+                    self.target = self.target[1:]
+                    break
 
 
     def run(self, schlafgemach, queue):

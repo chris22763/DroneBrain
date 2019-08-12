@@ -1,6 +1,5 @@
 
 class Cerebellum ():
-
     """ das Kleinhirn (Cerebellum) ist für den gleichgewichtssinn und die bewegung sowie deren koordination zuständig """
 
     def __init__(self):
@@ -109,9 +108,7 @@ class Cerebellum ():
 
 
     def send_course(self, correction, rotation ):
-
         pass
-
         return correction, rotation
 
 

@@ -20,15 +20,27 @@ class Thalamus:
         self.addon_init = {}    # Stores the objects, with a key (e.g. 'GPS' : gps_session), created to recieve the sensor data.
         self.sensor_data = {}
 
-    def create_search_spiral(self, X, Y):
+    def create_chunk(self, x, y, x_max, y_max, scale):
+        chunk = []
+        lim_x = x+scale if x+scale >= x_max else x_max
+        lim_y = y+scale if y+scale >= y_max else y_max
+        for _y in range(y, lim_y):
+            for _x in range(x, lim_x):
+                chunk.append((_x, _y))
+        return chunk
+
+    def create_search_spiral(self, X, Y, scale):
+        _X = int(X/scale)
+        _Y = int(Y/scale)
         _search_array = []
         x = y = 0
         dx = 0
         dy = -1
-        cx = int(X/2)  # center output to middle of image
-        cy = int(Y/2)
-        for i in range(max(X, Y)**2):
-            if (-X/2 < x <= X/2) and (-Y/2 < y <= Y/2):
+        cx = int(_X/2)  # center output to middle of image
+        cy = int(_Y/2)
+        for i in range(max(_X, _Y)**2):
+            if (-_X/2 < x <= _X/2) and (-_Y/2 < y <= _Y/2):
+
                 print (x, y)
                 _search_array.append((x + cx, y + cy))
 

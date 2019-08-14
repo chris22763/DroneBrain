@@ -21,6 +21,7 @@ def create_search_spiral(X, Y):
         x, y = x + dx, y + dy
     return _search_array
 
+
 test = create_search_spiral(5, 5)
 min_risk = 150
 max_risk = 200

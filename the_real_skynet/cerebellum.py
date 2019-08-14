@@ -119,14 +119,14 @@ class Cerebellum ():
         for cord, i in enumerate(self.spiral):
 
             cell_val = depth_np[cord[0]][cord[1]]
-            risk_val = self.calc_risk(cell_val,i ,_spiral_len)
+            # risk_val = self.calc_risk(cell_val,i ,_spiral_len)
 
-            #risk_val = int((100/_spiral_len) * (_spiral_len - i))
+            #r isk_val = int((100/_spiral_len) * (_spiral_len - i))
 
-            if risk_val >= self.min_risk:
-                self.risk_list.append((cell_val, risk_val, i, cord))
-                if risk_val >= self.max_risk:
-                    break
+            # if risk_val >= self.min_risk:
+                # self.risk_list.append((cell_val, risk_val, i, cord))
+                # if risk_val >= self.max_risk:
+                    # break
 
         return correction, rotation
 

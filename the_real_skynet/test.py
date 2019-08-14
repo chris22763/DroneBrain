@@ -27,39 +27,6 @@ max_risk = 200
 
 # print(test)
 
-
-
-import matplotlib.path as mpath
-import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
-
-
-def get_plot(point_list):
-    fig, ax = plt.subplots()
-
-    Path = mpath.Path
-    # path_data = [(Path.MOVETO, pos) for pos in point_list]
-    path_data = []
-    for pos in point_list:
-        path_data.append((Path.MOVETO, pos))
-    print(path_data)
-    codes, verts = zip(*path_data)
-    path = mpath.Path(verts, codes)
-    patch = mpatches.PathPatch(path, facecolor='r', alpha=0.5)
-    ax.add_patch(patch)
-
-    # plot control points and connecting lines
-    x, y = zip(*path.vertices)
-    line, = ax.plot(x, y, 'go-')
-
-    ax.grid()
-    ax.axis('equal')
-    plt.show()
-
-
-get_plot(test)
-
-
 for i, cord in enumerate(test):
     val = random.randrange(0,255)
     risk_val = int((100/test.__len__()) * (test.__len__() - i)) + 1

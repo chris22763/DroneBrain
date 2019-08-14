@@ -13,7 +13,7 @@ def create_search_spiral(X, Y):
     centerY = int(Y/2)
     for i in range(max(X, Y)**2):
         if (-X/2 < x <= X/2) and (-Y/2 < y <= Y/2):
-            # print (x + centerX, y + centerY)
+            print (x + centerX, y + centerY)
             _search_array.append((x + centerX, y + centerY))
             # DO STUFF...
         if x == y or (x < 0 and x == -y) or (x > 0 and x == 1-y):
@@ -21,9 +21,43 @@ def create_search_spiral(X, Y):
         x, y = x + dx, y + dy
     return _search_array
 
-test = create_search_spiral(424,240)
+test = create_search_spiral(5, 5)
 min_risk = 150
 max_risk = 200
+
+# print(test)
+
+
+
+import matplotlib.path as mpath
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+
+
+def get_plot(point_list):
+    fig, ax = plt.subplots()
+
+    Path = mpath.Path
+    # path_data = [(Path.MOVETO, pos) for pos in point_list]
+    path_data = []
+    for pos in point_list:
+        path_data.append((Path.MOVETO, pos))
+    print(path_data)
+    codes, verts = zip(*path_data)
+    path = mpath.Path(verts, codes)
+    patch = mpatches.PathPatch(path, facecolor='r', alpha=0.5)
+    ax.add_patch(patch)
+
+    # plot control points and connecting lines
+    x, y = zip(*path.vertices)
+    line, = ax.plot(x, y, 'go-')
+
+    ax.grid()
+    ax.axis('equal')
+    plt.show()
+
+
+get_plot(test)
 
 
 for i, cord in enumerate(test):
@@ -66,6 +100,8 @@ pattern_two = (480, 320)
 #              'move_to_over',    # order
 #              [0.0, 0.0, 0.0]]   # e.g. waypoints to hit
 # }
+
+
 def ggt(n, m, _print=True):
     # m should allways be bigger than n
     if n > m:
@@ -149,4 +185,3 @@ def phi(n):
 
         return c
 
-print(phi(39))

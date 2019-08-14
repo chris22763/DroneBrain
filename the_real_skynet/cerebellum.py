@@ -72,6 +72,23 @@ class Cerebellum ():
         return dif_vec, rad, deg
 
 
+    @staticmethod
+    def calc_risk(val, pos, max):
+
+        perc = pos/max * 100
+
+        if perc > 10:
+            return val * 1.6
+        elif perc > 25:
+            return val * 1.45
+        elif perc > 50:
+            return val * 1.2
+        elif perc > 75:
+            return val
+        else:
+            return val * 0.90
+
+
     def calculate_vector(self, sensor_data, target):
         import math
 
@@ -92,26 +109,6 @@ class Cerebellum ():
         pass
         return correction, rotation
 
-
-    def calc_risk(self, val, pos, max):
-
-        risk = 0
-        perc = pos/max * 100
-
-        if perc > 25:
-            pass
-
-        elif perc > 50:
-            pass
-
-        elif perc > 75:
-            pass
-
-        elif perc >= 100:
-            pass
-
-
-        return risk
 
     def avoid_obstacle(self, correction, rotation):
         self.risk_list = []
@@ -152,4 +149,4 @@ class Cerebellum ():
         self.schlafgemach = schlafgemach
         self.queue = queue
 
-        self.fly_to_target
+        self.fly_to_target()

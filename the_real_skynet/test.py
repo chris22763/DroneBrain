@@ -4,22 +4,37 @@ import math
 
 import json
 
-def create_search_spiral(X, Y):
+
+def create_chunk(self, x, y, x_max, y_max, ):
+    chunk = []
+    lim_x = x + self.scale if x + self.scale >= x_max else x_max
+    lim_y = y + self.scale if y + self.scale >= y_max else y_max
+    for _y in range(y, lim_y):
+        for _x in range(x, lim_x):
+            chunk.append((_x, _y))
+    return chunk
+
+def create_search_spiral(self, X, Y):
+    _X = int(X / self.scale)
+    _Y = int(Y / self.scale)
     _search_array = []
     x = y = 0
     dx = 0
     dy = -1
-    centerX = int(X/2)
-    centerY = int(Y/2)
-    for i in range(max(X, Y)**2):
-        if (-X/2 < x <= X/2) and (-Y/2 < y <= Y/2):
-            print (x + centerX, y + centerY)
-            _search_array.append((x + centerX, y + centerY))
-            # DO STUFF...
+    cx = int(_X/2)  # center output to middle of image
+    cy = int(_Y/2)
+    for i in range(max(_X, _Y)**2):
+        if (-_X/2 < x <= _X/2) and (-_Y/2 < y <= _Y/2):
+
+            print (x, y)
+            _search_array.append(((x + cx) * self.scale, (y + cy) * self.scale))
+
         if x == y or (x < 0 and x == -y) or (x > 0 and x == 1-y):
             dx, dy = -dy, dx
         x, y = x + dx, y + dy
-    return _search_array
+
+    self._search_array = _search_array
+    return self._search_array.append
 
 
 test = create_search_spiral(5, 5)

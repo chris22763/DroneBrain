@@ -118,7 +118,10 @@ class Cerebellum ():
 
         for cord, i in enumerate(self.spiral):
 
-            cell_val = depth_np[cord[0]][cord[1]]
+            # cell_val = depth_np[cord[0]][cord[1]]
+
+            chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)
+
             # risk_val = self.calc_risk(cell_val,i ,_spiral_len)
 
             #r isk_val = int((100/_spiral_len) * (_spiral_len - i))

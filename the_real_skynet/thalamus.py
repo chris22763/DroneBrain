@@ -19,19 +19,28 @@ class Thalamus:
         self.addons = []         # 'GPS', 'BNO', 'realsense', 'Wifi' (-repeater) # Makes ist possible to check witch data is accsesible
         self.addon_init = {}    # Stores the objects, with a key (e.g. 'GPS' : gps_session), created to recieve the sensor data.
         self.sensor_data = {}
+        self.scale = 3
 
-    def create_chunk(self, x, y, x_max, y_max, scale):
+    def create_chunk(self, x, y, x_max, y_max, data=None):
         chunk = []
-        lim_x = x+scale if x+scale >= x_max else x_max
-        lim_y = y+scale if y+scale >= y_max else y_max
-        for _y in range(y, lim_y):
-            for _x in range(x, lim_x):
-                chunk.append((_x, _y))
-        return chunk
+        lim_x = x + self.scale if x + self.scale >= x_max else x_max
+        lim_y = y + self.scale if y + self.scale >= y_max else y_max
+        if data:
 
-    def create_search_spiral(self, X, Y, scale):
-        _X = int(X/scale)
-        _Y = int(Y/scale)
+            for _y in range(y, lim_y):
+                for _x in range(x, lim_x):
+                    chunk.append(data[_x][_y])
+            return chunk
+
+        else:
+            for _y in range(y, lim_y):
+                for _x in range(x, lim_x):
+                    chunk.append((_x, _y))
+            return chunk
+
+    def create_search_spiral(self, X, Y):
+        _X = int(X / self.scale)
+        _Y = int(Y / self.scale)
         _search_array = []
         x = y = 0
         dx = 0
@@ -42,7 +51,7 @@ class Thalamus:
             if (-_X/2 < x <= _X/2) and (-_Y/2 < y <= _Y/2):
 
                 print (x, y)
-                _search_array.append((x + cx, y + cy))
+                _search_array.append(((x + cx) * self.scale, (y + cy) * self.scale))
 
             if x == y or (x < 0 and x == -y) or (x > 0 and x == 1-y):
                 dx, dy = -dy, dx
@@ -64,15 +73,17 @@ class Thalamus:
     def init_realsense(self):
         import pyrealsense2 as rs
 
-        maxX = 848
-        maxY = 480
+        # maxX = 848
+        # maxY = 480
+        max_x = 424
+        max_y = 240
 
-        self.resolution = (maxX, maxY)
+        self.resolution = (max_x, max_y)
 
         # todo custom config
         pipeline = rs.pipeline()
         config = rs.config()
-        config.enable_stream(rs.stream.depth, maxX, maxY, rs.format.z16, 60)
+        config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
 
         # config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 

@@ -38,6 +38,23 @@ class Thalamus:
                     chunk.append((_x, _y))
             return chunk
 
+
+    def create_flower(self, xs, ys, num_pts=1000):
+
+        from numpy import pi, cos, sin, sqrt, arange
+
+        # xs = self.img_size[0]
+        # ys = self.img_size[1]
+
+        indices = arange(0, num_pts, dtype=float) + 0.5
+
+        r = sqrt(indices/num_pts)
+        theta = pi * (1 + 5**0.5) * indices
+        flower = [(int(x),int(y))  for x, y in zip((r*cos(theta)*xs) + xs, (r*sin(theta)*ys) + ys)]
+
+        return flower
+
+
     def create_search_spiral(self, X, Y):
         _X = int(X / self.scale)
         _Y = int(Y / self.scale)

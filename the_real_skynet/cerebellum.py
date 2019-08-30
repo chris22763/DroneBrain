@@ -72,21 +72,46 @@ class Cerebellum ():
         return dif_vec, rad, deg
 
 
-    @staticmethod
-    def calc_risk(val, pos, max):
+    def over_threshold(self, val, pos, threshold=155):
 
-        perc = pos/max * 100
+        size = (424, 240)
 
-        if perc > 10:
-            return val * 1.6
-        elif perc > 25:
-            return val * 1.45
-        elif perc > 50:
-            return val * 1.2
-        elif perc > 75:
-            return val
+        xo = (10*((size[0]/pos[0])**2))
+        yo = (10*((size[1]/pos[1])**2))
+
+        threshold = threshold - (xo * yo)
+
+        if val > threshold:
+            return True
         else:
-            return val * 0.90
+            return False
+
+
+    def check_square(self, p, mx, my, sx, sy):
+        square = set()
+        for px in range(p[0], p[0] + (sx * mx)):
+            for py in range(p[1], p[1] + (sy * my)):
+                square.add((px,py))
+
+
+    def check_flower(self, img):
+        obst = set()  # Obstacle
+        free = set()
+        for seed in self.flower:
+            val = img[seed[0]][seed[1]]
+            if val >= self.over_threshold(val, seed):
+                obst.add(seed)
+            else:
+                free.add(seed)
+
+        return free, obst
+
+
+    def distance_in_pixel(self, val):
+
+        _d = 0
+
+        return _d
 
 
     def calculate_vector(self, sensor_data, target):
@@ -116,9 +141,29 @@ class Cerebellum ():
         depth_frame = self.schlafgemach.get_realsense_data()
         depth_np = self.schlafgemach.realsense_to_numpy()
 
+        free, obst = self.check_flower(depth_np)
+
+        potantial_target = set()
+
+        for p in free:
+            cell_val = depth_np[p[0]][p[1]]
+            d = self.distance_in_pixel(cell_val)
+            square = set()
+            for x in range(p[0] - d, p[0] + d):
+                for y in range(p[1] - d, p[1] + d):
+                    square.add((x, y))
+
+            intersec = square.intersection(obst)
+
+            if len(intersec) == 0:
+                potantial_target.add(p)
+            elif len(intersec) <= 10:
+                for point_intersected in intersec:
+                    if point_intersected
+
         for cord, i in enumerate(self.spiral):
 
-            # cell_val = depth_np[cord[0]][cord[1]]
+            #
 
             chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)
 

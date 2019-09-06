@@ -108,9 +108,10 @@ class Cerebellum ():
 
 
     def distance_in_pixel(self, val):
-
-        _d = 0
-
+        dim = ((1/(val-256))*-10)-1  # if val 0..255  # -1 to make 1..10m to 0..9m
+        # dim = val * 10           # if val 0.0 .. 1.0
+        # _d = (int(260/dim), int(120/dim))  # 130x60@2m and 1m x 0.5m 
+        _d = (int(130/dim), int(60/dim))  # only half the pixel ammount is needed.
         return _d
 
 
@@ -149,8 +150,8 @@ class Cerebellum ():
             cell_val = depth_np[p[0]][p[1]]
             d = self.distance_in_pixel(cell_val)
             square = set()
-            for x in range(p[0] - d, p[0] + d):
-                for y in range(p[1] - d, p[1] + d):
+            for x in range(p[0] - d[0], p[0] + d[0]):
+                for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
             intersec = square.intersection(obst)

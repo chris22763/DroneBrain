@@ -135,7 +135,19 @@ class Cerebellum ():
         return correction, rotation
 
 
+    def rotate_ship(self, dir):
+        """ Mii Rotor controller rotate for dir degree """
+        pass
+
+
+
+    def fly_through_gate(self, target):
+        """ Mii fly towards target """
+        pass
+
+
     def avoid_obstacle(self, correction, rotation):
+        """ calculate obstacle positions and return list of free paths"""
         self.risk_list = []
         _spiral_len = self.spiral.__len__()
         depth_frame = self.schlafgemach.get_realsense_data()
@@ -159,18 +171,19 @@ class Cerebellum ():
                 potantial_target.add(p)
             elif len(intersec) <= 10:
                 for point_intersected in intersec:
-                    if point_intersected
+                    pass
 
-        for cord, i in enumerate(self.spiral):
+        if not potantial_target :
+            self.rotate_ship(rotation*2)
 
+        else:
+            self.fly_through_gate(potantial_target[0])
+
+        # for cord, i in enumerate(self.spiral):
             #
-
-            chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)
-
+            # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)
             # risk_val = self.calc_risk(cell_val,i ,_spiral_len)
-
-            #r isk_val = int((100/_spiral_len) * (_spiral_len - i))
-
+            # risk_val = int((100/_spiral_len) * (_spiral_len - i))
             # if risk_val >= self.min_risk:
                 # self.risk_list.append((cell_val, risk_val, i, cord))
                 # if risk_val >= self.max_risk:

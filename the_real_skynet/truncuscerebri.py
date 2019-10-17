@@ -77,7 +77,7 @@ class TruncusCerebri:
             self.kleinhirn = cerebellum.Cerebellum()
             self.kleinhirn.third_dimension = True if self._config['device']['movement'] == '0' else False
 
-            self.check_thalamus(self)
+            self.check_thalamus()
 
             queue = mp.Queue()
             q_list.append(queue)

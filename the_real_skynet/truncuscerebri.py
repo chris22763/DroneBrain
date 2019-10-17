@@ -101,7 +101,7 @@ class TruncusCerebri:
 
         import corpuscallosum           # Netzwerk interface
 
-        self.balken = corpuscallosum.Corpus_callosum()
+        self.balken = corpuscallosum.CorpusCallosum()
         queue = mp.Queue()
         q_list.append(queue)
         process = mp.Process(target=self.balken.run, args=q_list)

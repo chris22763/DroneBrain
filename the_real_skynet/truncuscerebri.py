@@ -24,7 +24,7 @@ class TruncusCerebri:
     def load_config(self):
         parser = configparser.ConfigParser()
         parser.read(self._config_path)
-        if self._config:
+        if not self._config:
             self._config = {}
             for key in parser:
                 self._config[key] = parser[key]

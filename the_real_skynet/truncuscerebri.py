@@ -113,4 +113,5 @@ class TruncusCerebri:
 hirnstamm = TruncusCerebri()
 hirnstamm._config_path = "/data/dummy_drone_config.cfg"
 hirnstamm.load_config()
+print(hirnstamm._config)
 hirnstamm.start()

@@ -70,6 +70,7 @@ class TruncusCerebri:
 
         if 'addon' in self._config:
             for key in self._config['addon']:
+                print(key)
                 self.schlafgemach.addons.append(self._config['addon'][key])
             for module in self.schlafgemach.addons:
                 func = self.schlafgemach.get_init(module)

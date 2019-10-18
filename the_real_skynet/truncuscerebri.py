@@ -124,4 +124,5 @@ class TruncusCerebri:
 
 
 hirnstamm = TruncusCerebri()
+hirnstamm.setup()
 hirnstamm.start()

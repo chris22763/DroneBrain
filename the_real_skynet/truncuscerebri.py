@@ -24,9 +24,9 @@ class TruncusCerebri:
     def setup(self):
         print(sys.argv)
         for a, arg in enumerate(sys.argv):
-            if arg.find('-c'):
+            if arg.find('-c') > -1:
                 self._config_path = sys.argv[a+1]
-            if arg.find('-h'):
+            if arg.find('-h') > -1:
                 print('.py starten mit -c und einem pfad zu einer config')
 
         print(self._config_path)

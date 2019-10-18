@@ -69,7 +69,7 @@ class TruncusCerebri:
 
         if 'addon' in self._config:
             self.schlafgemach.addons = [key for key in self._config['addon']
-                                        if self._config['addon'].getboolean[key]]
+                                        if self._config['addon'].getboolean(key)]
             for module in self.schlafgemach.addons:
                 func = self.schlafgemach.get_init(module)
                 self.schlafgemach.addon_init[module] = func()

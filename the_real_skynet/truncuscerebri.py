@@ -22,14 +22,16 @@ class TruncusCerebri:
 
 
     def setup(self):
+        print(sys.argv)
         for a, arg in enumerate(sys.argv):
             if arg.find('-c'):
                 self._config_path = sys.argv[a+1]
             if arg.find('-h'):
                 print('.py starten mit -c und einem pfad zu einer config')
 
-        if self._config_path:
-            self.load_config()
+        print(self._config_path)
+        self.load_config()
+
 
     def load_config(self):
         parser = configparser.ConfigParser()
@@ -40,7 +42,7 @@ class TruncusCerebri:
                 self._config[key] = parser[key]
                 for sub_key in parser[key]:
                     self._config[key][sub_key] = parser[key][sub_key]
-                    
+
         print(self._config)
 
     def queue_handler(queue, key=None, data=None):

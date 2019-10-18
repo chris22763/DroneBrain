@@ -207,8 +207,8 @@ class Cerebellum ():
 
 
     def run(self, schlafgemach, queue):
-        self.spiral = self.schlafgemach.create_search_spiral(self.schlafgemach.resolution)
         self.schlafgemach = schlafgemach
+        self.spiral = self.schlafgemach.create_search_spiral(self.schlafgemach.resolution)
         self.queue = queue
 
         self.fly_to_target()

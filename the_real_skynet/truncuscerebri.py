@@ -21,6 +21,14 @@ class TruncusCerebri:
         self.balken = None
 
 
+    def setup(self):
+        for a, arg in enumerate(sys.argv):
+            if arg.find('-c'):
+                self._config_path = sys.argv[a+1]
+            if arg.find('-h'):
+                print('.py starten mit -c und einem pfad zu einer config')
+
+                
     def load_config(self):
         parser = configparser.ConfigParser()
         parser.read(self._config_path)
@@ -111,7 +119,4 @@ class TruncusCerebri:
 
 
 hirnstamm = TruncusCerebri()
-hirnstamm._config_path = "./data/dummy_drone_config.cfg"
-hirnstamm.load_config()
-print(hirnstamm._config)
 hirnstamm.start()

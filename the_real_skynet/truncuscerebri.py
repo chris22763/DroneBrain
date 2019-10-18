@@ -119,8 +119,7 @@ class TruncusCerebri:
         q_list.append(queue)
         process = mp.Process(target=self.balken.run, args=q_list)
         p_list.append(process)
-        print(p_list)
-        process.start()
+        # process.start()
 
 
 

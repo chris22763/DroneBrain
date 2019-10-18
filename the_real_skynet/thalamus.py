@@ -151,24 +151,24 @@ class Thalamus:
 
 
     def init_gps(self):
+        import gps
         import requests
-        from gps3 import gps3
-        gps_socket = gps3.GPSDSocket()
-        data_stream = gps3.DataStream()
-        gps_socket.connect()
-        gps_socket.watch()
-        for new_data in gps_socket:
-            if new_data:
-                data_stream.unpack(new_data)
 
-                print('Altitude = ', data_stream.TPV['alt'])
-                print('Latitude = ', data_stream.TPV['lat'])
-
-        #Listen on port 2947 of gpsd
-        #session = gps.gps("localhost", "2947")
-        #session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
-        return data_stream
-
+        # from gps3 import gps3
+        # gps_socket = gps3.GPSDSocket()
+        # data_stream = gps3.DataStream()
+        # gps_socket.connect()
+        # gps_socket.watch()
+        # for new_data in gps_socket:
+        #     if new_data:
+        #         data_stream.unpack(new_data)
+        #
+        #         print('Altitude = ', data_stream.TPV['alt'])
+        #         print('Latitude = ', data_stream.TPV['lat'])
+        # Listen on port 2947 of gpsd
+        session = gps.gps("localhost", "2947")
+        session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
+        return session
 
     def init_wifi(self):
         pass

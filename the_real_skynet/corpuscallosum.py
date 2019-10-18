@@ -7,4 +7,6 @@ class CorpusCallosum():
 
     def __init__(self):
         pass
-    pass
+
+    def run(self):
+        print('geschafft')

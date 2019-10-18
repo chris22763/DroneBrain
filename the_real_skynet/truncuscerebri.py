@@ -68,9 +68,8 @@ class TruncusCerebri:
         self.schlafgemach = thalamus.Thalamus()
 
         if 'addon' in self._config:
-            print(self._config['addon'])
-            for key in self._config['addon']:
-                self.schlafgemach.addons.append(self._config['addon'][key])
+            self.schlafgemach.addons = [key for key in self._config['addon']
+                                        if self._config['addon'].getboolean[key]]
             for module in self.schlafgemach.addons:
                 func = self.schlafgemach.get_init(module)
                 self.schlafgemach.addon_init[module] = func()

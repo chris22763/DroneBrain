@@ -80,9 +80,10 @@ class Thalamus:
 
     def get_init(self, key):
         func = {
-            'gps' : self.init_gps,
-            'bno' : self.init_bno,
-            'realsense' : self.init_realsense
+            'gps': self.init_gps,
+            'bno': self.init_bno,
+            'realsense': self.init_realsense,
+            'wifi': None
         }
         return func[key]
 

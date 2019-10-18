@@ -10,4 +10,4 @@ class CorpusCallosum():
 
     def run(self):
         """deine main, sie wird immer beim starten von corpuscallosum aufgerufen."""
-        pass
+        print("dup")

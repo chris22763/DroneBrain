@@ -22,7 +22,6 @@ class TruncusCerebri:
 
 
     def setup(self):
-        print(sys.argv)
         for a, arg in enumerate(sys.argv):
             if arg.find('-c') > -1:
                 self._config_path = sys.argv[a+1]
@@ -88,7 +87,7 @@ class TruncusCerebri:
         if self._config['device']['moving'] == 'True':
 
             import cerebellum           # Flugsteuerung
-            
+
             self.check_thalamus()
 
             self.kleinhirn = cerebellum.Cerebellum()

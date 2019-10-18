@@ -26,16 +26,10 @@ class TruncusCerebri:
         for a, arg in enumerate(sys.argv):
             if arg.find('-c') > -1:
                 self._config_path = sys.argv[a+1]
-                try:
-                    with open(self._config_path, 'r') as cfg:
-                        print(cfg)
-                except Exception as e:
-                    print(e)
 
             if arg.find('-h') > -1:
                 print('.py starten mit -c und einem pfad zu einer config')
 
-        print(self._config_path)
         self.load_config()
 
 
@@ -48,8 +42,8 @@ class TruncusCerebri:
                 self._config[key] = parser[key]
                 for sub_key in parser[key]:
                     self._config[key][sub_key] = parser[key][sub_key]
-
         print(self._config)
+
 
     def queue_handler(queue, key=None, data=None):
         """ Erhält kommandos und daten der Prozesse und schickt diese als Dictonary an die in data definierten Adresaten."""

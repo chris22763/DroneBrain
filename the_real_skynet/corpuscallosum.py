@@ -9,4 +9,5 @@ class CorpusCallosum():
         pass
 
     def run(self):
+        """deine main, sie wird immer beim starten von corpuscallosum aufgerufen."""
         pass

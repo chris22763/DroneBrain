@@ -75,6 +75,7 @@ class TruncusCerebri:
                 func = self.schlafgemach.get_init(module)
                 self.schlafgemach.addon_init[module] = func()
 
+        print(self.schlafgemach.addons)
 
     def start(self):
         """ Hier werden alle notwenidigen Processe gestartet und der netzwerkklasse werden alle queues übergeben. """

@@ -83,7 +83,7 @@ class Thalamus:
             'gps': self.init_gps,
             'bno': self.init_bno,
             'realsense': self.init_realsense,
-            'wifi': None
+            'wifi': self.init_wifi
         }
         return func[key]
 
@@ -159,6 +159,10 @@ class Thalamus:
         session = gps.gps("localhost", "2947")
         session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
         return session
+
+
+    def init_wifi(self):
+        pass
 
 
     def get_bno_data(self, _device, data_chooser, _list):

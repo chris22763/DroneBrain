@@ -90,6 +90,7 @@ class Thalamus:
 
     def init_realsense(self):
         import pyrealsense2 as rs
+        print('initiate Realsense')
 
         # maxX = 848
         # maxY = 480
@@ -113,8 +114,8 @@ class Thalamus:
 
 
     def init_bno(self):
-
         from Adafruit_BNO055 import BNO055
+        print('initiate BNO')
 
         bno = BNO055.BNO055(rst=13)
 
@@ -153,6 +154,7 @@ class Thalamus:
     def init_gps(self):
         import gps
         import requests
+        print('initiate GPS')
 
         # from gps3 import gps3
         # gps_socket = gps3.GPSDSocket()
@@ -173,6 +175,7 @@ class Thalamus:
         return session
 
     def init_wifi(self):
+        print('initiate WIFI')
         pass
 
 

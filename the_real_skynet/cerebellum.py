@@ -42,6 +42,8 @@ class Cerebellum ():
     @staticmethod
     def haversine(pos1, pos2):
         """Calculate the distance in meter between two coordinates on earth, based on the haversine algorithm."""
+
+        print('{}, {}'.format(pos1, pos2))
         lat1 = float(pos1[0])  # lath
         long1 = float(pos1[1])  # long
         lat2 = float(pos2[0])

@@ -49,15 +49,15 @@ class Cerebellum ():
         lat2 = float(pos2[0])
         long2 = float(pos2[1])
 
-        degree_to_rad = float(math.pi / 180.0)
+        degree_to_rad = float(pi / 180.0)
 
         d_lat = (lat2 - lat1) * degree_to_rad
         d_long = (long2 - long1) * degree_to_rad
 
-        a = pow(math.sin(d_lat / 2), 2) + math.cos(lat1 * degree_to_rad)
-        a *= math.cos(lat2 * degree_to_rad) * pow(math.sin(d_long / 2), 2)
+        a = pow(sin(d_lat / 2), 2) + cos(lat1 * degree_to_rad)
+        a *= cos(lat2 * degree_to_rad) * pow(sin(d_long / 2), 2)
 
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        c = 2 * arctan2(sqrt(a), sqrt(1 - a))
         m = 6367 * c * 1000  # km
         #mi = 3956 * c
 
@@ -118,7 +118,6 @@ class Cerebellum ():
 
 
     def calculate_vector(self, sensor_data, target):
-        import math
 
         pos_now = sensor_data['GPS']
         pos_tar = target

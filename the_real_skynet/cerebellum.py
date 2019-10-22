@@ -101,7 +101,7 @@ class Cerebellum ():
     def check_flower(self, img):
         obst = set()  # Obstacle
         free = set()
-        for seed in self.schlafgemach.flower:
+        for seed in self.flower:
             start = time.time()
             val = img[seed[0]][seed[1]]
             if val >= self.over_threshold(val, seed):
@@ -213,7 +213,7 @@ class Cerebellum ():
     def run(self, schlafgemach, queue):
         self.schlafgemach = schlafgemach
         res = self.schlafgemach.resolution
-        self.spiral = self.schlafgemach.create_flower(res[0], res[1])
+        self.flower = self.schlafgemach.create_flower(res[0], res[1])
         self.queue = queue
 
         self.fly_to_target()

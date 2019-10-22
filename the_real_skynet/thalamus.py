@@ -107,7 +107,7 @@ class Thalamus:
         config = rs.config()
         config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
 
-        config.enable_stream(rs.stream.color, 848, 480, rs.format.bgr8, 30)
+        config.enable_stream(rs.stream.color, max_x, max_y, rs.format.bgr8, 30)
 
         # Start streaming
         # pipeline.start(config)
@@ -262,6 +262,5 @@ class Thalamus:
         # convert the realsense img to a numpy array readable by opencv
         image = np.asanyarray(frame.get_data())
 
-        print(image.shape)
         return image
 

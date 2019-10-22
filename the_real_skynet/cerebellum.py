@@ -162,12 +162,11 @@ class Cerebellum ():
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
 
-        # print(depth_np)
+        print(depth_np.shape)
         free, obst = self.check_flower(depth_np)
         potantial_target = set()
 
         for p in free:
-            print(p)
             cell_val = depth_np[p[0]][p[1]]
             d = self.distance_in_pixel(cell_val)
             square = set()

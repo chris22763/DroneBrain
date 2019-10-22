@@ -101,13 +101,13 @@ class Thalamus:
 
         # todo custom config
         pipeline = rs.pipeline()
-        self.config = rs.config()
-        self.config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
+        config = rs.config()
+        config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
 
         # config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
         # Start streaming
-        pipeline.start(self.config)
+        pipeline.start(config)
 
         self.addon_init['realsense'] = pipeline
         return pipeline
@@ -237,12 +237,10 @@ class Thalamus:
                 print("Got exception " + str(e))
 
 
-    def get_realsense_data(self, pipeline=None):
+    def get_realsense_data(self, pipeline):
 
-        pipeline.start(self.config)
         while True:
             try:
-                pipeline = self.addon_init['realsense'] if not pipeline else pipeline
                 # Wait for a coherent pair of frames: depth and color
                 frames = pipeline.wait_for_frames()
                 depth_frame = frames.get_depth_frame()

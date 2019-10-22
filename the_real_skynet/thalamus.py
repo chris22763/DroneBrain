@@ -109,7 +109,6 @@ class Thalamus:
 
         # Start streaming
         # pipeline.start(config)
-        print(pipeline)
         self.addon_init['realsense'] = pipeline
 
         return pipeline
@@ -243,20 +242,22 @@ class Thalamus:
 
         print(pipeline)
         pipeline.start()
-        depth_frame = None
-        while not depth_frame:
+        while True:
             try:
                 # Wait for a coherent pair of frames: depth and color
                 frames = pipeline.wait_for_frames()
                 depth_frame = frames.get_depth_frame()
                 # color_frame = frames.get_color_frame()
-                 #, color_frame
+
+                if depth_frame is not None:
+                    break
 
             except Exception as e:
                 print(e)
-
+        print(depth_frame)
         pipeline.stop()
         return depth_frame
+
     def realsense_to_numpy(self, frame):
         # convert the realsense img to a numpy array readable by opencv
 

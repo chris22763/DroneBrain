@@ -69,7 +69,7 @@ class Cerebellum ():
     @staticmethod
     def calc_direction_in_rad(curr_pos, tar_pos):
         dif_vec = (curr_pos[0] - tar_pos[0], curr_pos[1] - tar_pos[1])
-        rad = atan2(dif_vec[0], dif_vec[1])
+        rad = arctan2(dif_vec[0], dif_vec[1])
 
         deg = rad / (pi/180)
 

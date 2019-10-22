@@ -121,7 +121,7 @@ class Cerebellum ():
         import math
 
         pos_now = sensor_data['GPS']
-        pos_tar = target[0]
+        pos_tar = target
 
         distance = self.haversine(pos_now, pos_tar)
 

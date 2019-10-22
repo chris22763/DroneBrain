@@ -42,7 +42,6 @@ class Cerebellum ():
     @staticmethod
     def haversine(pos1, pos2):
         """Calculate the distance in meter between two coordinates on earth, based on the haversine algorithm."""
-        from numpy import pi, cos, sin, sqrt, arctan2
 
         print('{}, {}'.format(pos1, pos2))
         lat1 = float(pos1[0])  # lath
@@ -119,7 +118,8 @@ class Cerebellum ():
 
 
     def calculate_vector(self, sensor_data, target):
-
+        from numpy import pi, cos, sin, sqrt, arctan2
+        
         pos_now = sensor_data['GPS']
         pos_tar = target
 

@@ -101,13 +101,13 @@ class Thalamus:
 
         # todo custom config
         pipeline = rs.pipeline()
-        config = rs.config()
-        config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
+        self.config = rs.config()
+        self.config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
 
         # config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
         # Start streaming
-        pipeline.start(config)
+        pipeline.start(self.config)
 
         self.addon_init['realsense'] = pipeline
         return pipeline
@@ -238,6 +238,8 @@ class Thalamus:
 
 
     def get_realsense_data(self, pipeline=None):
+
+        pipeline.start(self.config)
         while True:
             try:
                 pipeline = self.addon_init['realsense'] if not pipeline else pipeline

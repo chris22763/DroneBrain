@@ -115,7 +115,7 @@ class Thalamus:
                 # Wait for a coherent pair of frames: depth and color
                 frames = pipeline.wait_for_frames()
                 depth_frame = frames.get_depth_frame()
-                # color_frame = frames.get_color_frame()
+                color_frame = frames.get_color_frame()
 
                 return pipeline #, color_frame
 

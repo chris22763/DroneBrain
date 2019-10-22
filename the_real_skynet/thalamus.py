@@ -256,6 +256,7 @@ class Thalamus:
 
             except Exception as e:
                 print(e)
+        print(depth_frame.shape)
         return depth_frame
 
     def realsense_to_numpy(self, frame):

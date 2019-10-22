@@ -167,6 +167,7 @@ class Cerebellum ():
         potantial_target = set()
 
         for p in free:
+            print(p)
             cell_val = depth_np[p[0]][p[1]]
             d = self.distance_in_pixel(cell_val)
             square = set()
@@ -217,7 +218,6 @@ class Cerebellum ():
     def run(self, schlafgemach, queue):
         self.schlafgemach = schlafgemach
         res = self.schlafgemach.resolution
-        print(res)
         self.flower = self.schlafgemach.create_flower(res[0], res[1])
         self.queue = queue
 

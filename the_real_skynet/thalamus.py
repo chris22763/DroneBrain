@@ -237,7 +237,8 @@ class Thalamus:
                 print("Got exception " + str(e))
 
 
-    def get_realsense_data(self, pipeline):
+    def get_realsense_data(self, pipeline=self.addon_init['realsense']):
+        self.addon_init['realsense']
         # Wait for a coherent pair of frames: depth and color
         frames = pipeline.wait_for_frames()
         depth_frame = frames.get_depth_frame()

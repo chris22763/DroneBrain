@@ -254,7 +254,7 @@ class Thalamus:
 
             except Exception as e:
                 print(e)
-                
+
         pipeline.stop()
         return depth_frame
     def realsense_to_numpy(self, frame):

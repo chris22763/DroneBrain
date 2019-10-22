@@ -41,7 +41,7 @@ class Thalamus:
 
     def create_flower(self, xs, ys, num_pts=1000):
 
-        from numpy import pi, cos, sin, sqrt, arange, arctan2
+        from numpy import pi, cos, sin, sqrt, arange
 
         # xs = self.img_size[0]
         # ys = self.img_size[1]

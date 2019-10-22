@@ -46,15 +46,14 @@ class Thalamus:
 
         # xs = self.img_size[0]
         # ys = self.img_size[1]
-
+        hx = int(xs/2)
+        hy = int(ys/2)
         indices = arange(0, num_pts, dtype=float) + 0.5
 
         r = sqrt(indices/num_pts)
         theta = pi * (1 + 5**0.5) * indices
-        flower = [(int(x),int(y))  for x, y in zip((r*cos(theta)*xs) + xs, (r*sin(theta)*ys) + ys)]
-        print(len(flower))
-        print(flower[0])
-        print(flower[-1])
+
+        flower = [(int(x+hx),int(y+hy)) for x, y in zip((r*cos(theta)*hx), (r*sin(theta)*hx))]
         return flower
 
 
@@ -107,7 +106,7 @@ class Thalamus:
         config = rs.config()
         config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
 
-        config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+        config.enable_stream(rs.stream.color, 848, 480, rs.format.bgr8, 30)
 
         # Start streaming
         # pipeline.start(config)

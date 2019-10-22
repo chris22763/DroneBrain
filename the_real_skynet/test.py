@@ -37,17 +37,17 @@ def create_search_spiral(self, X, Y):
     return self._search_array.append
 
 
-test = create_search_spiral(5, 5)
+# test = create_search_spiral(5, 5)
 min_risk = 150
 max_risk = 200
 
 # print(test)
 
-for i, cord in enumerate(test):
-    val = random.randrange(0,255)
-    risk_val = int((100/test.__len__()) * (test.__len__() - i)) + 1
-    clac_risk =  (risk_val * (val - min_risk))
-    # print('{} : {:03d} : {}'.format(val, risk_val, clac_risk ))
+# for i, cord in enumerate(test):
+#     val = random.randrange(0,255)
+#     risk_val = int((100/test.__len__()) * (test.__len__() - i)) + 1
+#     clac_risk =  (risk_val * (val - min_risk))
+#     # print('{} : {:03d} : {}'.format(val, risk_val, clac_risk ))
 
 # print(test)
 # print(test.__len__())
@@ -168,3 +168,33 @@ def phi(n):
 
         return c
 
+def create_flower(xs, ys, num_pts=100):
+
+    from numpy import pi, cos, sin, sqrt, arange
+
+    # xs = self.img_size[0]
+    # ys = self.img_size[1]
+    hx = int(xs/2)
+    hy = int(ys/2)
+    indices = arange(0, num_pts, dtype=float) + 0.5
+
+    r = sqrt(indices/num_pts)
+    theta = pi * (1 + 5**0.5) * indices
+    flower = []
+    for x, y in zip((r*cos(theta)*hx), (r*sin(theta)*hx)):
+        flower.append((int(x+hx),int(y+hy)))
+
+    print(flower[-1])
+    print(flower[0])
+    print(len(flower))
+
+    flower = []
+
+    flower = [(int(x+hx),int(y+hy)) for x, y in zip((r*cos(theta)*hx), (r*sin(theta)*hx))]
+    print('-------')
+    print(flower[-1])
+    print(flower[0])
+    print(len(flower))
+    return flower
+
+create_flower(848, 480)

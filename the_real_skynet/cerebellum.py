@@ -111,7 +111,8 @@ class Cerebellum ():
                 else:
                     free.add(seed)
             except:
-                print('{}, {}'.format(seed, img.shape))
+                pass
+                # print('{}, {}'.format(seed, img.shape))
         print(time.time()-start)
 
         return free, obst

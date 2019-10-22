@@ -92,10 +92,10 @@ class Thalamus:
         import pyrealsense2 as rs
         print('initiate Realsense')
 
-        # maxX = 848
-        # maxY = 480
-        max_x = 424
-        max_y = 240
+        max_x = 848
+        max_y = 480
+        # max_x = 424
+        # max_y = 240
 
         self.resolution = (max_x, max_y)
 
@@ -104,11 +104,10 @@ class Thalamus:
         config = rs.config()
         config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
 
-        # config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+        config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
         # Start streaming
         pipeline.start(config)
-
 
         while True:
             try:
@@ -117,7 +116,7 @@ class Thalamus:
                 depth_frame = frames.get_depth_frame()
                 # color_frame = frames.get_color_frame()
 
-                return depth_frame #, color_frame
+                return pipeline #, color_frame
 
             except Exception as e:
                 print(e)

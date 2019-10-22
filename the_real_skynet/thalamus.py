@@ -4,6 +4,7 @@ import logging
 import time
 import struct
 import multiprocessing
+import traceback
 
 sys.path.append('/home/up/brain/lib/python3.5/site-packages')
 
@@ -118,8 +119,8 @@ class Thalamus:
 
                 return pipeline #, color_frame
 
-            except Exception as e:
-                print(e)
+            except:
+                print(traceback.print_exc())
 
         self.addon_init['realsense'] = pipeline
         return pipeline

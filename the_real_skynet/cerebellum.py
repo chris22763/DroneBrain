@@ -154,7 +154,6 @@ class Cerebellum ():
     def avoid_obstacle(self, correction, rotation):
         """ calculate obstacle positions and return list of free paths"""
         self.risk_list = []
-        _spiral_len = self.spiral.__len__()
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
 

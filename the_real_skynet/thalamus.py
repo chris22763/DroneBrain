@@ -238,14 +238,18 @@ class Thalamus:
 
 
     def get_realsense_data(self, pipeline=None):
-        pipeline = self.addon_init['realsense'] if not pipeline else pipeline
-        # Wait for a coherent pair of frames: depth and color
-        frames = pipeline.wait_for_frames()
-        depth_frame = frames.get_depth_frame()
-        # color_frame = frames.get_color_frame()
+        while True:
+            try:
+                pipeline = self.addon_init['realsense'] if not pipeline else pipeline
+                # Wait for a coherent pair of frames: depth and color
+                frames = pipeline.wait_for_frames()
+                depth_frame = frames.get_depth_frame()
+                # color_frame = frames.get_color_frame()
 
-        return depth_frame #, color_frame
-
+                return depth_frame #, color_frame
+            
+            except Exception as e:
+                print(e)
 
     def realsense_to_numpy(self, frame):
         # convert the realsense img to a numpy array readable by opencv

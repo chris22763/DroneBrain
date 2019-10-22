@@ -255,12 +255,11 @@ class Thalamus:
             except Exception as e:
                 print(e)
         print(depth_frame)
-        pipeline.stop()
         return depth_frame
 
     def realsense_to_numpy(self, frame):
         # convert the realsense img to a numpy array readable by opencv
-
+        print('-.-')
         image = np.asanyarray(frame.get_data())
 
         return image

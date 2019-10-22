@@ -113,7 +113,7 @@ class Cerebellum ():
             except:
                 pass
                 # print('{}, {}'.format(seed, img.shape))
-        print(time.time()-start)
+        # print(time.time()-start)
 
         return free, obst
 
@@ -162,7 +162,7 @@ class Cerebellum ():
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
 
-        print(depth_np)
+        # print(depth_np)
         free, obst = self.check_flower(depth_np)
         potantial_target = set()
 

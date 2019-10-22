@@ -247,7 +247,7 @@ class Thalamus:
                 # color_frame = frames.get_color_frame()
 
                 return depth_frame #, color_frame
-            
+
             except Exception as e:
                 print(e)
 

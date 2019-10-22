@@ -101,7 +101,7 @@ class Cerebellum ():
     def check_flower(self, img):
         obst = set()  # Obstacle
         free = set()
-        for seed in self.flower:
+        for seed in self.schlafgemach.flower:
             start = time.time()
             val = img[seed[0]][seed[1]]
             if val >= self.over_threshold(val, seed):

@@ -153,7 +153,7 @@ class Cerebellum ():
         """ calculate obstacle positions and return list of free paths"""
         self.risk_list = []
         _spiral_len = self.spiral.__len__()
-        depth_frame = self.schlafgemach.get_realsense_data(self.addon_init['realsense'])
+        depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy()
 
         free, obst = self.check_flower(depth_np)

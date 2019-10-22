@@ -2,6 +2,8 @@
 class Cerebellum ():
     """ das Kleinhirn (Cerebellum) ist für den gleichgewichtssinn und die bewegung sowie deren koordination zuständig """
 
+    from numpy import pi, cos, sin, sqrt, arctan2
+    
     def __init__(self):
 
         self.queue = None
@@ -118,8 +120,6 @@ class Cerebellum ():
 
 
     def calculate_vector(self, sensor_data, target):
-        from numpy import pi, cos, sin, sqrt, arctan2
-        
         pos_now = sensor_data['GPS']
         pos_tar = target
 

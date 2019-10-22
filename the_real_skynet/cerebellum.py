@@ -1,4 +1,4 @@
-
+import time
 from numpy import pi, cos, sin, sqrt, arctan2
 
 class Cerebellum ():
@@ -102,12 +102,14 @@ class Cerebellum ():
         obst = set()  # Obstacle
         free = set()
         for seed in self.flower:
+            start = time.time()
             val = img[seed[0]][seed[1]]
             if val >= self.over_threshold(val, seed):
                 obst.add(seed)
             else:
                 free.add(seed)
-
+            print(time.time()-start)
+            
         return free, obst
 
 

@@ -53,7 +53,7 @@ class Thalamus:
         r = sqrt(indices/num_pts)
         theta = pi * (1 + 5**0.5) * indices
 
-        flower = [(int(x+hx),int(y+hy)) for x, y in zip((r*cos(theta)*hx), (r*sin(theta)*hx))]
+        flower = [(int(x+hx),int(y+hy)) for x, y in zip((r*cos(theta)*hx), (r*sin(theta)*hy))]
 
         return flower
 

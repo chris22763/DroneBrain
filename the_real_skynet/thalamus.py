@@ -228,7 +228,6 @@ class Thalamus:
         while True:
             try :
                 rep = session.next()
-                print(rep)
                 if rep["class"] == "TPV":
                     print(str(rep.lat) + "," + str(rep.lon))
                     self.sensor_data['GPS'] = [rep.lat, rep.lon]

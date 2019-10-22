@@ -109,6 +109,19 @@ class Thalamus:
         # Start streaming
         pipeline.start(config)
 
+
+        while True:
+            try:
+                # Wait for a coherent pair of frames: depth and color
+                frames = pipeline.wait_for_frames()
+                depth_frame = frames.get_depth_frame()
+                # color_frame = frames.get_color_frame()
+
+                return depth_frame #, color_frame
+
+            except Exception as e:
+                print(e)
+
         self.addon_init['realsense'] = pipeline
         return pipeline
 

@@ -153,7 +153,7 @@ class Thalamus:
 
     def init_gps(self):
         import gps
-        import requests
+
         print('initiate GPS')
 
         # from gps3 import gps3
@@ -225,18 +225,17 @@ class Thalamus:
 
 
     def get_gps(self, session):
-        rep = session.next()
-        self.sensor_data['GPS'] = []
+        while True:
+            try :
+                rep = session.next()
+                print(rep)
+                if rep["class"] == "TPV":
+                    print(str(rep.lat) + "," + str(rep.lon))
+                    self.sensor_data['GPS'] = [rep.lat, rep.lon]
+                    return [rep.lat, rep.lon]
 
-        try :
-            print(rep)
-            if rep["class"] == "TPV":
-                print(str(rep.lat) + "," + str(rep.lon))
-                self.sensor_data['GPS'] = [rep.lat, rep.lon]
-                return [rep.lat, rep.lon]
-
-        except Exception as e :
-            print("Got exception " + str(e))
+            except Exception as e :
+                print("Got exception " + str(e))
 
 
     def get_realsense_data(self, pipeline):

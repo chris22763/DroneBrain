@@ -186,8 +186,8 @@ class Cerebellum ():
             self.rotate_ship(rotation*2)
 
         else:
-            self.fly_through_gate(potantial_target[0])
-
+            # self.fly_through_gate(potantial_target[0])
+            print(potantial_target)
         # for cord, i in enumerate(self.spiral):
             #
             # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)

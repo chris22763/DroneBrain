@@ -150,7 +150,8 @@ class Thalamus:
                 as_json_object = None
                 with open(self.realsense_json_path, 'r') as json_config:
                     as_json_object = json.loads(json_config)
-
+                    print(as_json_object)
+                    print(type(as_json_object))
                 if type(next(iter(as_json_object))) != str:
                     as_json_object = {k.encode('utf-8'): v.encode("utf-8") for k, v in as_json_object.items()}
 

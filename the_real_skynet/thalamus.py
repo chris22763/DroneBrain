@@ -150,8 +150,6 @@ class Thalamus:
                 as_json_object = None
                 with open(self.realsense_json_path) as jc:
                     as_json_object = json.load(jc)
-                    print(as_json_object)
-                    print(type(as_json_object))
                 if type(next(iter(as_json_object))) != str:
                     as_json_object = {k.encode('utf-8'): v.encode("utf-8") for k, v in as_json_object.items()}
 
@@ -163,7 +161,7 @@ class Thalamus:
             # max_x = 424
             # max_y = 240
 
-            self.resolution = (max_x, max_y)
+            self.resolution = (1280, 720)
 
             # todo custom config
             pipeline = rs.pipeline()
@@ -308,7 +306,6 @@ class Thalamus:
 
     def get_realsense_data(self, pipeline):
 
-        print(pipeline)
         pipeline.start()
         while True:
             try:

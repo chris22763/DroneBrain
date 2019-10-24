@@ -229,7 +229,6 @@ class Cerebellum ():
 
                 if self.good_enough(_sensor_data['GPS'], self.target[0], 1/1000):
                     self.target = self.target[1:]
-                    break
 
 
     def run(self, schlafgemach, queue):

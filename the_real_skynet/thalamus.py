@@ -22,6 +22,19 @@ class Thalamus:
         self.sensor_data = {}
         self.scale = 3
 
+
+    def find_device_that_supports_advanced_mode() :
+        ctx = rs.context()
+    ds5_dev = rs.device()
+    devices = ctx.query_devices();
+    for dev in devices:
+        if dev.supports(rs.camera_info.product_id) and str(dev.get_info(rs.camera_info.product_id)) in DS5_product_ids:
+            if dev.supports(rs.camera_info.name):
+                print("Found device that supports advanced mode:", dev.get_info(rs.camera_info.name))
+            return dev
+    raise Exception("No device that supports advanced mode was found")
+
+
     def create_chunk(self, x, y, x_max, y_max, data=None):
         chunk = []
         lim_x = x + self.scale if x + self.scale >= x_max else x_max
@@ -93,28 +106,72 @@ class Thalamus:
 
     def init_realsense(self):
         import pyrealsense2 as rs
+        import json
         print('initiate Realsense')
 
-        max_x = 848
-        max_y = 480
-        # max_x = 424
-        # max_y = 240
+        def find_device_that_supports_advanced_mode() :
+            ctx = rs.context()
+            ds5_dev = rs.device()
+            devices = ctx.query_devices();
+            for dev in devices:
+                if dev.supports(rs.camera_info.product_id) and str(dev.get_info(rs.camera_info.product_id)) in DS5_product_ids:
+                    if dev.supports(rs.camera_info.name):
+                        print("Found device that supports advanced mode:", dev.get_info(rs.camera_info.name))
+                    return dev
+            raise Exception("No device that supports advanced mode was found")
 
-        self.resolution = (max_x, max_y)
+        try:
 
-        # todo custom config
-        pipeline = rs.pipeline()
-        config = rs.config()
-        config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
+            dev = find_device_that_supports_advanced_mode()
+            advnc_mode = rs.rs400_advanced_mode(dev)
+            print("Advanced mode is", "enabled" if advnc_mode.is_enabled() else "disabled")
 
-        config.enable_stream(rs.stream.color, max_x, max_y, rs.format.bgr8, 30)
+            while not advnc_mode.is_enabled():
+                print("Trying to enable advanced mode...")
+                advnc_mode.toggle_advanced_mode(True)
+                # At this point the device will disconnect and re-connect.
+                print("Sleeping for 5 seconds...")
+                time.sleep(5)
+                # The 'dev' object will become invalid and we need to initialize it again
+                dev = find_device_that_supports_advanced_mode()
+                advnc_mode = rs.rs400_advanced_mode(dev)
+                print("Advanced mode is", "enabled" if advnc_mode.is_enabled() else "disabled")
 
-        # Start streaming
-        # pipeline.start(config)
-        self.addon_init['realsense'] = pipeline
+            print_config = True
+            if print_config:
+                serialized_string = advnc_mode.serialize_json()
+                print("Controls as JSON: \n", serialized_string)
 
-        return pipeline
+            as_json_object = json.loads(serialized_string)
 
+            if type(next(iter(as_json_object))) != str:
+                as_json_object = {k.encode('utf-8'): v.encode("utf-8") for k, v in as_json_object.items()}
+
+            json_string = str(as_json_object).replace("'", '\"')
+            advnc_mode.load_json(json_string)
+
+            max_x = 848
+            max_y = 480
+            # max_x = 424
+            # max_y = 240
+
+            self.resolution = (max_x, max_y)
+
+            # todo custom config
+            pipeline = rs.pipeline()
+            config = rs.config()
+            config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
+
+            config.enable_stream(rs.stream.color, max_x, max_y, rs.format.bgr8, 30)
+
+            # Start streaming
+            # pipeline.start(config)
+            self.addon_init['realsense'] = pipeline
+
+            return pipeline
+
+        except Exception as e:
+            print(traceback.print_exc())
 
     def init_bno(self):
         from Adafruit_BNO055 import BNO055
@@ -176,6 +233,7 @@ class Thalamus:
         session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
         self.get_gps(session)
         return session
+
 
     def init_wifi(self):
         print('initiate WIFI')
@@ -258,9 +316,11 @@ class Thalamus:
                 print(e)
         return depth_frame
 
+
     def realsense_to_numpy(self, frame):
         # convert the realsense img to a numpy array readable by opencv
         image = np.asanyarray(frame.get_data())
 
         return image
+
 

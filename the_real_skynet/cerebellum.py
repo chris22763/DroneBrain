@@ -205,7 +205,7 @@ class Cerebellum ():
             print(len(potantial_target))
 
             if self.headless:
-                self.view_points(depth_np, potantial_target)
+                self.view_points(depth_np, potantial_target, self.flower)
         # for cord, i in enumerate(self.spiral):
             #
             # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)

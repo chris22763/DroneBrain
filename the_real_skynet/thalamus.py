@@ -140,7 +140,7 @@ class Thalamus:
                 advnc_mode = rs.rs400_advanced_mode(dev)
                 print("Advanced mode is", "enabled" if advnc_mode.is_enabled() else "disabled")
 
-            print_config = True
+            print_config = False
             if print_config:
                 serialized_string = advnc_mode.serialize_json()
                 print("Controls as JSON: \n", serialized_string)

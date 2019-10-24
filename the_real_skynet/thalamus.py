@@ -148,8 +148,8 @@ class Thalamus:
 
             if self.realsense_json_path:
                 as_json_object = None
-                with open(self.realsense_json_path, 'r') as json_config:
-                    as_json_object = json.loads(json_config)
+                with open(self.realsense_json_path) as jc:
+                    as_json_object = json.loads(jc)
                     print(as_json_object)
                     print(type(as_json_object))
                 if type(next(iter(as_json_object))) != str:

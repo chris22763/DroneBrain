@@ -93,7 +93,7 @@ class TruncusCerebri:
 
             self.kleinhirn = cerebellum.Cerebellum()
             self.kleinhirn.third_dimension = True if self._config['device']['movement'] == '0' else False
-
+            self.kleinhirn.headless = True if self._config['device']['headless'] == 'True' else False
             queue = mp.Queue()
             q_list.append(queue)
             process = mp.Process(target=self.kleinhirn.run, args=(self.schlafgemach, queue))

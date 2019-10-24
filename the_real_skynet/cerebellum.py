@@ -1,5 +1,7 @@
 import time
 from numpy import pi, cos, sin, sqrt, arctan2
+import cv2
+
 
 class Cerebellum ():
     """ das Kleinhirn (Cerebellum) ist für den gleichgewichtssinn und die bewegung sowie deren koordination zuständig """
@@ -10,6 +12,7 @@ class Cerebellum ():
         self.sensor_data = None
         self.target = [1.0, 1.0]
         self.third_dimension = True
+        self.headless = False
         self.min_risk = 200
         self.max_risk = 400
         self.risk_list = []
@@ -74,6 +77,18 @@ class Cerebellum ():
         deg = rad / (pi/180)
 
         return dif_vec, rad, deg
+
+
+    def view_points(self, img, pset, blossom):
+
+        RED = (0, 0, 255)
+        GREEN = (0, 255, 0)
+        BLUE = (255, 0, 0)
+
+        for i, p in enumerate(blossom):
+            color = RED if p not in pset else GREEN
+            cv2.circle(img, p, 3, color, -1)
+        cv2.imshow("targets", img)
 
 
     def over_threshold(self, val, pos, threshold=155):
@@ -188,6 +203,9 @@ class Cerebellum ():
         else:
             # self.fly_through_gate(potantial_target[0])
             print(len(potantial_target))
+
+            if self.headless:
+                self.view_points(depth_np, potantial_target)
         # for cord, i in enumerate(self.spiral):
             #
             # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)
@@ -213,11 +231,23 @@ class Cerebellum ():
                     self.target = self.target[1:]
                     break
 
+                k = cv2.waitKey(1)
+
+                if k%256 == 27:
+                    # ESC pressed
+                    print("Escape hit, closing...")
+                    break
+
 
     def run(self, schlafgemach, queue):
+
+        cv2.namedWindow("targets")
+
         self.schlafgemach = schlafgemach
         res = self.schlafgemach.resolution
         self.flower = self.schlafgemach.create_flower(res[0], res[1])
         self.queue = queue
 
         self.fly_to_target()
+
+        cv2.destroyAllWindows()

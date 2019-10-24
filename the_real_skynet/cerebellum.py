@@ -231,13 +231,6 @@ class Cerebellum ():
                     self.target = self.target[1:]
                     break
 
-                k = cv2.waitKey(1)
-
-                if k%256 == 27:
-                    # ESC pressed
-                    print("Escape hit, closing...")
-                    break
-
 
     def run(self, schlafgemach, queue):
 

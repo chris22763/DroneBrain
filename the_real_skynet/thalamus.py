@@ -161,7 +161,7 @@ class Thalamus:
             # max_x = 424
             # max_y = 240
 
-            self.resolution = (1280, 720)
+            self.resolution = (720, 1280)
 
             # todo custom config
             pipeline = rs.pipeline()

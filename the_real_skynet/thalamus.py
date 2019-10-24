@@ -306,7 +306,6 @@ class Thalamus:
 
     def get_realsense_data(self, pipeline):
 
-        pipeline.start()
         while True:
             try:
                 # Wait for a coherent pair of frames: depth and color
@@ -318,9 +317,12 @@ class Thalamus:
                     break
 
             except Exception as e:
+                try:
+                    pipeline.stop()
+                except:
+                    pipeline.start()
                 print(e)
-                
-        pipeline.stop()
+
         return depth_frame
 
 

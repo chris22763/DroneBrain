@@ -32,7 +32,7 @@ class Thalamus:
                 if dev.supports(rs.camera_info.name):
                     print("Found device that supports advanced mode:", dev.get_info(rs.camera_info.name))
                 return dev
-    raise Exception("No device that supports advanced mode was found")
+        raise Exception("No device that supports advanced mode was found")
 
 
     def create_chunk(self, x, y, x_max, y_max, data=None):

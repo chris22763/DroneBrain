@@ -125,4 +125,5 @@ class TruncusCerebri:
 
 hirnstamm = TruncusCerebri()
 hirnstamm.setup()
+print(hirnstamm._config_path)
 hirnstamm.start()

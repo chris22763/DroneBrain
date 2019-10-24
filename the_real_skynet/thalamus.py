@@ -110,6 +110,8 @@ class Thalamus:
         print('initiate Realsense')
 
         def find_device_that_supports_advanced_mode() :
+            DS5_product_ids = ["0AD1", "0AD2", "0AD3", "0AD4", "0AD5", "0AF6", "0AFE", "0AFF", "0B00", "0B01", "0B03", "0B07","0B3A"]
+            
             ctx = rs.context()
             ds5_dev = rs.device()
             devices = ctx.query_devices();

@@ -247,5 +247,3 @@ class Cerebellum ():
         self.queue = queue
 
         self.fly_to_target()
-
-        cv2.destroyAllWindows()

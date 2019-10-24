@@ -302,6 +302,7 @@ class Thalamus:
 
             except Exception as e :
                 print("Got exception " + str(e))
+                # TODO remove this
                 print(rep)
                 return [0.0, 0.0]
 

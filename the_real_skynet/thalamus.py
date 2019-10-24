@@ -302,6 +302,7 @@ class Thalamus:
 
             except Exception as e :
                 print("Got exception " + str(e))
+                return [0.0, 0.0]
 
 
     def get_realsense_data(self, pipeline):

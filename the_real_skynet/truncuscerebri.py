@@ -67,6 +67,8 @@ class TruncusCerebri:
 
         self.schlafgemach = thalamus.Thalamus()
 
+        self.schlafgemach.realsense_json_path = self._config['data']['realsense_json']
+
         if 'addon' in self._config:
             self.schlafgemach.addons = [key for key in self._config['addon']
                                         if self._config['addon'].getboolean(key)]

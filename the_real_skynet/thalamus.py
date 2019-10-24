@@ -21,6 +21,7 @@ class Thalamus:
         self.addon_init = {}    # Stores the objects, with a key (e.g. 'GPS' : gps_session), created to recieve the sensor data.
         self.sensor_data = {}
         self.scale = 3
+        self.realsense_json_path = ''
 
 
     def find_device_that_supports_advanced_mode() :
@@ -111,7 +112,7 @@ class Thalamus:
 
         def find_device_that_supports_advanced_mode() :
             DS5_product_ids = ["0AD1", "0AD2", "0AD3", "0AD4", "0AD5", "0AF6", "0AFE", "0AFF", "0B00", "0B01", "0B03", "0B07","0B3A"]
-            
+
             ctx = rs.context()
             ds5_dev = rs.device()
             devices = ctx.query_devices();
@@ -144,11 +145,10 @@ class Thalamus:
                 serialized_string = advnc_mode.serialize_json()
                 print("Controls as JSON: \n", serialized_string)
 
-            path = self._config['data']['realsense_json']
 
-            if path:
+            if self.realsense_json_path:
                 as_json_object = None
-                with open(path, 'r') as json_config:
+                with open(self.realsense_json_path, 'r') as json_config:
                     as_json_object = json.loads(json_config)
 
                 if type(next(iter(as_json_object))) != str:

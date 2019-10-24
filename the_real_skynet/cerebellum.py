@@ -241,8 +241,6 @@ class Cerebellum ():
 
     def run(self, schlafgemach, queue):
 
-        cv2.namedWindow("targets")
-
         self.schlafgemach = schlafgemach
         res = self.schlafgemach.resolution
         self.flower = self.schlafgemach.create_flower(res[0], res[1])

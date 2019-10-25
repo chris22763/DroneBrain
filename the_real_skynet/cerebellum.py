@@ -225,7 +225,7 @@ class Cerebellum ():
 
         else:
             # self.fly_through_gate(potantial_target[0])
-            # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+            print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 
             if self.headless:
                 self.view_points(depth_np, potantial_target, self.flower)

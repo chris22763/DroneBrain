@@ -133,7 +133,7 @@ class Cerebellum ():
                     obst.add(seed)
                 else:
                     free.add(seed)
-                print('{}, {}, {}'.format(seed, val, fit))
+                # print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))
         # print(time.time()-start)

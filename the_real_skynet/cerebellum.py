@@ -131,9 +131,9 @@ class Cerebellum ():
                     obst.add(seed)
                 else:
                     free.add(seed)
-            except:
-                pass
-                # print('{}, {}'.format(seed, img.shape))
+
+            except Exception as e:
+                print('{}, {}'.format(seed, e))
         # print(time.time()-start)
 
         return free, obst
@@ -189,6 +189,9 @@ class Cerebellum ():
 
         for p in free:
             cell_val = depth_np[p[0]][p[1]]
+
+
+            # generiert korridor
             d = self.distance_in_pixel(cell_val)
             square = set()
             for x in range(p[0] - d[0], p[0] + d[0]):

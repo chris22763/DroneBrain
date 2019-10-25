@@ -81,8 +81,8 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        RED = (0, 0, 255)
-        GREEN = (0, 255, 0)
+        RED = (128, 128, 128)  # Grey
+        GREEN = (255, 255, 255)  # white
         BLUE = (255, 0, 0)
         for i, p in enumerate(blossom):
             color = RED if p not in pset else GREEN

@@ -330,10 +330,12 @@ class Thalamus:
         return depth_frame
 
 
-    def realsense_to_numpy(self, frame):
+    def realsense_to_numpy(self, frame, color=True):
         # convert the realsense img to a numpy array readable by opencv
         image = np.asanyarray(frame.get_data())
 
-        return image
+        if color:
+            img_rgb= cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+        return img_rgb
 
 

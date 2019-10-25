@@ -118,7 +118,7 @@ class Cerebellum ():
 
         threshold = threshold - (xo * yo)
 
-        if val > threshold:
+        if val < threshold:
             return True
         else:
             return False
@@ -141,7 +141,7 @@ class Cerebellum ():
             try:
                 val = img[seed[0]][seed[1]]
                 fit = self.over_threshold(val, seed)
-                if val >= fit:
+                if val <= fit:
                     obst.add(seed)
                 else:
                     free.add(seed)

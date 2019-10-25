@@ -1,5 +1,6 @@
 import time
 from numpy import pi, cos, sin, sqrt, arctan2
+import numpy as np
 import cv2
 
 
@@ -81,11 +82,11 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        RED = (255, 255, 255)  # white
-        GREEN = (125, 125, 125)
-        BLUE = 16711680
+        RED = np.uint8([[[0, 0, 225 ]]])
+        GREEN = np.uint8([[[0, 255, 0 ]]])
+        BLUE = np.uint8([[[255, 0, 0 ]]])
 
-        img_rgb= cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
         for i, p in enumerate(blossom):
             color = RED if p not in pset else GREEN

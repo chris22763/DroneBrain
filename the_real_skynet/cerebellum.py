@@ -93,7 +93,8 @@ class Cerebellum ():
 
         cv2.namedWindow("targets", cv2.WINDOW_AUTOSIZE)
         cv2.imshow("targets", img)
-        cv2.waitKey(1)
+        if cv2.waitKey(1) == ord('q'):
+            quit()
 
 
     def over_threshold(self, val, pos, threshold=155):

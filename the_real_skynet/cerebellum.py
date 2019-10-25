@@ -86,9 +86,7 @@ class Cerebellum ():
         GREEN = (0, 255, 0)
         BLUE = np.array([255,0,0])
         test =  np.array((255,0,0))
-        c = tuple(map(int, test))
-        print(test)
-        print(c)
+        c = 10000000
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
         for i, p in enumerate(blossom):

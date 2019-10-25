@@ -86,7 +86,6 @@ class Cerebellum ():
         GREEN = (0, 255, 0)
         BLUE = np.array([255,0,0])
 
-
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
         h, w, d  = img_rgb.shape
         shape = (h, w)
@@ -97,18 +96,10 @@ class Cerebellum ():
 
             cv2.circle(img_dot, (p[1],p[0]), 3, color, -1)
 
-        # Now create a mask of logo and create its inverse mask also
-        img2gray = cv2.cvtColor(img_dot,cv2.COLOR_BGR2GRAY)
-        ret, mask = cv2.threshold(img2gray, 10, 255, cv2.THRESH_BINARY)
-        mask_inv = cv2.bitwise_not(mask)
 
-        # Now black-out the area of logo in ROI
-        img1_bg = cv2.bitwise_and(shape, shape, mask = mask_inv)
+        final = cv2.addWeigthed(img_rgb, 0.4, img_dot, 0.1, 0)
 
-        img2_fg = cv2.bitwise_and(img_dot, img_dot, mask = mask)
-        final = cv2.add(img_rgb,img2_fg)
-
-        cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
+        # cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
         cv2.imshow('targets', img_rgb)
         cv2.imshow('dots', img_dot)
         cv2.imshow('final', final)

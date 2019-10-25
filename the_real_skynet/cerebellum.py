@@ -97,7 +97,7 @@ class Cerebellum ():
             cv2.circle(img_dot, (p[1],p[0]), 3, color, -1)
 
 
-        final = cv2.addWeigthed(img_rgb, 0.4, img_dot, 0.1, 0)
+        final = cv2.addWeighted(img_rgb, 0.4, img_dot, 0.1, 0)
 
         # cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
         cv2.imshow('targets', img_rgb)

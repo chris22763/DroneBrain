@@ -82,7 +82,7 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        RED = np.uint8([[[0, 0, 225 ]]])
+        RED = np.uint8(0, 0, 225 )
         GREEN = np.uint8([[[0, 255, 0 ]]])
         BLUE = np.uint8([[[255, 0, 0 ]]])
 

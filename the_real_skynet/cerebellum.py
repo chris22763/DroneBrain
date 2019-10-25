@@ -126,7 +126,7 @@ class Cerebellum ():
 
         for seed in self.flower:
             try:
-                val = img[seed[1]][seed[0]]
+                val = img[seed[0]][seed[1]]
                 if val >= self.over_threshold(val, seed):
                     obst.add(seed)
                 else:

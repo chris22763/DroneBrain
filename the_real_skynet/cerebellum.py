@@ -89,8 +89,8 @@ class Cerebellum ():
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
         img_dot = np.zeros((img_rgb.shape[0],img_rgb.shape[1],3), np.uint8)
 
-        print(img_rgb.shape)
-        print(img_dot.shape)
+        # print(img_rgb.shape)
+        # print(img_dot.shape)
 
         for i, p in enumerate(blossom):
             color = RED if p not in pset else GREEN
@@ -102,8 +102,8 @@ class Cerebellum ():
         # cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
         cv2.imshow('targets', img_rgb)
         cv2.imshow('dots', img_dot)
-        final = cv2.addWeighted(img_rgb, 0.4, img_dot, 0.1, 0)
-        cv2.imshow('final', final)
+        # final = cv2.addWeighted(img_rgb, 0.4, img_dot, 0.1, 0)
+        # cv2.imshow('final', final)
 
         # cv2.resizeWindow('targets', 600, 600)
         cv2.waitKey(1)

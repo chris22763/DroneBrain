@@ -304,6 +304,7 @@ class Thalamus:
                 print("Got exception " + str(e))
                 # TODO remove this
                 print(rep)
+                self.sensor_data['GPS'] = [0.0, 0.0]
                 return [0.0, 0.0]
 
 

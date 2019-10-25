@@ -1,0 +1,36 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>Droneview</title>
+	<meta name="description" content="Droneview">
+	<meta name="author" content="SitePoint">
+	<!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	  const socket = io('http://localhost');
+
+	socket.on('connect', () => {
+		console.log(socket.id); // 'G5p5...'
+	});
+
+	imgChunk = []
+
+	socket.on('new_frame', (data) => {
+		console.log(data);	
+		var img = document.GetElementById("img");
+		imgChunk.push(data)
+		img.setAttribute('src', 'data:imgae/jpeg;base64,' + window.btoa(data));
+
+	});
+	</script>
+
+</head>
+
+<body>
+	<img src="" name="img" id="img" class="img">
+	</img>>
+</body>
+</html>

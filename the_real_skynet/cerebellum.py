@@ -81,15 +81,18 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        RED = (128, 128, 128)  # Grey
-        GREEN = (255, 255, 255)  # white
+        RED = (0, 0, 255)  # white
+        GREEN = (0, 255, 0)
         BLUE = (255, 0, 0)
+
+        img_rgb= cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        
         for i, p in enumerate(blossom):
             color = RED if p not in pset else GREEN
-            cv2.circle(img, p, 3, color, -1)
+            cv2.circle(img_rgb, p, 3, color, -1)
 
         cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('targets', img)
+        cv2.imshow('targets', img_rgb)
         cv2.resizeWindow('targets', 600, 600)
         if cv2.waitKey(1) == ord('q'):
             quit()

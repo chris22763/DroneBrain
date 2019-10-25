@@ -90,8 +90,8 @@ class Cerebellum ():
             cv2.circle(img, p, 3, color, 1)
 
         cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
-        cv2.resizeWindow('targets', 600, 600)
         cv2.imshow('targets', img)
+        cv2.resizeWindow('targets', 600, 600)
         if cv2.waitKey(1) == ord('q'):
             quit()
 

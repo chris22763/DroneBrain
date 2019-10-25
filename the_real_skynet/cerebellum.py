@@ -82,22 +82,37 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        # Macht keinen sinn -.-
-        # RED = (255, 0, 0)
-        # GREEN = (0, 255, 0)
-        # BLUE = np.array([255,0,0])
-        # test =  np.array((255,0,0))
-        c = 10000000
+        RED = (255, 0, 0)
+        GREEN = (0, 255, 0)
+        BLUE = np.array([255,0,0])
+
 
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+        h, w, d  = img_rgb.shape
+        shape = (h, w)
+        img_dot = np.zeros((img_rgb.shape[0],img_rgb.shape[1],3), np.uint8)
 
         for i, p in enumerate(blossom):
-            color = c if p not in pset else 0
+            color = RED if p not in pset else GREEN
 
-            cv2.circle(img_rgb, (p[1],p[0]), 3, c, -1)
+            cv2.circle(img_dot, (p[1],p[0]), 3, color, -1)
+
+        # Now create a mask of logo and create its inverse mask also
+        img2gray = cv2.cvtColor(img_dot,cv2.COLOR_BGR2GRAY)
+        ret, mask = cv2.threshold(img2gray, 10, 255, cv2.THRESH_BINARY)
+        mask_inv = cv2.bitwise_not(mask)
+
+        # Now black-out the area of logo in ROI
+        img1_bg = cv2.bitwise_and(shape, shape, mask = mask_inv)
+
+        img2_fg = cv2.bitwise_and(img_dot, img_dot, mask = mask)
+        final = cv2.add(img_rgb,img2_fg)
 
         cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
         cv2.imshow('targets', img_rgb)
+        cv2.imshow('dots', img_dot)
+        cv2.imshow('final', final)
+
         # cv2.resizeWindow('targets', 600, 600)
         cv2.waitKey(1)
 

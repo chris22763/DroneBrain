@@ -84,8 +84,8 @@ class Cerebellum ():
 
         RED = (255, 0, 0)
         GREEN = (0, 255, 0)
-        BLUE = (0, 0, 225)
-        test = np.array(np.asscalar(np.int16(0)),np.asscalar(np.int16(255)),np.asscalar(np.int16(0)))
+        BLUE = np.array([255,0,0])
+        test =  np.array([255,0,0])
         print(test)
         print(type(test))
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)

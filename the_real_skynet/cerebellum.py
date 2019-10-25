@@ -81,8 +81,8 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        RED = 65280  # white
-        GREEN = 255
+        RED = (255, 255, 255)  # white
+        GREEN = (125, 125, 125)
         BLUE = 16711680
 
         img_rgb= cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)

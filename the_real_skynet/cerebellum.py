@@ -82,15 +82,17 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        RED = (255, 0, 0)
-        GREEN = (0, 255, 0)
-        BLUE = np.array([255,0,0])
-        test =  np.array((255,0,0))
+        # Macht keinen sinn -.-
+        # RED = (255, 0, 0)
+        # GREEN = (0, 255, 0)
+        # BLUE = np.array([255,0,0])
+        # test =  np.array((255,0,0))
         c = 10000000
+
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
         for i, p in enumerate(blossom):
-            # color = RED if p not in pset else GREEN
+            color = c if p not in pset else 100000
 
             cv2.circle(img_rgb, (p[1],p[0]), 3, c, -1)
 

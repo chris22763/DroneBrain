@@ -127,13 +127,14 @@ class Cerebellum ():
         for seed in self.flower:
             try:
                 val = img[seed[0]][seed[1]]
-                if val >= self.over_threshold(val, seed):
+                fit = self.over_threshold(val, seed)
+                if val >= fit:
                     obst.add(seed)
                 else:
                     free.add(seed)
 
             except Exception as e:
-                print('{}, {}'.format(seed, e))
+                print('{}, {}, {}'.format(seed, fit, e))
         # print(time.time()-start)
 
         return free, obst

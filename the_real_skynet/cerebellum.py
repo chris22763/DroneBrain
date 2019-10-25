@@ -87,9 +87,10 @@ class Cerebellum ():
         BLUE = np.array([255,0,0])
 
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-        h, w, d  = img_rgb.shape
-        shape = (h, w)
         img_dot = np.zeros((img_rgb.shape[0],img_rgb.shape[1],3), np.uint8)
+
+        print(img_rgb.shape)
+        print(img_dot.shape)
 
         for i, p in enumerate(blossom):
             color = RED if p not in pset else GREEN

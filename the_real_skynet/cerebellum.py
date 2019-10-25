@@ -87,7 +87,7 @@ class Cerebellum ():
         BLUE = np.array([255,0,0])
 
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-        img_dot = np.zeros((img_rgb.shape[0],img_rgb.shape[1],3), np.uint8)
+        img_dot = np.zeros((img_rgb.shape[1],img_rgb.shape[0],3), np.uint8)
 
         print(img_rgb.shape)
         print(img_dot.shape)

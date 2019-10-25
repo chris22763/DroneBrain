@@ -85,14 +85,15 @@ class Cerebellum ():
         GREEN = 65280
         BLUE = (255, 0, 0)
 
-        # img_rgb= cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        img_rgb= cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+
         for i, p in enumerate(blossom):
             color = RED if p not in pset else GREEN
 
-            cv2.circle(img, (p[1],p[0]), 3, (70000), -1)
+            cv2.circle(img_rgb, (p[1],p[0]), 3, (70000), -1)
 
         cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
-        cv2.imshow('targets', img)
+        cv2.imshow('targets', img_rgb)
         cv2.resizeWindow('targets', 600, 600)
         cv2.waitKey(1)
 

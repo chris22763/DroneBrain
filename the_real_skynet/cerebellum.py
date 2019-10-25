@@ -82,7 +82,7 @@ class Cerebellum ():
 
     def view_points(self, img, pset, blossom):
 
-        RED = (255, 0, 0)
+        RED = (0, 0, 255)
         GREEN = (0, 255, 0)
         BLUE = np.array([255,0,0])
 

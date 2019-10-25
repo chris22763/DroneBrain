@@ -48,7 +48,7 @@ class Cerebellum ():
     def haversine(pos1, pos2):
         """Calculate the distance in meter between two coordinates on earth, based on the haversine algorithm."""
 
-        print('{}, {}'.format(pos1, pos2))
+        # print('{}, {}'.format(pos1, pos2))
         lat1 = float(pos1[0])  # lath
         long1 = float(pos1[1])  # long
         lat2 = float(pos2[0])
@@ -88,8 +88,12 @@ class Cerebellum ():
         for i, p in enumerate(blossom):
             color = RED if p not in pset else GREEN
             cv2.circle(img, p, 3, color, -1)
+
+        print('tadaaa')
+
         cv2.namedWindow("targets", cv2.WINDOW_AUTOSIZE)
         cv2.imshow("targets", img)
+        cv2.waitKey(1)
 
 
     def over_threshold(self, val, pos, threshold=155):
@@ -203,7 +207,6 @@ class Cerebellum ():
 
         else:
             # self.fly_through_gate(potantial_target[0])
-            print(len(potantial_target))
 
             if self.headless:
                 self.view_points(depth_np, potantial_target, self.flower)

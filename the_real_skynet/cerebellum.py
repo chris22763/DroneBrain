@@ -100,10 +100,10 @@ class Cerebellum ():
 
     def over_threshold(self, val, pos, threshold=155):
 
-        size = (424, 240)
+        size = (1280, 720)
 
-        xo = (10*((size[0]/pos[0])**2))
-        yo = (10*((size[1]/pos[1])**2))
+        xo = (5*((size[0]/pos[0])**2))
+        yo = (5*((size[1]/pos[1])**2))
 
         threshold = threshold - (xo * yo)
 

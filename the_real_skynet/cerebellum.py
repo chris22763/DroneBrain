@@ -92,7 +92,7 @@ class Cerebellum ():
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
         for i, p in enumerate(blossom):
-            color = c if p not in pset else 100000
+            color = c if p not in pset else 0
 
             cv2.circle(img_rgb, (p[1],p[0]), 3, c, -1)
 

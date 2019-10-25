@@ -124,7 +124,7 @@ class Cerebellum ():
         free = set()
         start = time.time()
 
-        
+
         for seed in self.flower:
             try:
                 val = img[seed[0]][seed[1]]
@@ -133,7 +133,7 @@ class Cerebellum ():
                     obst.add(seed)
                 else:
                     free.add(seed)
-                print('{}, {}'.format(seed, fit))
+                 print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))
         # print(time.time()-start)

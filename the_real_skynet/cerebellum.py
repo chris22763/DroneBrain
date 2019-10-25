@@ -86,12 +86,11 @@ class Cerebellum ():
         BLUE = (255, 0, 0)
 
         for i, p in enumerate(blossom):
+            print(p)
             color = RED if p not in pset else GREEN
             cv2.circle(img, p, 3, color, -1)
 
-        print('tadaaa')
-
-        cv2.namedWindow("targets", cv2.WINDOW_AUTOSIZE)
+        # cv2.namedWindow("targets", cv2.WINDOW_AUTOSIZE)
         cv2.imshow("targets", img)
         if cv2.waitKey(1) == ord('q'):
             quit()

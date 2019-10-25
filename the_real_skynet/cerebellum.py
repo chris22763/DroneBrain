@@ -124,6 +124,7 @@ class Cerebellum ():
         free = set()
         start = time.time()
 
+        
         for seed in self.flower:
             try:
                 val = img[seed[0]][seed[1]]
@@ -132,7 +133,7 @@ class Cerebellum ():
                     obst.add(seed)
                 else:
                     free.add(seed)
-
+                print('{}, {}'.format(seed, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))
         # print(time.time()-start)
@@ -212,7 +213,7 @@ class Cerebellum ():
 
         else:
             # self.fly_through_gate(potantial_target[0])
-            print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+            # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 
             if self.headless:
                 self.view_points(depth_np, potantial_target, self.flower)

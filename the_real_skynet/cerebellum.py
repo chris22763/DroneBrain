@@ -80,7 +80,7 @@ class Cerebellum ():
         return dif_vec, rad, deg
 
 
-    def view_points(self, img, pset, blossom):
+    def view_points(self, img, fset, oset, pset, blossom):
 
         RED = (0, 0, 255)
         GREEN = (0, 255, 0)
@@ -93,7 +93,9 @@ class Cerebellum ():
         # print(img_dot.shape)
 
         for i, p in enumerate(blossom):
-            color = RED if p not in pset else GREEN
+            color = RED if p in oset else None
+            color = BLUE if p in fset else color
+            color = GREEN if p in pset else color
 
             cv2.circle(img_dot, (p[1],p[0]), 3, color, -1)
 
@@ -212,6 +214,8 @@ class Cerebellum ():
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
+            print('d: {} => ({}, {}), ({}, {})'(d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
+
             intersec = square.intersection(obst)
 
             if len(intersec) == 0:
@@ -220,7 +224,7 @@ class Cerebellum ():
                 for point_intersected in intersec:
                     pass
 
-        if not potantial_target :
+        if not potantial_target:
             self.rotate_ship(rotation*2)
 
         else:
@@ -228,7 +232,7 @@ class Cerebellum ():
             print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 
             if self.headless:
-                self.view_points(depth_np, potantial_target, self.flower)
+                self.view_points(depth_np, free, obst, potantial_target, self.flower)
         # for cord, i in enumerate(self.spiral):
             #
             # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)

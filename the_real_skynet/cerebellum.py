@@ -111,7 +111,7 @@ class Cerebellum ():
         cv2.waitKey(1)
 
 
-    def over_threshold(self, val, pos, threshold=155):
+    def over_threshold(self, val, pos, threshold=32768):
 
         size = (1280, 720)
 

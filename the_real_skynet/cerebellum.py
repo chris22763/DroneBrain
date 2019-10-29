@@ -214,7 +214,7 @@ class Cerebellum ():
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
-            print('d: {} => ({}, {}), ({}, {})'.format(cell_val, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
+            print('d: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
             intersec = square.intersection(obst)
 

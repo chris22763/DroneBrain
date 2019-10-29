@@ -253,6 +253,7 @@ class Cerebellum ():
         _sensor_data = self.schlafgemach.sensor_data
         if 'GPS' in _sensor_data:
             while True:  # _sensor_data['GPS'] != self.target[0]:
+                start = time.time()
                 correction, rotation = self.calculate_vector(_sensor_data, self.target)
                 correction, rotation = self.avoid_obstacle(correction, rotation)
                 self.send_course(correction, rotation)
@@ -260,6 +261,7 @@ class Cerebellum ():
                 if self.good_enough(_sensor_data['GPS'], self.target[0], 1/1000):
                     self.target = self.target[1:]
 
+                print('#### fly_to_target loop :\t{} ####'.format(time.time()-start))
 
     def run(self, schlafgemach, queue):
 

@@ -156,7 +156,9 @@ class Cerebellum ():
 
 
     def distance_in_pixel(self, val):
-        dim = ((1/(val-256))*-10)-1  # if val 0..255  # -1 to make 1..10m to 0..9m
+        max_val = 65536  # 65536 is max value
+        val = val if val != max_val else max_val-1
+        dim = ((1/(val - max_val))*-10)-1   # if val 0..255  # -1 to make 1..10m to 0..9m
         # dim = val * 10           # if val 0.0 .. 1.0
         # _d = (int(260/dim), int(120/dim))  # 130x60@2m and 1m x 0.5m 
         _d = (int(130/dim), int(60/dim))  # only half the pixel ammount is needed.
@@ -199,7 +201,7 @@ class Cerebellum ():
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
 
-        print('{}, {}'.format(depth_np.shape, depth_np.max()))
+        # print('{}, {}'.format(depth_np.shape, depth_np.max()))
         free, obst = self.check_flower(depth_np)
         potantial_target = set()
 
@@ -214,7 +216,7 @@ class Cerebellum ():
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
-            #print('d: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
+            print('d: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
             intersec = square.intersection(obst)
 

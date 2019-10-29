@@ -163,7 +163,7 @@ class Cerebellum ():
         # dim = val * 10           # if val 0.0 .. 1.0
         # _d = (int(260/dim), int(120/dim))  # 130x60@2m and 1m x 0.5m 
         _d = (int(130/dim), int(60/dim))  # only half the pixel ammount is needed.
-        return _d
+        return _d, dim
 
 
     def calculate_vector(self, sensor_data, target):
@@ -211,13 +211,13 @@ class Cerebellum ():
 
 
             # generiert korridor
-            d = self.distance_in_pixel(cell_val)
+            d, d_val = self.distance_in_pixel(cell_val)
             square = set()
             for x in range(p[0] - d[0], p[0] + d[0]):
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
-            print('d: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
+            print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
             intersec = square.intersection(obst)
 

@@ -115,8 +115,14 @@ class Cerebellum ():
 
         size = (1280, 720)
 
-        xo = (5*((size[0]/pos[0])**2))
-        yo = (5*((size[1]/pos[1])**2))
+        xm = int(size[0]/2)
+        ym = int(size[1]/2)
+
+        xp = pos[0] - xm if (pos[0] - xm) != 0 else 0.001
+        yp = pos[1] - ym if (pos[1] - ym) != 0 else 0.001
+
+        xo = 32768 * ((xp/xm)**2)
+        yo = 32768 * ((yp/ym)**2)
 
         threshold = threshold - (xo * yo)
 

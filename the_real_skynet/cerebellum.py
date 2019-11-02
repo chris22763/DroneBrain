@@ -208,7 +208,7 @@ class Cerebellum ():
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
 
-        # print('{}, {}'.format(depth_np.shape, depth_np.max()))
+        print('{}, {}'.format(depth_np.shape, depth_np.max()))
         free, obst = self.check_flower(depth_np)
         potantial_target = set()
 
@@ -223,7 +223,7 @@ class Cerebellum ():
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
-            print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
+            # print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
             intersec = square.intersection(obst)
 

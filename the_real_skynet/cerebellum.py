@@ -165,7 +165,7 @@ class Cerebellum ():
         max_val = 65536  # 65536 is max value
         val = val if val != max_val else max_val-1
         # dim = ((1/(val - max_val))*-10)-1   # if val 0..255  # -1 to make 1..10m to 0..9m
-        dim = val * (1000/max_val)
+        dim = (val * (1000/max_val)/100)
         # dim = val * 10           # if val 0.0 .. 1.0
         # _d = (int(260/dim), int(120/dim))  # 130x60@2m and 1m x 0.5m 
         _d = (int(130/dim), int(60/dim))  # only half the pixel ammount is needed.

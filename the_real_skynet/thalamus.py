@@ -181,6 +181,7 @@ class Thalamus:
         except Exception as e:
             print(traceback.print_exc())
 
+
     def init_bno(self):
         from Adafruit_BNO055 import BNO055
         print('initiate BNO')

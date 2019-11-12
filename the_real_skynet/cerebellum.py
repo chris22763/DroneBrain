@@ -215,7 +215,6 @@ class Cerebellum ():
         for p in free:
             cell_val = depth_np[p[0]][p[1]]
 
-
             # generiert korridor
             d, d_val = self.distance_in_pixel(cell_val)
             square = set()
@@ -225,7 +224,9 @@ class Cerebellum ():
 
             print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
+            start = time.time()
             intersec = square.intersection(obst)
+            print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
 
             if len(intersec) == 0:
                 potantial_target.add(p)

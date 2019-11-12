@@ -86,7 +86,7 @@ class TruncusCerebri:
 
         # Flugsteuerung
         if self._config['device']['moving'] == 'True':
-
+            print(sys.path)
             import cerebellum           # Flugsteuerung
 
             self.check_thalamus()
@@ -123,7 +123,7 @@ class TruncusCerebri:
         p_list.append(process)
         # process.start()
 
-paths_to_add = ['/usr/lib/python3/dist-packages', '/usr/lib/python3.6/dist-packages']
+paths_to_add = ['/usr/lib/python36.zip', '/usr/lib/python3.6', '/usr/lib/python3.6/lib-dynload', '/usr/local/lib/python3.6/dist-packages', '/usr/lib/python3/dist-packages', '/usr/lib/python3.6/dist-packages']
 [sys.path.append(path) for path in paths_to_add]
 
 hirnstamm = TruncusCerebri()

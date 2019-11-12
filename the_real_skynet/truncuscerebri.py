@@ -41,7 +41,8 @@ class TruncusCerebri:
                 self._config[key] = parser[key]
                 for sub_key in parser[key]:
                     self._config[key][sub_key] = parser[key][sub_key]
-        print(self._config)
+
+        # print(self._config)
 
 
     def queue_handler(queue, key=None, data=None):
@@ -78,15 +79,16 @@ class TruncusCerebri:
 
         print(self.schlafgemach.addons)
 
+
     def start(self):
         """ Hier werden alle notwenidigen Processe gestartet und der netzwerkklasse werden alle queues übergeben. """
-        
+
+        print('(-.-)')
         q_list = []
         p_list = []
 
         # Flugsteuerung
         if self._config['device']['moving'] == 'True':
-            print(sys.path)
             import cerebellum           # Flugsteuerung
 
             self.check_thalamus()
@@ -123,6 +125,7 @@ class TruncusCerebri:
         p_list.append(process)
         # process.start()
 
+print('-.-')
 hirnstamm = TruncusCerebri()
 hirnstamm.setup()
 hirnstamm.start()

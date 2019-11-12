@@ -227,15 +227,19 @@ class Cerebellum ():
             start = time.time()
             intersec = square.intersection(obst)
 
-            if len(intersec) == 0:
-                potantial_target.add(p)
-            elif len(intersec) <= 10:
-                for point_intersected in intersec:
-                    pass
             print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
 
+            if len(intersec) == 0:
+                pass
+                # potantial_target.add(p)
+            elif len(intersec) <= 10:
+                pass
+                # for point_intersected in intersec:
+                   # pass
+
         if not potantial_target:
-            self.rotate_ship(rotation*2)
+            print('next please')
+            # self.rotate_ship(rotation*2)
 
         else:
             # self.fly_through_gate(potantial_target[0])

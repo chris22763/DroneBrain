@@ -123,9 +123,6 @@ class TruncusCerebri:
         p_list.append(process)
         # process.start()
 
-paths_to_add = ['/usr/lib/python36.zip', '/usr/lib/python3.6', '/usr/lib/python3.6/lib-dynload', '/usr/local/lib/python3.6/dist-packages', '/usr/lib/python3/dist-packages', '/usr/lib/python3.6/dist-packages']
-[sys.path.append(path) for path in paths_to_add]
-
 hirnstamm = TruncusCerebri()
 hirnstamm.setup()
 hirnstamm.start()

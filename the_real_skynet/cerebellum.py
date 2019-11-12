@@ -213,6 +213,7 @@ class Cerebellum ():
         potantial_target = set()
 
         for p in free:
+            start = time.time()
             cell_val = depth_np[p[0]][p[1]]
 
             # generiert korridor
@@ -224,7 +225,6 @@ class Cerebellum ():
 
             print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
-            start = time.time()
             intersec = square.intersection(obst)
 
             print('{}, \t{}'.format(intersec.__len__(), time.time()-start))

@@ -3,13 +3,18 @@ from numpy import pi, cos, sin, sqrt, arctan2
 import numpy as np
 import cv2
 from numba import cuda
+import numba
 
-@cuda.jit('int16(int16[:], int16[:], int16[:], int16[:,:])', device=True)
+@cuda.jit('int16(int16[:], int16[:], int16[:], int16[:,:])', device=True, nopython=True)
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
 
-        dim = np.float32(depth_np[p[0]][p[1]]/1000)# 1000 = depth unit  ## dim = distance in meter
-        dip = (np.int16(130/dim), np.int16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+        cell_val = depth_np[p[0]][p[1]]
+
+        # generiert korridor
+
+        dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
+        dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
         shape = (dip*2)
         square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]
 
@@ -22,6 +27,7 @@ def check_corridor(free, obst, potantial_target, depth_np):
             pass
 
     return potantial_target
+
 
 class Cerebellum ():
     """ das Kleinhirn (Cerebellum) ist für den gleichgewichtssinn und die bewegung sowie deren koordination zuständig """

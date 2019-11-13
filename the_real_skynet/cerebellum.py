@@ -84,7 +84,7 @@ class Cerebellum ():
 
         RED = (0, 0, 255)
         GREEN = (0, 255, 0)
-        BLUE = np.array([255,0,0])
+        BLUE = (255,0,0)
 
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
         img_dot = np.zeros((img_rgb.shape[0],img_rgb.shape[1],3), np.uint8)
@@ -207,7 +207,7 @@ class Cerebellum ():
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
 
-        # print('{}, {}, {}'.format(depth_np.shape, depth_np.max(), self.distance_in_pixel(depth_np.max())))
+        print('{}, {}, {}'.format(depth_np.shape, depth_np.max(), self.distance_in_pixel(depth_np.max())))
         free, obst = self.check_flower(depth_np)
         potantial_target = set()
 

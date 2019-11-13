@@ -142,6 +142,7 @@ class Thalamus:
 
             print_config = False
             if print_config:
+                pass
                 # serialized_string = advnc_mode.serialize_json()
                 # print("Controls as JSON: \n", serialized_string)
 

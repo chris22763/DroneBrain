@@ -2,7 +2,7 @@ import time
 from numpy import pi, cos, sin, sqrt, arctan2
 import numpy as np
 import cv2
-from numba import jit
+from numba import cuda
 
 
 class Cerebellum ():
@@ -198,7 +198,7 @@ class Cerebellum ():
         pass
 
 
-    @jit(["int16(int16, int16, int16, int16)"], target='gpu')
+    @cuda.jit('int16(int16[:], int16[:], int16[:], int16[:])', device=True)
     def check_corridor(self, free, obst, potantial_target, depth_np):
         for p in free:
             cell_val = depth_np[p[0]][p[1]]

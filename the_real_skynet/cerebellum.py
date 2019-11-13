@@ -2,6 +2,7 @@ import time
 from numpy import pi, cos, sin, sqrt, arctan2
 import numpy as np
 import cv2
+from numba import jit
 
 
 class Cerebellum ():
@@ -160,15 +161,11 @@ class Cerebellum ():
 
 
     def distance_in_pixel(self, val):
-        max_val = 65536  # 65536 is max value
-        d_unit = 1000 # depth unit
-        val = val if val != max_val else max_val-1
-        # dim = ((1/(val - max_val))*-10)-1   # if val 0..255  # -1 to make 1..10m to 0..9m
-        dim = (val/d_unit)
-        # dim = val * 10           # if val 0.0 .. 1.0
-        # _d = (int(260/dim), int(120/dim))  # 130x60@2m and 1m x 0.5m 
-        _d = (int(130/dim), int(60/dim))  # only half the pixel ammount is needed. 130 => 1m
-        return _d, dim
+
+        dim = (val/1000)# 1000 = depth unit  ## dim = distance in meter
+        dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+
+        return dip, dim
 
 
     def calculate_vector(self, sensor_data, target):
@@ -201,6 +198,29 @@ class Cerebellum ():
         pass
 
 
+    @jit(["int16(int16, int16, int16, int16)"], target='gpu')
+    def check_corridor(self, free, obst, potantial_target, depth_np):
+        for p in free:
+            cell_val = depth_np[p[0]][p[1]]
+
+            # generiert korridor
+
+            dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
+            dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+            shape = (dip*2)
+            square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]
+
+            intersec = np.intersect1d(square, obst)
+            square.clear()
+
+            if len(intersec) == 0:
+                potantial_target.append(p)
+            elif len(intersec) <= 10:
+                pass
+
+        return potantial_target
+
+
     def avoid_obstacle(self, correction, rotation):
         """ calculate obstacle positions and return list of free paths"""
         start = time.time()
@@ -210,10 +230,14 @@ class Cerebellum ():
 
         print('{}, {}, {}'.format(depth_np.shape, depth_np.max(), self.distance_in_pixel(depth_np.max())))
         free, obst = self.check_flower(depth_np)
-        potantial_target = set()
+
+        potantial_target = np.zeros(free.__len__(), dtype=np.int16)
 
         print('#### time 215: {}'.format(time.time()-start))
+
         start = time.time()
+        potantial_target = self.check_corridor(free, obst, potantial_target, depth_np)
+        """
         square = set()
         for p in free:
             sub_time = time.time()
@@ -237,8 +261,9 @@ class Cerebellum ():
             elif len(intersec) <= 10:
                 for point_intersected in intersec:
                     pass
-                
+
             print('### sub time : {}'.format(time.time()-sub_time))
+        """
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()

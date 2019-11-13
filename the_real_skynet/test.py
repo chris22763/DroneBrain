@@ -32,7 +32,8 @@ def create_flower(xs, ys, num_pts=1000):
     return flower
 
 
-
+square = [(x, y) for x in range(130) for y in range(60)]
+print(square)
 cam = cv2.VideoCapture(0)
 ret, frame = cam.read()
 # print(frame.shape)

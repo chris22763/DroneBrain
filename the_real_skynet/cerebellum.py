@@ -1,11 +1,11 @@
 import time
-from numpy import pi, cos, sin, sqrt, arctan2
+from numpy import pi, cos, sin, sqrt, arctan2, arcsin
 import numpy as np
 import cv2
-from numba import cuda
+from numba import cuda, jit
 import numba
 
-@cuda.jit('int16(int16[:], int16[:], int16[:], int16[:,:])', device=True, nopython=True)
+@cuda.jit(device=True, nopython=True)
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
 
@@ -27,6 +27,20 @@ def check_corridor(free, obst, potantial_target, depth_np):
             pass
 
     return potantial_target
+
+
+@cuda.jit(device=True)
+def haversine_cuda(s_lat,s_lng,e_lat,e_lng):
+    # approximate radius of earth in km
+    R = 6373.0
+    s_lat = s_lat * pi / 180
+    s_lng = s_lng * pi / 180
+    e_lat = e_lat * pi / 180
+    e_lng = e_lng * pi / 180
+    d = sin((e_lat - s_lat)/2)**2 + \
+        cos(s_lat)*cos(e_lat) * \
+        sin((e_lng - s_lng)/2)**2
+    return 2 * R * arcsin(sqrt(d))
 
 
 class Cerebellum ():
@@ -197,6 +211,7 @@ class Cerebellum ():
         pos_tar = target
 
         distance = self.haversine(pos_now, pos_tar)
+        distance = haversine_cuda(pos_now[0], pos_now[1], pos_tar[0], pos_tar[1])
 
         dif_vec, rad, deg = self.calc_direction_in_rad(pos_now, pos_tar)
 

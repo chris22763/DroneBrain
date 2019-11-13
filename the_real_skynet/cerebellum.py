@@ -4,6 +4,27 @@ import numpy as np
 import cv2
 from numba import cuda
 
+@cuda.jit('int16(int16[:], int16[:], int16[:], int16[:,:])', device=True)
+def check_corridor(free, obst, potantial_target, depth_np):
+    for p in free:
+        cell_val = depth_np[p[0]][p[1]]
+
+        # generiert korridor
+
+        dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
+        dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+        shape = (dip*2)
+        square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]
+
+        intersec = np.intersect1d(square, obst)
+        square.clear()
+
+        if len(intersec) == 0:
+            potantial_target.append(p)
+        elif len(intersec) <= 10:
+            pass
+
+    return potantial_target
 
 class Cerebellum ():
     """ das Kleinhirn (Cerebellum) ist für den gleichgewichtssinn und die bewegung sowie deren koordination zuständig """
@@ -196,29 +217,6 @@ class Cerebellum ():
     def fly_through_gate(self, target):
         """ Mii fly towards target """
         pass
-
-
-    @cuda.jit('int16(int16[:], int16[:], int16[:], int16[:,:])', device=True)
-    def check_corridor(self, free, obst, potantial_target, depth_np):
-        for p in free:
-            cell_val = depth_np[p[0]][p[1]]
-
-            # generiert korridor
-
-            dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
-            dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
-            shape = (dip*2)
-            square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]
-
-            intersec = np.intersect1d(square, obst)
-            square.clear()
-
-            if len(intersec) == 0:
-                potantial_target.append(p)
-            elif len(intersec) <= 10:
-                pass
-
-        return potantial_target
 
 
     def avoid_obstacle(self, correction, rotation):

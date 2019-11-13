@@ -222,11 +222,11 @@ class Cerebellum ():
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
-             print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
+            # print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
             intersec = square.intersection(obst)
 
-            print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
+            # print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
 
             if len(intersec) == 0:
                 potantial_target.add(p)

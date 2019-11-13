@@ -5,7 +5,7 @@ import cv2
 from numba import cuda, jit
 import numba
 
-@cuda.jit(device=True, nopython=True)
+@cuda.jit(device=True)
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
 

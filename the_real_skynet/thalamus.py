@@ -143,7 +143,7 @@ class Thalamus:
             print_config = False
             if print_config:
                 serialized_string = advnc_mode.serialize_json()
-                print("Controls as JSON: \n", serialized_string)
+                # print("Controls as JSON: \n", serialized_string)
 
 
             if self.realsense_json_path:
@@ -156,7 +156,7 @@ class Thalamus:
                 json_string = str(as_json_object).replace("'", '\"')
                 advnc_mode.load_json(json_string)
                 serialized_string = advnc_mode.serialize_json()
-                print("Controls as JSON: \n", serialized_string)
+                # print("Controls as JSON: \n", serialized_string)
 
             max_x = 848
             max_y = 480

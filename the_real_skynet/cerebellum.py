@@ -253,7 +253,7 @@ class Cerebellum ():
 
         start = time.time()
         [print(type(data)) for data in (free, obst, potantial_target, depth_np)]
-        potantial_target = self.check_corridor(free, obst, potantial_target, depth_np)
+        potantial_target = check_corridor(free, obst, potantial_target, depth_np)
         """
         square = set()
         for p in free:

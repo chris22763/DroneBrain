@@ -198,7 +198,7 @@ class Cerebellum ():
         pass
 
 
-    @cuda.jit('int16(int16[:], int16[:], int16[:], int16[:])', device=True)
+    @cuda.jit('int16(int16[:], int16[:], int16[:], int16[:,:])', device=True)
     def check_corridor(self, free, obst, potantial_target, depth_np):
         for p in free:
             cell_val = depth_np[p[0]][p[1]]

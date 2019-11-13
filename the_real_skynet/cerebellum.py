@@ -234,6 +234,7 @@ class Cerebellum ():
         print('#### time 215: {}'.format(time.time()-start))
 
         start = time.time()
+        [print(type(data)) for data in (free, obst, potantial_target, depth_np)]
         potantial_target = self.check_corridor(free, obst, potantial_target, depth_np)
         """
         square = set()

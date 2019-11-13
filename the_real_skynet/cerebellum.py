@@ -231,12 +231,10 @@ class Cerebellum ():
             print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
 
             if len(intersec) == 0:
-                pass
-                # potantial_target.add(p)
+                potantial_target.add(p)
             elif len(intersec) <= 10:
-                pass
-                # for point_intersected in intersec:
-                   # pass
+                for point_intersected in intersec:
+                    pass
 
         if not potantial_target:
             print('next please')

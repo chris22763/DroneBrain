@@ -203,6 +203,7 @@ class Cerebellum ():
 
     def avoid_obstacle(self, correction, rotation):
         """ calculate obstacle positions and return list of free paths"""
+        start = time.time()
         self.risk_list = []
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
@@ -211,8 +212,9 @@ class Cerebellum ():
         free, obst = self.check_flower(depth_np)
         potantial_target = set()
 
+        print('#### time 215: {}'.format(time.time()-start))
+        start = time.time()
         for p in free:
-            start = time.time()
             cell_val = depth_np[p[0]][p[1]]
 
             # generiert korridor
@@ -233,6 +235,10 @@ class Cerebellum ():
             elif len(intersec) <= 10:
                 for point_intersected in intersec:
                     pass
+
+        print('#### time 239: {}'.format(time.time()-start))
+        start = time.time()
+
         print(potantial_target.__len__())
         print(self.headless)
         if not potantial_target:
@@ -255,6 +261,7 @@ class Cerebellum ():
                 # if risk_val >= self.max_risk:
                     # break
 
+        print('#### time 264: {}'.format(time.time()-start))
         return correction, rotation
 
 

@@ -8,8 +8,8 @@ from numba import cuda
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
 
-        dim = (depth_np[p[0]][p[1]]/1000)# 1000 = depth unit  ## dim = distance in meter
-        dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+        dim = np.float32(depth_np[p[0]][p[1]]/1000)# 1000 = depth unit  ## dim = distance in meter
+        dip = (np.int16(130/dim), np.int16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
         shape = (dip*2)
         square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]
 

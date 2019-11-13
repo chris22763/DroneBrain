@@ -7,11 +7,8 @@ from numba import cuda
 @cuda.jit('int16(int16[:], int16[:], int16[:], int16[:,:])', device=True)
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
-        cell_val = depth_np[p[0]][p[1]]
 
-        # generiert korridor
-
-        dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
+        dim = (depth_np[p[0]][p[1]]/1000)# 1000 = depth unit  ## dim = distance in meter
         dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
         shape = (dip*2)
         square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]

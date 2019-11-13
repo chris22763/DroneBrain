@@ -216,6 +216,7 @@ class Cerebellum ():
         start = time.time()
         square = set()
         for p in free:
+            sub_time = time.time()
             cell_val = depth_np[p[0]][p[1]]
 
             # generiert korridor
@@ -226,10 +227,9 @@ class Cerebellum ():
                     square.add((x, y))
 
             # print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
-            sub_time = time.time()
+
             intersec = square.intersection(obst)
             square.clear()
-            print('### sub time : {}'.format(time.time()-sub_time))
             # print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
 
             if len(intersec) == 0:
@@ -237,6 +237,8 @@ class Cerebellum ():
             elif len(intersec) <= 10:
                 for point_intersected in intersec:
                     pass
+                
+            print('### sub time : {}'.format(time.time()-sub_time))
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()

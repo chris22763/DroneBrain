@@ -214,20 +214,22 @@ class Cerebellum ():
 
         print('#### time 215: {}'.format(time.time()-start))
         start = time.time()
+        square = set()
         for p in free:
             cell_val = depth_np[p[0]][p[1]]
 
             # generiert korridor
             d, d_val = self.distance_in_pixel(cell_val)
-            square = set()
+
             for x in range(p[0] - d[0], p[0] + d[0]):
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
 
             # print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
-
+            sub_time = time.time()
             intersec = square.intersection(obst)
-
+            square.clear()
+            print('### sub time : {}'.format(time.time()-sub_time))
             # print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
 
             if len(intersec) == 0:

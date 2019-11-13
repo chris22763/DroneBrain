@@ -233,7 +233,8 @@ class Cerebellum ():
             elif len(intersec) <= 10:
                 for point_intersected in intersec:
                     pass
-
+        print(potantial_target.__len__())
+        print(self.headless)
         if not potantial_target:
             print('next please')
             # self.rotate_ship(rotation*2)

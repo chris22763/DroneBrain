@@ -211,7 +211,7 @@ class Cerebellum ():
         pos_tar = target
 
         distance = self.haversine(pos_now, pos_tar)
-        distance = haversine_cuda(pos_now[0], pos_now[1], pos_tar[0], pos_tar[1])
+        # distance = haversine_cuda(pos_now[0], pos_now[1], pos_tar[0], pos_tar[1])
 
         dif_vec, rad, deg = self.calc_direction_in_rad(pos_now, pos_tar)
 

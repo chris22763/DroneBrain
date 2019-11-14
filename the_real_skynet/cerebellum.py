@@ -10,6 +10,8 @@ import numba
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
         cell_val = 0
+        print(type(p))
+        print(type(depth_np))
         cell_val = depth_np[p[0]][p[1]]
 
         # generiert korridor

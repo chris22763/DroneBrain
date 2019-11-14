@@ -9,7 +9,7 @@ import numba
 @cuda.jit('void(int16[:], int16[:], int16[:], int16[:,:])')
 def kernel(free, obst, potantial_target, depth_np):
     potantial_target = check_corridor(free, obst, potantial_target, depth_np)
-
+    
 
 @cuda.jit(device=True,  inline=True)
 def check_corridor(free, obst, potantial_target, depth_np):
@@ -259,7 +259,8 @@ class Cerebellum ():
 
         start = time.time()
         [print(type(data)) for data in (free, obst, potantial_target, depth_np)]
-        potantial_target = kernel[32, 4](free, obst, potantial_target, depth_np)
+
+        kernel[32, 4](free, obst, potantial_target, depth_np)
         """
         square = set()
         for p in free:

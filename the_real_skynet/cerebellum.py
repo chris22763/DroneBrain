@@ -159,7 +159,7 @@ class Cerebellum ():
         cv2.waitKey(1)
 
 
-    def over_threshold(self, val, pos, threshold=32768):
+    def over_threshold(self, val, pos, threshold=1500):
 
         size = (1280, 720)
 
@@ -169,12 +169,12 @@ class Cerebellum ():
         xp = pos[0] - xm if (pos[0] - xm) != 0 else 0.001
         yp = pos[1] - ym if (pos[1] - ym) != 0 else 0.001
 
-        xo = 32768 * ((xp/xm)**2)
-        yo = 32768 * ((yp/ym)**2)
+        xo = threshold * ((xp/xm)**2)
+        yo = threshold * ((yp/ym)**2)
 
         threshold = threshold - (xo * yo)
 
-        if val < threshold:
+        if val > threshold:
             return True
         else:
             return False

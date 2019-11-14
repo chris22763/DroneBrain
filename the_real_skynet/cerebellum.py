@@ -177,9 +177,9 @@ class Cerebellum ():
 
 
     def check_flower(self, img):
-        obst = np.array()  # Obstacle
-        free = np.array()
-        start = time.time()
+        obst = np.array([])  # Obstacle
+        free = np.array([])
+        # start = time.time()
 
 
         for seed in self.flower:

@@ -22,7 +22,7 @@ def check_corridor(free, obst, potantial_target, depth_np):
         square.clear()
 
         if len(intersec) == 0:
-            potantial_target.append(p)
+            np.append(potantial_target, p)
         elif len(intersec) <= 10:
             pass
 
@@ -187,9 +187,9 @@ class Cerebellum ():
                 val = img[seed[0]][seed[1]]
                 fit = self.over_threshold(val, seed)
                 if val <= fit:
-                    obst.append(seed)
+                    np.append(obst, seed)
                 else:
-                    free.append(seed)
+                    np.append(free, seed)
                 # print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))

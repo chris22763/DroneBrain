@@ -19,7 +19,7 @@ def check_corridor(free, obst, potantial_target, depth_np):
         print(depth_np)
 
         print(cell_val)
-        cell_val = depth_np[p]
+        cell_val = depth_np[np.int16(p)]
 
         # generiert korridor
 
@@ -262,7 +262,7 @@ class Cerebellum ():
         print('#### time 215: {}'.format(time.time()-start))
 
         start = time.time()
-        [print('{} : {}'.format(type(data), data)) for data in (free, obst, potantial_target)]
+        [print('{} : {}'.format(type(data), data)) for data in free]
 
         d_free = cuda.to_device(free)
         d_obst = cuda.to_device(obst)

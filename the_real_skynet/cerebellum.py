@@ -14,8 +14,10 @@ def check_corridor(free, obst, potantial_target, depth_np):
     # ro = np.ascontiguousarray(obst)
     cell_val = 0
     for p in free:
-        print(p[0])
+        print(p)
+
         print(p[1])
+        
         print(cell_val)
         cell_val = depth_np[p[0], p[1]]
 

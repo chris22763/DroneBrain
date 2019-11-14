@@ -31,14 +31,13 @@ def check_corridor(p, cell_val, obst, potantial_target):
         for y in range(dip[1]*2):
             np.append(square,[[x, y]], axis=0)
     # square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
-
+    intersec = []
     intersec = np.intersect1d(square, obst)
-    square.clear()
 
     if len(intersec) == 0:
         np.append(potantial_target, p)
     elif len(intersec) <= 10:
-        pass
+        print('{}\t{}\t{}'.format(p, len(intersec), len(potantial_target)))
 
     return potantial_target
 

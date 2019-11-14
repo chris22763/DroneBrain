@@ -194,7 +194,8 @@ class Cerebellum ():
         free = obst = np.array([[]], np.int16)
         # start = time.time()
 
-
+        print(self.flower)
+        print(self.flower[0])
         for seed in self.flower:
             try:
                 val = img[seed[0]][seed[1]]

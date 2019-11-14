@@ -32,9 +32,9 @@ def check_corridor(p, cell_val, obst, potantial_target):
     # ro = np.ascontiguousarray(obst)
 
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
-    dip = (np.int16(130/dim), np.int16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+    dip = (np.uint16(130/dim), np.uint16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
     # shape = (dip*2)
-    square = []
+    square = np.uint64([])
     for x in range(dip[0]*2):
         for y in range(dip[1]*2):
             i = x * (dip[1]*2) + y
@@ -271,7 +271,7 @@ class Cerebellum ():
         print('{}, {}'.format(depth_np.shape, depth_np.max()))
         free, obst = self.check_flower(depth_np)
 
-        potantial_target = np.zeros(0, dtype=np.int16)
+        potantial_target = np.zeros(0, dtype=np.uint16)
 
         print('#### time 215: {}'.format(time.time()-start))
         start = time.time()

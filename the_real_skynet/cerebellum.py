@@ -19,7 +19,7 @@ def check_corridor(free, obst, potantial_target, depth_np):
         print(depth_np)
 
         print(cell_val)
-        cell_val = depth_np[p[0], p[1]]
+        cell_val = depth_np[p]
 
         # generiert korridor
 

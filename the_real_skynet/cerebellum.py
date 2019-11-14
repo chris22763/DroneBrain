@@ -6,10 +6,9 @@ from numba import cuda, jit
 import numba
 
 
-@cuda.jit
-def kernel(free, obst, potantial_target, depth_np, cc=True):
-    if cc:
-        potantial_target = check_corridor(free, obst, potantial_target, depth_np)
+@cuda.jit('int16[:](int16[:], int16[:], int16[:], int16[:,:])')
+def kernel(free, obst, potantial_target, depth_np):
+    potantial_target = check_corridor(free, obst, potantial_target, depth_np)
 
 
 @cuda.jit(device=True,  inline=True)

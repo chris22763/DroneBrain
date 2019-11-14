@@ -14,9 +14,8 @@ def check_corridor(free, obst, potantial_target, depth_np):
     # ro = np.ascontiguousarray(obst)
 
     for p in free:
-        print(p)
-        
-        cell_val = depth_np[p[0]][p[1]]
+
+        cell_val = depth_np[p[0], p[1]]
 
         # generiert korridor
 
@@ -264,8 +263,11 @@ class Cerebellum ():
         d_free = cuda.to_device(free)
         d_obst = cuda.to_device(obst)
         d_pt = cuda.to_device(potantial_target)
+
+        d_shape = depth_np.shape
+        np.ndarray.flatten(depth_np)
         d_depth_np = cuda.to_device(depth_np)
-        check_corridor[32, 4](d_free, d_obst, d_pt, d_depth_np)
+        check_corridor[32, 4](d_free, d_obst, d_pt, d_depth_np, d_shape)
 
         """
         square = set()

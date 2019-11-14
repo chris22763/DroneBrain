@@ -269,6 +269,7 @@ class Cerebellum ():
 
         d_shape = depth_np.shape
         np.ndarray.flatten(depth_np)
+        
         d_depth_np = cuda.to_device(depth_np)
 
         print(free.__len__())

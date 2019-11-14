@@ -5,37 +5,36 @@ import cv2
 from numba import cuda, jit
 import numba
 
+@cuda.jit
+def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
+    cell_val = 0
+    pos = cuda.grid(1)
+    _p = free[pos]
+    cell_val = depth_np[_p]
+
+    potantial_target = check_corridor(_p, cell_val, obst, potantial_target)
 
 
 @cuda.jit(device=True)
-def check_corridor(free, obst, potantial_target, depth_np):
+def check_corridor(p, cell_val, obst, potantial_target):
 
     # dnp = np.ascontiguousarray(depth_np)
     # rf = np.ascontiguousarray(free)
     # ro = np.ascontiguousarray(obst)
-    cell_val = 0
-    for p in free:
-        print(p)
 
-        print(depth_np)
+    dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
+    dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+    shape = (dip*2)
+    square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]
 
-        print(cell_val)
+    intersec = np.intersect1d(square, obst)
+    square.clear()
 
-        cell_val = depth_np[p]
-
-        dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
-        dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
-        shape = (dip*2)
-        square = [(x, y) for x in range(shape[0]) for y in range(shape[1])]
-
-        intersec = np.intersect1d(square, obst)
-        square.clear()
-
-        if len(intersec) == 0:
-            np.append(potantial_target, p)
-        elif len(intersec) <= 10:
-            pass
+    if len(intersec) == 0:
+        np.append(potantial_target, p)
+    elif len(intersec) <= 10:
+        pass
 
     return potantial_target
 

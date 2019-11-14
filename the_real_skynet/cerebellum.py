@@ -5,6 +5,13 @@ import cv2
 from numba import cuda, jit
 import numba
 
+
+@cuda.jit
+def kernel(free, obst, potantial_target, depth_np, cc=True):
+    if cc:
+        potantial_target = check_corridor(free, obst, potantial_target, depth_np)
+
+
 @cuda.jit(device=True,  inline=True)
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
@@ -253,7 +260,7 @@ class Cerebellum ():
 
         start = time.time()
         [print(type(data)) for data in (free, obst, potantial_target, depth_np)]
-        potantial_target = check_corridor(free, obst, potantial_target, depth_np)
+        potantial_target = kernel(free, obst, potantial_target, depth_np)
         """
         square = set()
         for p in free:

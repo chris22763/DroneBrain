@@ -6,7 +6,9 @@ from numba import cuda, jit
 import numba
 
 
-@cuda.jit()
+
+
+@cuda.jit(device=True)
 def check_corridor(free, obst, potantial_target, depth_np):
 
     # dnp = np.ascontiguousarray(depth_np)
@@ -19,9 +21,8 @@ def check_corridor(free, obst, potantial_target, depth_np):
         print(depth_np)
 
         print(cell_val)
-        cell_val = depth_np[np.int16(p)]
 
-        # generiert korridor
+        cell_val = depth_np[p]
 
         dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
         dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
@@ -257,12 +258,10 @@ class Cerebellum ():
         print('{}, {}, {}'.format(depth_np.shape, depth_np.max(), self.distance_in_pixel(depth_np.max())))
         free, obst = self.check_flower(depth_np)
 
-        potantial_target = np.zeros(free.__len__(), dtype=np.int16)
+        potantial_target = np.zeros(0, dtype=np.int16)
 
         print('#### time 215: {}'.format(time.time()-start))
-
         start = time.time()
-        [print('{} : {}'.format(type(data), data)) for data in free]
 
         d_free = cuda.to_device(free)
         d_obst = cuda.to_device(obst)
@@ -271,7 +270,9 @@ class Cerebellum ():
         d_shape = depth_np.shape
         np.ndarray.flatten(depth_np)
         d_depth_np = cuda.to_device(depth_np)
-        check_corridor[32, 4](free, obst, potantial_target, depth_np)
+
+        if free:
+            check_corridor[32, 4](free, obst, potantial_target, depth_np)
 
         """
         square = set()

@@ -271,7 +271,7 @@ class Cerebellum ():
         d_shape = depth_np.shape
         np.ndarray.flatten(depth_np)
         d_depth_np = cuda.to_device(depth_np)
-        check_corridor[32, 4](d_free, d_obst, d_pt, d_depth_np)
+        check_corridor[32, 4](free, obst, potantial_target, depth_np)
 
         """
         square = set()

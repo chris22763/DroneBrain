@@ -11,8 +11,11 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     cell_val = 0
     pos = cuda.grid(1)
     _p = free[pos]
+    _x = np.int16(np.floor(_p / depth_np.shape[1]))
+    _y = np.int16(_p - (_x * depth_np.shape[1]))
+
     if _p:
-        cell_val = depth_np[_p[0], _p[1]]
+        cell_val = depth_np[_x, _y]
 
         potantial_target = check_corridor(_p, cell_val, obst, potantial_target)
 
@@ -30,7 +33,8 @@ def check_corridor(p, cell_val, obst, potantial_target):
     square = []
     for x in range(dip[0]*2):
         for y in range(dip[1]*2):
-            np.append(square,[[x, y]], axis=0)
+            i = x * (dip[1]*2) + y
+            np.append(square, i)
     # square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
     intersec = []
     intersec = np.intersect1d(square, obst)
@@ -199,11 +203,12 @@ class Cerebellum ():
             try:
                 val = img[seed[0]][seed[1]]
                 fit = self.over_threshold(val, seed)
+                index = seed[0] * img.shape[1] + seed[1]
                 if val <= fit:
-                    # obst.append(seed)
-                    np.append(obst, [seed], axis=0)
+
+                    np.append(obst, index)
                 else:
-                    np.append(free, [seed], axis=0)
+                    np.append(free, index)
 
                 # print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:

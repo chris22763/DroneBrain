@@ -12,10 +12,6 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     cell_val = 0
     pos = cuda.grid(1)
     _p = free[pos]
-    print(_p)
-    print(depth_np)
-    print(depth_np.shape)
-    print(depth_np.shape[0])
     print(math.floor(_p / depth_np.shape[0]))
     _x = 0
     _y = 0
@@ -203,8 +199,8 @@ class Cerebellum ():
 
 
     def check_flower(self, img):
-        obst = np.zeros((1,2), np.int16)  # Obstacle
-        free = np.zeros((1,2), np.int16)
+        obst = []  # Obstacle
+        free = []
         # start = time.time()
 
         for seed in self.flower:
@@ -218,10 +214,11 @@ class Cerebellum ():
                 else:
                     np.append(free, index)
 
-                # print('{}, {}, {}'.format(seed, val, fit))
+                # print('{}, {}, {}'.format(index, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))
         # print(time.time()-start)
+        print(free)
         print(free)
         return free, obst
 

@@ -9,8 +9,8 @@ import numba
 @cuda.jit()
 def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
-        cell_val = numba.int(depth_np[p[0]][p[1]])
-        # cell_val =
+        cell_val = 0
+        cell_val = depth_np[p[0]][p[1]]
 
         # generiert korridor
 

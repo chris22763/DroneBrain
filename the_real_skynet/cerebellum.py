@@ -11,7 +11,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     cell_val = 0
     pos = cuda.grid(1)
     _p = free[pos]
-    if _p != [0, 0]:
+    if _p:
         cell_val = depth_np[_p[0], _p[1]]
 
         potantial_target = check_corridor(_p, cell_val, obst, potantial_target)

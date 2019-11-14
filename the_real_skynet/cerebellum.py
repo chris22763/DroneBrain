@@ -26,7 +26,11 @@ def check_corridor(p, cell_val, obst, potantial_target):
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
     dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
     # shape = (dip*2)
-    square = [(x, y) for x in range(dip[0]*2) for y in range(dip[1]*2)]
+    square = []
+    # for x in range(dip[0]*2):
+    #    for y in range(dip[1]*2):
+    #        square.append([x, y])
+    square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
 
     intersec = np.intersect1d(square, obst)
     square.clear()

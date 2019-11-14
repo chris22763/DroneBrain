@@ -33,20 +33,20 @@ def check_corridor(p, cell_val, obst, potantial_target):
 
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
     dip = (np.int(130/dim), np.int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
-    # shape = (dip*2)
+    shape = (dip[0]*2 * dip[1]*2)
     square = []
-    square = cuda.local.array(shape=1, dtype=np.int32)
+    square = cuda.local.array(shape=shape, dtype=np.int32)
     for x in range(dip[0]*2):
         for y in range(dip[1]*2):
             i = x * (dip[1]*2) + y
             if i in obst:
-                np.append(square, i)
+                square[x,y] = i
 
-    if len(square) == 0:
-        np.append(potantial_target, p)
-    elif len(square) <= 10:
+    # if len(square) == 0:
+    #     np.append(potantial_target, p)
+    # elif len(square) <= 10:
         # pass
-        print(len(square))
+    #     print(len(square))
         # print('{}\t{}\t{}'.format(p, len(intersec), len(potantial_target)))
 
     return potantial_target

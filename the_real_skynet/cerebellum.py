@@ -40,9 +40,9 @@ def check_corridor(p, cell_val, obst, potantial_target):
         for y in range(dip[1]*2):
             i = x * (dip[1]*2) + y
             if i in obst:
-                for _i, pt in enumerate(potantial_target):
+                for pt in potantial_target:
                     if not pt:
-                        potantial_target[_i] = i
+                        potantial_target[potantial_target.__index__(pt)] = i
                         break
 
     # if len(square) == 0:

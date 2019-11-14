@@ -11,7 +11,12 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     cell_val = 0
     pos = cuda.grid(1)
     _p = free[pos]
-    _x = int(np.floor(_p / depth_np.shape[1]))
+    print(_p)
+    print(depth_np)
+    print(depth_np.shape)
+    print(depth_np.shape[0])
+    
+    _x = int(np.floor(_p / depth_np.shape[0]))
     _y = int(_p - (_x * depth_np.shape[1]))
 
     if _p:

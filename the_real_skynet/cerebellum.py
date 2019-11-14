@@ -188,8 +188,8 @@ class Cerebellum ():
 
 
     def check_flower(self, img):
-        obst = np.array([])  # Obstacle
-        free = np.array([])
+        obst = []  # Obstacle
+        free = []
         # start = time.time()
 
 
@@ -198,9 +198,9 @@ class Cerebellum ():
                 val = img[seed[0]][seed[1]]
                 fit = self.over_threshold(val, seed)
                 if val <= fit:
-                    np.append(obst, seed)
+                    obst.append(seed)
                 else:
-                    np.append(free, seed)
+                    free.append(seed)
                 # print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))
@@ -271,8 +271,8 @@ class Cerebellum ():
         np.ndarray.flatten(depth_np)
         d_depth_np = cuda.to_device(depth_np)
 
-        if free:
-            check_corridor[32, 4](free, obst, potantial_target, depth_np)
+        print(free.__len__())
+        check_corridor[32, 4](free, obst, potantial_target, depth_np)
 
         """
         square = set()

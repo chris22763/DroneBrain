@@ -12,9 +12,11 @@ def check_corridor(free, obst, potantial_target, depth_np):
     # dnp = np.ascontiguousarray(depth_np)
     # rf = np.ascontiguousarray(free)
     # ro = np.ascontiguousarray(obst)
-
+    cell_val = 0
     for p in free:
-
+        print(p[0])
+        print(p[1])
+        print(cell_val)
         cell_val = depth_np[p[0], p[1]]
 
         # generiert korridor

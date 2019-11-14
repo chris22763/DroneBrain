@@ -272,7 +272,7 @@ class Cerebellum ():
         d_depth_np = cuda.to_device(depth_np)
 
         print(free.__len__())
-        check_corridor(free, obst, potantial_target, depth_np)
+        check_corridor_kernel(free, obst, potantial_target, depth_np)
 
         """
         square = set()

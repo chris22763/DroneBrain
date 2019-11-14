@@ -32,18 +32,7 @@ def check_corridor(p, cell_val, obst, potantial_target):
             np.append(square,[[x, y]], axis=0)
     # square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
     intersec = []
-
-    _, ncols = x.shape
-
-    dtype = {
-        "names": [f"f{i}" for i in range(ncols)],
-        "formats": ncols * [x.dtype],
-    }
-
-    intersec = np.intersect1d(x.view(dtype), y.view(dtype))
-    intersec = intersec.view(x.dtype).reshape(-1, ncols)
-
-    #intersec = np.intersect1d(square, obst)
+    intersec = np.intersect1d(square, obst)
 
     if len(intersec) == 0:
         np.append(potantial_target, p)
@@ -201,8 +190,8 @@ class Cerebellum ():
 
 
     def check_flower(self, img):
-        obst = []  # Obstacle
-        free = []
+        obst = np.array([], np.int16)  # Obstacle
+        free = obst = np.array([], np.int16)
         # start = time.time()
 
 
@@ -212,8 +201,9 @@ class Cerebellum ():
                 fit = self.over_threshold(val, seed)
                 if val <= fit:
                     obst.append(seed)
+                    np.append(obst, [seed], axis=0)
                 else:
-                    free.append(seed)
+                    np.append(free, [seed], axis=0)
                 # print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))

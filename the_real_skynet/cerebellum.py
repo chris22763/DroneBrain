@@ -190,8 +190,8 @@ class Cerebellum ():
 
 
     def check_flower(self, img):
-        obst = np.array([[],], np.int16)  # Obstacle
-        free = np.array([[],], np.int16)
+        obst = np.zeros((1,2), np.int16)  # Obstacle
+        free = np.zeros(1,2), np.int16)
         # start = time.time()
 
         print(self.flower)

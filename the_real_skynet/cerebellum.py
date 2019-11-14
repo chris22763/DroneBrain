@@ -259,7 +259,7 @@ class Cerebellum ():
 
         start = time.time()
         [print(type(data)) for data in (free, obst, potantial_target, depth_np)]
-        potantial_target = kernel(free, obst, potantial_target, depth_np)
+        potantial_target = kernel[32, 4](free, obst, potantial_target, depth_np)
         """
         square = set()
         for p in free:

@@ -29,7 +29,7 @@ def check_corridor(p, cell_val, obst, potantial_target):
     square = []
     for x in range(dip[0]*2):
         for y in range(dip[1]*2):
-            square.append([x, y])
+            np.append(square,[[x, y]], axis=0)
     # square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
 
     intersec = np.intersect1d(square, obst)

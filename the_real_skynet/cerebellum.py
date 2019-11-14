@@ -11,9 +11,10 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     cell_val = 0
     pos = cuda.grid(1)
     _p = free[pos]
-    cell_val = depth_np[_p[0], _p[1]]
+    if _p != [0, 0]:
+        cell_val = depth_np[_p[0], _p[1]]
 
-    potantial_target = check_corridor(_p, cell_val, obst, potantial_target)
+        potantial_target = check_corridor(_p, cell_val, obst, potantial_target)
 
 
 @cuda.jit(device=True)
@@ -194,9 +195,6 @@ class Cerebellum ():
         free = np.zeros((1,2), np.int16)
         # start = time.time()
 
-        print(self.flower)
-        print(self.flower[0])
-        print(free)
         for seed in self.flower:
             try:
                 val = img[seed[0]][seed[1]]

@@ -209,10 +209,9 @@ class Cerebellum ():
                 fit = self.over_threshold(val, seed)
                 index = seed[0] * img.shape[1] + seed[1]
                 if val <= fit:
-
-                    np.append(obst, index)
+                    obst.append(index)
                 else:
-                    np.append(free, index)
+                    free.append(index)
 
                 # print('{}, {}, {}'.format(index, val, fit))
             except Exception as e:

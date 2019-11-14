@@ -201,9 +201,9 @@ class Cerebellum ():
                 fit = self.over_threshold(val, seed)
                 if val <= fit:
                     # obst.append(seed)
-                    np.append(obst, [seed], axis=0)
+                    np.append(obst, [seed])
                 else:
-                    np.append(free, [seed], axis=0)
+                    np.append(free, [seed])
                 # print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))

@@ -43,7 +43,7 @@ def check_corridor(p, cell_val, obst, potantial_target):
     intersec = []
     for pixel in square:
         if pixel in obst:
-            np.append(intersec, pixel)
+            intersec.append(pixel)
     # intersec = np.intersect1d(square, obst)
 
     if len(intersec) == 0:

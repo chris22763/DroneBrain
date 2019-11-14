@@ -177,8 +177,8 @@ class Cerebellum ():
 
 
     def check_flower(self, img):
-        obst = set()  # Obstacle
-        free = set()
+        obst = np.array()  # Obstacle
+        free = np.array()
         start = time.time()
 
 
@@ -187,9 +187,9 @@ class Cerebellum ():
                 val = img[seed[0]][seed[1]]
                 fit = self.over_threshold(val, seed)
                 if val <= fit:
-                    obst.add(seed)
+                    obst.append(seed)
                 else:
-                    free.add(seed)
+                    free.append(seed)
                 # print('{}, {}, {}'.format(seed, val, fit))
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))

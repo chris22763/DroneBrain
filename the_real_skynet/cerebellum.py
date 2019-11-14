@@ -41,7 +41,10 @@ def check_corridor(p, cell_val, obst, potantial_target):
             np.append(square, i)
     # square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
     intersec = []
-    intersec = np.intersect1d(square, obst)
+    for pixel in square:
+        if pixel in obst:
+            np.append(intersec, pixel)
+    # intersec = np.intersect1d(square, obst)
 
     if len(intersec) == 0:
         np.append(potantial_target, p)
@@ -217,8 +220,8 @@ class Cerebellum ():
             except Exception as e:
                 print('{}, {}, {}'.format(seed, fit, e))
         # print(time.time()-start)
-        print(free)
-        print(free)
+        # print(free)
+        # print(free)
         return free, obst
 
 

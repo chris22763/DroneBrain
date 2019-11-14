@@ -191,11 +191,12 @@ class Cerebellum ():
 
     def check_flower(self, img):
         obst = np.array([[]], np.int16)  # Obstacle
-        free = obst = np.array([[]], np.int16)
+        free = np.array([[]], np.int16)
         # start = time.time()
 
         print(self.flower)
         print(self.flower[0])
+        print(free)
         for seed in self.flower:
             try:
                 val = img[seed[0]][seed[1]]

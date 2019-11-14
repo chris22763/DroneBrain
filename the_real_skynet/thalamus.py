@@ -242,6 +242,7 @@ class Thalamus:
         session = gps.gps("localhost", "2947")
         session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
         self.get_gps(session)
+        print(session)
         return session
 
 

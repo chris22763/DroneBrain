@@ -200,7 +200,7 @@ class Cerebellum ():
                 val = img[seed[0]][seed[1]]
                 fit = self.over_threshold(val, seed)
                 if val <= fit:
-                    obst.append(seed)
+                    # obst.append(seed)
                     np.append(obst, [seed], axis=0)
                 else:
                     np.append(free, [seed], axis=0)

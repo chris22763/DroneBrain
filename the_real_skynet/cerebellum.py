@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from numba import cuda, jit
 import numba
+import math
 
 @cuda.jit
 def check_corridor_kernel(free, obst, potantial_target, depth_np):
@@ -15,7 +16,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     print(depth_np)
     print(depth_np.shape)
     print(depth_np.shape[0])
-    print(np.floor(_p / depth_np.shape[0]))
+    print(math.floor(_p / depth_np.shape[0]))
     _x = 0
     _y = 0
     _x = int(np.floor(_p / depth_np.shape[0]))

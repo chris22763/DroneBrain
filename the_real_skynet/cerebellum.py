@@ -38,18 +38,14 @@ def check_corridor(p, cell_val, obst, potantial_target):
     for x in range(dip[0]*2):
         for y in range(dip[1]*2):
             i = x * (dip[1]*2) + y
-            np.append(square, i)
-    # square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
-    intersec = []
-    for pixel in square:
-        if pixel in obst:
-            intersec.append(pixel)
-    # intersec = np.intersect1d(square, obst)
+            if i in obst:
+                np.append(square, i)
 
-    if len(intersec) == 0:
+    if len(square) == 0:
         np.append(potantial_target, p)
-    elif len(intersec) <= 10:
-        pass
+    elif len(square) <= 10:
+        # pass
+        print(len(square))
         # print('{}\t{}\t{}'.format(p, len(intersec), len(potantial_target)))
 
     return potantial_target

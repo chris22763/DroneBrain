@@ -8,11 +8,11 @@ import numba
 
 @cuda.jit()
 def check_corridor(free, obst, potantial_target, depth_np):
-    for p in free:
-        cell_val = 0
-        print(type(p))
+    print(type(depth_np))
 
-        print(type(depth_np))
+    for p in free:
+
+        print(type(p))
 
         cell_val = depth_np[p[0]][p[1]]
 

@@ -16,8 +16,8 @@ def check_corridor(free, obst, potantial_target, depth_np):
     for p in free:
         print(p)
 
-        print(p[1])
-        
+        print(depth_np)
+
         print(cell_val)
         cell_val = depth_np[p[0], p[1]]
 

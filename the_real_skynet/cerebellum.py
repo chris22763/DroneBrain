@@ -49,7 +49,8 @@ def check_corridor(p, cell_val, obst, potantial_target):
     if len(intersec) == 0:
         np.append(potantial_target, p)
     elif len(intersec) <= 10:
-        print('{}\t{}\t{}'.format(p, len(intersec), len(potantial_target)))
+        pass
+        # print('{}\t{}\t{}'.format(p, len(intersec), len(potantial_target)))
 
     return potantial_target
 

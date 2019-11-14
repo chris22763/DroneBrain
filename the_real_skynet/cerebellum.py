@@ -8,8 +8,8 @@ import numba
 
 @cuda.jit('void(int16[:], int16[:], int16[:], int16[:,:])')
 def kernel(free, obst, potantial_target, depth_np):
-    potantial_target = check_corridor(free, obst, potantial_target, depth_np)
-    
+    check_corridor(free, obst, potantial_target, depth_np)
+
 
 @cuda.jit(device=True,  inline=True)
 def check_corridor(free, obst, potantial_target, depth_np):

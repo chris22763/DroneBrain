@@ -32,7 +32,18 @@ def check_corridor(p, cell_val, obst, potantial_target):
             np.append(square,[[x, y]], axis=0)
     # square = [[x, y] for x in range(dip[0]*2) for y in range(dip[1]*2)]
     intersec = []
-    intersec = np.intersect1d(square, obst)
+
+    _, ncols = x.shape
+
+    dtype = {
+        "names": [f"f{i}" for i in range(ncols)],
+        "formats": ncols * [x.dtype],
+    }
+
+    intersec = np.intersect1d(x.view(dtype), y.view(dtype))
+    intersec = intersec.view(x.dtype).reshape(-1, ncols)
+
+    #intersec = np.intersect1d(square, obst)
 
     if len(intersec) == 0:
         np.append(potantial_target, p)

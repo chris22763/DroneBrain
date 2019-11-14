@@ -9,15 +9,12 @@ import numba
 @cuda.jit()
 def check_corridor(free, obst, potantial_target, depth_np):
 
+    dnp = np.ascontiguousarray(depth_np)
+    # rf = np.ascontiguousarray(free)
+    # ro = np.ascontiguousarray(obst)
     for p in free:
 
-        print(type(free))
-        print(type(obst))
-        print(type(p))
-        print(type(potantial_target))
-        print(type(depth_np))
-
-        cell_val = depth_np[p[0]][p[1]]
+        cell_val = dnp[p[0]][p[1]]
 
         # generiert korridor
 

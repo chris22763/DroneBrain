@@ -44,13 +44,13 @@ def check_corridor(p, cell_val, obst, potantial_target):
                 for pt in potantial_target:
                     while True:
 
-                        if counter >= potantial_target.__len__():
+                        if counter >= len(potantial_target):
                             break
 
                         elif not potantial_target[counter]:
                             potantial_target[counter] = i
                             break
-                            
+
                         else:
                             counter += 1
 

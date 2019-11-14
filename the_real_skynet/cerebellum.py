@@ -262,7 +262,7 @@ class Cerebellum ():
         print('#### time 215: {}'.format(time.time()-start))
 
         start = time.time()
-        # [print(type(data)) for data in (free, obst, potantial_target, depth_np)]
+        [print('{} : {}'.format(type(data), data)) for data in (free, obst, potantial_target)]
 
         d_free = cuda.to_device(free)
         d_obst = cuda.to_device(obst)

@@ -13,7 +13,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     cell_val = 0
     pos = cuda.grid(1)
     _p = free[pos]
-    print(math.floor(_p / depth_np.shape[0]))
+    # print(math.floor(_p / depth_np.shape[0]))
     _x = 0
     _y = 0
     _x = int(math.floor(_p / depth_np.shape[0]))

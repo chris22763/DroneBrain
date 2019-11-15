@@ -282,7 +282,6 @@ class Cerebellum ():
         free, obst = self.check_flower(depth_np)
 
         potantial_target = np.zeros(free.__len__(), dtype=np.uint16)
-        print(potantial_target[-20:-1])
 
         print('#### time 215: {}'.format(time.time()-start))
         start = time.time()
@@ -335,8 +334,7 @@ class Cerebellum ():
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
-        print(potantial_target[-20:-1])
-        print('### pot len: {}'.format(len(potantial_target)))
+        print('### pot len: {}'.format(np.count_nonzero(potantial_target)))
         # if np.count_nonzero(potantial_target):
             # for i in reversed(range(len(potantial_target))):
             #    if potantial_target[i]:

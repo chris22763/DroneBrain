@@ -13,7 +13,6 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     cell_val = 0
     pos = cuda.grid(1)
     _p = free[pos]
-    # print(math.floor(_p / depth_np.shape[0]))
     y_max = depth_np.shape[0]
     _x = 0
     _y = 0
@@ -22,7 +21,6 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
     if _p:
         cell_val = depth_np[_x, _y]
-
         potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max)
 
 
@@ -30,15 +28,8 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 @cuda.jit(device=True)
 def check_corridor(p, cell_val, obst, potantial_target, y_max):
 
-    # dnp = np.ascontiguousarray(depth_np)
-    # rf = np.ascontiguousarray(free)
-    # ro = np.ascontiguousarray(obst)
-
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
     dip = (np.int(130/dim), np.int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
-    # shape = (dip[0]*2 * dip[1]*2)
-    # square = []
-    # square = cuda.local.array(shape=shape, dtype=np.int32)
     obst_counter = 0
 
     for x in range(dip[0] - p[0], dip[0] + p[0]):
@@ -48,19 +39,11 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max):
                 if i == o:
                     obst_counter += 1
 
-
             for pt in range(len(potantial_target)):
                 if potantial_target[pt] == 0:
                     if obst_counter < 100:
                         potantial_target[pt] = i
                         break
-
-    # if len(square) == 0:
-    #     np.append(potantial_target, p)
-    # elif len(square) <= 10:
-        # pass
-    #     print(len(square))
-        # print('{}\t{}\t{}'.format(p, len(intersec), len(potantial_target)))
 
     return potantial_target
 
@@ -305,7 +288,7 @@ class Cerebellum ():
         threadsperblock = 32
         blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 
-        check_corridor_kernel[16, 16](d_free, d_obst, d_pt, d_depth_np)
+        check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
         potantial_target = d_pt.copy_to_host(stream=stream)
         """

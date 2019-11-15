@@ -47,12 +47,13 @@ def check_corridor(p, cell_val, obst, potantial_target):
                 if i == o:
                     obst_counter += 1
 
-            for pt in range(len(potantial_target)):
-                if obst_counter <= 10 and potantial_target[pt] == 0:
-                    potantial_target[pt] = i
-                    break
 
-    print(obst_counter)
+            for pt in range(len(potantial_target)):
+                if potantial_target[pt] == 0:
+                    if obst_counter < 100:
+                        potantial_target[pt] = i
+                        break
+
     # if len(square) == 0:
     #     np.append(potantial_target, p)
     # elif len(square) <= 10:

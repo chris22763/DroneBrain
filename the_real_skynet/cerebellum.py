@@ -334,23 +334,23 @@ class Cerebellum ():
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
+        print(potantial_target[-20:-1])
+        print('### pot len: {}'.format(len(potantial_target)))
+        # if np.count_nonzero(potantial_target):
+            # for i in reversed(range(len(potantial_target))):
+            #    if potantial_target[i]:
+            #        pass
+            #    else:
+            #        potantial_target[i].pop()
 
-        if np.count_nonzero(potantial_target):
-            for i in reversed(range(len(potantial_target))):
-                if potantial_target[i]:
-                    pass
-                else:
-                    potantial_target[i].pop()
-
-            print('### pot len: {}'.format(len(potantial_target)))
             # self.rotate_ship(rotation*2)
 
-        else:
+        # else:
             # self.fly_through_gate(potantial_target[0])
-            print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+            # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 
-            if self.headless:
-                self.view_points(depth_np, free, obst, potantial_target, self.flower)
+            # if self.headless:
+                # self.view_points(depth_np, free, obst, potantial_target, self.flower)
         # for cord, i in enumerate(self.spiral):
             #
             # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)

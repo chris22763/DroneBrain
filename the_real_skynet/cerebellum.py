@@ -330,7 +330,7 @@ class Cerebellum ():
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
 
-        print(potantial_target.__len__())
+        print(np.count_nonzero(potantial_target))
         if np.count_nonzero(potantial_target):
             print('next please')
             # self.rotate_ship(rotation*2)

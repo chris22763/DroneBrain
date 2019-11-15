@@ -22,7 +22,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     if _p:
         cell_val = depth_np[_x, _y]
 
-        potantial_target = check_corridor(_p, cell_val, obst, potantial_target)
+        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target)
 
 
 
@@ -40,8 +40,8 @@ def check_corridor(p, cell_val, obst, potantial_target):
     # square = cuda.local.array(shape=shape, dtype=np.int32)
     obst_counter = 0
 
-    for x in range(dip[0]*2):
-        for y in range(dip[1]*2):
+    for x in range(dip[0] - p[0], dip[0] + p[0]):
+        for y in range(dip[1] - p[1], dip[1] + p[1]):
             i = x * (dip[1]*2) + y
             for o in obst:
                 if i == o:

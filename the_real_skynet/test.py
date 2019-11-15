@@ -32,8 +32,16 @@ def create_flower(xs, ys, num_pts=1000):
     return flower
 
 
-square = [(x, y) for x in range(130) for y in range(60)]
-print(square)
+a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+for n in a:
+    _i = a.index(n)
+    print(n)
+    print(_i)
+    print('###')
+    # a[_i] = a[_i] * 2
+
+print(a)
+
 cam = cv2.VideoCapture(0)
 ret, frame = cam.read()
 # print(frame.shape)

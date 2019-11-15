@@ -35,24 +35,18 @@ def check_corridor(p, cell_val, obst, potantial_target):
     dip = (np.int(130/dim), np.int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
     # shape = (dip[0]*2 * dip[1]*2)
     # square = []
-    counter = 0
     # square = cuda.local.array(shape=shape, dtype=np.int32)
+    obst_counter = 0
+
     for x in range(dip[0]*2):
         for y in range(dip[1]*2):
             i = x * (dip[1]*2) + y
             if i in obst:
-                for pt in potantial_target:
-                    while True:
+                obst_counter += 1
 
-                        if counter >= len(potantial_target):
-                            break
-
-                        elif not potantial_target[counter]:
-                            potantial_target[counter] = i
-                            break
-
-                        else:
-                            counter += 1
+            for pt in range(potantial_target.shape):
+                if obst_counter <= 10 and potantial_target[pt] == 0:
+                    potantial_target[pt] = i
 
     # if len(square) == 0:
     #     np.append(potantial_target, p)
@@ -293,13 +287,13 @@ class Cerebellum ():
         d_obst = cuda.to_device(obst)
         d_pt = cuda.to_device(potantial_target)
 
-        d_shape = depth_np.shape
-        np.ndarray.flatten(depth_np)
+        # d_shape = depth_np.shape
+        # np.ndarray.flatten(depth_np)
 
         d_depth_np = cuda.to_device(depth_np)
 
         print(free.__len__())
-        check_corridor_kernel(free, obst, potantial_target, depth_np)
+        check_corridor_kernel(d_free, d_obst, d_pt, d_depth_np)
 
         """
         square = set()

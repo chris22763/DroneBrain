@@ -41,8 +41,9 @@ def check_corridor(p, cell_val, obst, potantial_target):
     for x in range(dip[0]*2):
         for y in range(dip[1]*2):
             i = x * (dip[1]*2) + y
-            if i in obst:
-                obst_counter += 1
+            for o in obst:
+                if i == o:
+                    obst_counter += 1
 
             for pt in range(potantial_target.shape):
                 if obst_counter <= 10 and potantial_target[pt] == 0:

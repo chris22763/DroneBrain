@@ -284,6 +284,8 @@ class Cerebellum ():
         print('#### time 215: {}'.format(time.time()-start))
         start = time.time()
 
+        stream = cuda.stream()
+
         d_free = cuda.to_device(free)
         d_obst = cuda.to_device(obst)
         d_pt = cuda.to_device(potantial_target)
@@ -296,6 +298,7 @@ class Cerebellum ():
         print(free.__len__())
         check_corridor_kernel(d_free, d_obst, d_pt, d_depth_np)
 
+        potantial_target = d_pt.copy_to_host(stream=stream)
         """
         square = set()
         for p in free:
@@ -328,8 +331,7 @@ class Cerebellum ():
         start = time.time()
 
         print(potantial_target.__len__())
-        print(self.headless)
-        if not potantial_target:
+        if np.count_nonzero(potantial_target):
             print('next please')
             # self.rotate_ship(rotation*2)
 

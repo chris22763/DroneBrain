@@ -48,6 +48,11 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max):
 
     return potantial_target
 
+@cuda.jit
+def haversine_kernel(start, end, distance):
+
+    distance = haversine_cuda(start[0], start[1], end[0], end[1])
+
 
 @cuda.jit(device=True)
 def haversine_cuda(s_lat,s_lng,e_lat,e_lng):

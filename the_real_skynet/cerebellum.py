@@ -49,7 +49,8 @@ class Cerebellum ():
 
     @staticmethod
     def haversine(pos1, pos2):
-        """Calculate the distance in meter between two coordinates on earth, based on the haversine algorithm."""
+        """Calculate the distance in meter between two coordinates on earth, based on the haversine algorithm.
+        in nucleusfastigii is a cuda version"""
 
         # print('{}, {}'.format(pos1, pos2))
         lat1 = float(pos1[0])  # lath
@@ -176,7 +177,8 @@ class Cerebellum ():
         pos_tar = target
 
         distance = self.haversine(pos_now, pos_tar)
-        # distance = nucleusfastigii.haversine_cuda(pos_now[0], pos_now[1], pos_tar[0], pos_tar[1])
+        # distance = 0
+        # nucleusfastigii.haversine_cuda(pos_now, pos_tar, distance)
 
         dif_vec, rad, deg = self.calc_direction_in_rad(pos_now, pos_tar)
 

@@ -83,7 +83,6 @@ class TruncusCerebri:
     def start(self):
         """ Hier werden alle notwenidigen Processe gestartet und der netzwerkklasse werden alle queues übergeben. """
 
-        print('(-.-)')
         q_list = []
         p_list = []
 
@@ -125,7 +124,7 @@ class TruncusCerebri:
         p_list.append(process)
         # process.start()
 
-print('-.-')
+
 hirnstamm = TruncusCerebri()
 hirnstamm.setup()
 hirnstamm.start()

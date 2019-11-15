@@ -300,7 +300,7 @@ class Cerebellum ():
         threadsperblock = 32
         blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 
-        check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
+        check_corridor_kernel[32, 32](d_free, d_obst, d_pt, d_depth_np)
 
         potantial_target = d_pt.copy_to_host(stream=stream)
         """

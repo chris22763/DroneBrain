@@ -298,7 +298,7 @@ class Cerebellum ():
 
         print(free.__len__())
         threadsperblock = 32
-        blockspergrid = (free.size + (threadsperblock - 1)) // threadsperblock
+        blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 
         check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 

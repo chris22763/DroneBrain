@@ -24,7 +24,6 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
         potantial_target = check_corridor(_p, cell_val, obst, potantial_target)
 
-    print(len(potantial_target))
 
 
 @cuda.jit(device=True)
@@ -336,9 +335,14 @@ class Cerebellum ():
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
 
-        print(np.count_nonzero(potantial_target))
         if np.count_nonzero(potantial_target):
-            print('next please')
+            for i in reversed(range(len(potantial_target))):
+                if potantial_target[i]:
+                    pass
+                else:
+                    potantial_target[i].pop()
+
+            print('### pot len: {}'.format(len(potantial_target)))
             # self.rotate_ship(rotation*2)
 
         else:

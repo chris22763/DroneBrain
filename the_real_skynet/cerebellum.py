@@ -20,7 +20,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     _y = int(_p - (_x * y_max))
 
     if _p:
-        cell_val = depth_np[_x, _y]
+        cell_val = depth_np[_y, _x]
         potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max)
 
 
@@ -202,7 +202,7 @@ class Cerebellum ():
 
         for seed in self.flower:
             try:
-                val = img[seed[0]][seed[1]]
+                val = img[seed[1]][seed[0]]
                 fit = self.over_threshold(val, seed)
                 index = seed[0] * img.shape[0] + seed[1]
                 if val <= fit:
@@ -369,7 +369,7 @@ class Cerebellum ():
 
         self.schlafgemach = schlafgemach
         res = self.schlafgemach.resolution
-        self.flower = self.schlafgemach.create_flower(res[0], res[1])
+        self.flower = self.schlafgemach.create_flower(res[1], res[0])
         self.queue = queue
 
         self.fly_to_target()

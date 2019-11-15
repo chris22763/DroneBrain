@@ -45,7 +45,7 @@ def check_corridor(p, cell_val, obst, potantial_target):
                 if i == o:
                     obst_counter += 1
 
-            for pt in range(potantial_target.shape):
+            for pt in range(potantial_target.shape[0]):
                 if obst_counter <= 10 and potantial_target[pt] == 0:
                     potantial_target[pt] = i
 

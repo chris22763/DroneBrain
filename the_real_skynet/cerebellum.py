@@ -282,6 +282,7 @@ class Cerebellum ():
         free, obst = self.check_flower(depth_np)
 
         potantial_target = np.zeros(free.__len__(), dtype=np.uint16)
+        print(potantial_target[-20:-1])
 
         print('#### time 215: {}'.format(time.time()-start))
         start = time.time()

@@ -281,15 +281,6 @@ class Cerebellum ():
 
             # if self.headless:
                 # self.view_points(depth_np, free, obst, potantial_target, self.flower)
-        # for cord, i in enumerate(self.spiral):
-            #
-            # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)
-            # risk_val = self.calc_risk(cell_val,i ,_spiral_len)
-            # risk_val = int((100/_spiral_len) * (_spiral_len - i))
-            # if risk_val >= self.min_risk:
-                # self.risk_list.append((cell_val, risk_val, i, cord))
-                # if risk_val >= self.max_risk:
-                    # break
 
         print('#### time 264: {}'.format(time.time()-start))
         return correction, rotation

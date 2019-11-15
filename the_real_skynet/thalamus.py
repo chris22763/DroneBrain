@@ -169,7 +169,7 @@ class Thalamus:
             # todo custom config
             pipeline = rs.pipeline()
             config = rs.config()
-            config.enable_stream(rs.stream.depth, 424, 240, rs.format.z16, 60)
+            config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 90)
 
             config.enable_stream(rs.stream.color, max_x, max_y, rs.format.bgr8, 30)
 

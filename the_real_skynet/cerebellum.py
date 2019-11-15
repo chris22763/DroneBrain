@@ -24,6 +24,8 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
         potantial_target = check_corridor(_p, cell_val, obst, potantial_target)
 
+    print('{}\t{}\t{}'.format(free.shape, obst.shape, np.count_nonzero(potantial_target)))
+
 
 @cuda.jit(device=True)
 def check_corridor(p, cell_val, obst, potantial_target):

@@ -14,20 +14,21 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     pos = cuda.grid(1)
     _p = free[pos]
     # print(math.floor(_p / depth_np.shape[0]))
+    y_max = depth_np.shape[0]
     _x = 0
     _y = 0
-    _x = int(math.floor(_p / depth_np.shape[0]))
-    _y = int(_p - (_x * depth_np.shape[1]))
+    _x = int(math.floor(_p / y_max))
+    _y = int(_p - (_x * y_max))
 
     if _p:
         cell_val = depth_np[_x, _y]
 
-        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target)
+        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max)
 
 
 
 @cuda.jit(device=True)
-def check_corridor(p, cell_val, obst, potantial_target):
+def check_corridor(p, cell_val, obst, potantial_target, y_max):
 
     # dnp = np.ascontiguousarray(depth_np)
     # rf = np.ascontiguousarray(free)
@@ -42,7 +43,7 @@ def check_corridor(p, cell_val, obst, potantial_target):
 
     for x in range(dip[0] - p[0], dip[0] + p[0]):
         for y in range(dip[1] - p[1], dip[1] + p[1]):
-            i = x * (dip[1]*2) + y
+            i = x * y_max + y
             for o in obst:
                 if i == o:
                     obst_counter += 1
@@ -220,7 +221,7 @@ class Cerebellum ():
             try:
                 val = img[seed[0]][seed[1]]
                 fit = self.over_threshold(val, seed)
-                index = seed[0] * img.shape[1] + seed[1]
+                index = seed[0] * img.shape[0] + seed[1]
                 if val <= fit:
                     obst.append(index)
                 else:

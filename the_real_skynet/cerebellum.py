@@ -6,6 +6,7 @@ from numba import cuda, jit
 import numba
 import math
 
+
 @cuda.jit
 def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
@@ -296,7 +297,10 @@ class Cerebellum ():
         d_depth_np = cuda.to_device(depth_np)
 
         print(free.__len__())
-        check_corridor_kernel(d_free, d_obst, d_pt, d_depth_np)
+        threadsperblock = 32
+        blockspergrid = (free.size + (threadsperblock - 1)) // threadsperblock
+
+        check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
         potantial_target = d_pt.copy_to_host(stream=stream)
         """

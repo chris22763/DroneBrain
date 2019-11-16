@@ -46,7 +46,7 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max):
                     if potantial_target[pt] == 0:
                         potantial_target[pt] = i
                         break
-    print(obst_counter)
+    # print(obst_counter)
     return potantial_target
 
 

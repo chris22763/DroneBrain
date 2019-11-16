@@ -144,12 +144,11 @@ class Cerebellum ():
         obst = []  # Obstacle
         free = []
         # start = time.time()
-        print('## flower shape : {}, {}'.format(self.flower.__len__(), self.flower[0].__len__()))
         for seed in self.flower:
             try:
                 val = img[seed[1]][seed[0]]
                 fit = self.over_threshold(val, seed)
-                index = seed[0] * img.shape[0] + seed[1]
+                index = seed[0] * img.shape[1] + seed[1]
                 if val <= fit:
                     obst.append(index)
                 else:

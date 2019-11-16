@@ -220,14 +220,14 @@ class Cerebellum ():
 
         stream = cuda.stream()
 
-        d_free = cuda.to_device(free)
-        d_obst = cuda.to_device(obst)
-        d_pt = cuda.to_device(potantial_target)
+        d_free = cuda.to_device(free, stream=stream)
+        d_obst = cuda.to_device(obst, stream=stream)
+        d_pt = cuda.to_device(potantial_target, stream=stream)
 
         # d_shape = depth_np.shape
         # np.ndarray.flatten(depth_np)
 
-        d_depth_np = cuda.to_device(depth_np)
+        d_depth_np = cuda.to_device(depth_np, stream=stream)
 
         print(free.__len__())
         threadsperblock = 32

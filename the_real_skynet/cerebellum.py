@@ -153,7 +153,7 @@ class Cerebellum ():
                     obst.append(index)
                 else:
                     free.append(index)
-                    print('{}, {}, {}'.format(index, seed, img.shape))
+                    # print('{}, {}, {}'.format(index, seed, img.shape))
 
                 # print('{}, {}, {}'.format(index, val, fit))
             except Exception as e:

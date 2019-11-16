@@ -229,7 +229,7 @@ class Cerebellum ():
 
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
-        d_pt.copy_to_host(potantial_target)
+        result_pot = d_pt.copy_to_host()
         """
         square = set()
         for p in free:
@@ -260,7 +260,7 @@ class Cerebellum ():
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
-        print('### pot len: {}'.format(np.count_nonzero(potantial_target)))
+        print('### pot len: {}'.format(np.count_nonzero(result_pot)))
         # if np.count_nonzero(potantial_target):
             # for i in reversed(range(len(potantial_target))):
             #    if potantial_target[i]:

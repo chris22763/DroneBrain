@@ -49,7 +49,7 @@ class TruncusCerebri:
                 print("unifiedAddressing = %s" % str(gpu.UNIFIED_ADDRESSING))
                 print("pciBusID = %s" % str(gpu.PCI_BUS_ID))
                 print("pciDeviceID = %s" % str(gpu.PCI_DEVICE_ID))
-                
+
                 exit()
 
         self.load_config()

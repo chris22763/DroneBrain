@@ -339,7 +339,6 @@ class Thalamus:
     def realsense_to_numpy(self, frame):
         # convert the realsense img to a numpy array readable by opencv
         image = np.asanyarray(frame.get_data())
-        print(image.max())
         return image
 
 

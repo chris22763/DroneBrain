@@ -218,23 +218,21 @@ class Cerebellum ():
         print('#### time 215: {}'.format(time.time()-start))
         start = time.time()
 
-        stream = cuda.stream()
-
         print(free.__len__())
         threadsperblock = 8
         blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
-        with stream.auto_synchronize():
-            d_free = cuda.to_device(free, stream=stream)
-            d_obst = cuda.to_device(obst, stream=stream)
-            d_pt = cuda.to_device(potantial_target, stream=stream)
-            d_depth_np = cuda.to_device(depth_np, stream=stream)
 
-            threadsperblock = 32
-            blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
+        # d_free = cuda.to_device(free, stream=stream)
+        # d_obst = cuda.to_device(obst, stream=stream)
+        # d_pt = cuda.to_device(potantial_target, stream=stream)
+        # d_depth_np = cuda.to_device(depth_np, stream=stream)
 
-            nucleusfastigii.check_corridor_kernel[blockspergrid, 16, stream](d_free, d_obst, potantial_target, d_depth_np)
+        threadsperblock = 32
+        blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 
-            result_pt = d_pt.copy_to_host(stream=stream)
+        nucleusfastigii.check_corridor_kernel[threadsperblock, 16](free, obst, potantial_target, depth_np)
+
+        result_pt = potantial_target.copy_to_host()
 
         """
         square = set()
@@ -266,7 +264,8 @@ class Cerebellum ():
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
-        print('### pot len: {}'.format(np.count_nonzero(potantial_target)))
+        print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
+        print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
         # if np.count_nonzero(potantial_target):
             # for i in reversed(range(len(potantial_target))):
             #    if potantial_target[i]:

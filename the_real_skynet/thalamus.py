@@ -313,8 +313,9 @@ class Thalamus:
                 return [0.0, 0.0]
 
 
-    def get_realsense_data(self, pipeline, config):
-
+    def get_realsense_data(self, pipe_package):
+        pipeline = pipe_package['pipeline']
+        config = pipe_package['config']
         while True:
             try:
                 # Wait for a coherent pair of frames: depth and color

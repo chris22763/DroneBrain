@@ -232,7 +232,7 @@ class Cerebellum ():
 
             nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock, stream](d_free, d_obst, d_pt, d_depth_np)
 
-            result_pt = potantial_target.copy_to_host()
+            result_pt = d_pt.copy_to_host()
 
         """
         square = set()
@@ -264,7 +264,7 @@ class Cerebellum ():
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
-        print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
+        # print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
         print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
         # if np.count_nonzero(potantial_target):
             # for i in reversed(range(len(potantial_target))):

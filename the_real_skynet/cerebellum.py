@@ -229,7 +229,7 @@ class Cerebellum ():
 
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
-        result_pot = d_pt.copy_to_host()
+        result_pt = d_pt.copy_to_host()
         """
         square = set()
         for p in free:
@@ -260,7 +260,7 @@ class Cerebellum ():
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
-        print('### pot len: {}'.format(np.count_nonzero(result_pot)))
+        print('### pot len: {}'.format(np.count_nonzero(result_pt)))
         # if np.count_nonzero(potantial_target):
             # for i in reversed(range(len(potantial_target))):
             #    if potantial_target[i]:
@@ -276,7 +276,7 @@ class Cerebellum ():
 
             # if self.headless:
                 # self.view_points(depth_np, free, obst, potantial_target, self.flower)
-        cuda.synchronize()
+
         print('#### time 264: {}'.format(time.time()-start))
         return correction, rotation
 

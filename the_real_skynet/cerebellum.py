@@ -144,7 +144,7 @@ class Cerebellum ():
         obst = []  # Obstacle
         free = []
         # start = time.time()
-        print('## flower shape : {}'.format(self.flower.shape))
+        print('## flower shape : {}, {}'.format(self.flower.__len__(), self.flower[0].__len__()))
         for seed in self.flower:
             try:
                 val = img[seed[1]][seed[0]]

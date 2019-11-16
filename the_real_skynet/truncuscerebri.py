@@ -26,9 +26,6 @@ class TruncusCerebri:
             if arg.find('-c') > -1:
                 self._config_path = sys.argv[a+1]
 
-            if arg.find('-h') > -1:
-                print('.py starten mit -c und einem pfad zu einer config')
-
             if arg.find('-hc') > -1:
                 from numba import cuda
                 gpu = cuda.get_current_device()
@@ -50,6 +47,10 @@ class TruncusCerebri:
                 print("pciBusID = %s" % str(gpu.PCI_BUS_ID))
                 print("pciDeviceID = %s" % str(gpu.PCI_DEVICE_ID))
 
+                exit()
+
+            if arg.find('-h') > -1:
+                print('.py  -c starten mit und einem pfad zu einer config')
                 exit()
 
         self.load_config()

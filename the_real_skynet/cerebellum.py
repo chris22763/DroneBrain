@@ -218,18 +218,28 @@ class Cerebellum ():
         print('#### time 215: {}'.format(time.time()-start))
         start = time.time()
 
-        d_free = cuda.to_device(free)
-        d_obst = cuda.to_device(obst)
-        d_pt = cuda.to_device(potantial_target)
-        d_depth_np = cuda.to_device(depth_np)
+        stream = cuda.stream()
 
+<<<<<<< HEAD
         print(free.__len__())
         threadsperblock = 8
         blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
+=======
+        with stream.auto_synchronize():
+            d_free = cuda.to_device(free, stream=stream)
+            d_obst = cuda.to_device(obst, stream=stream)
+            d_pt = cuda.to_device(potantial_target, stream=stream)
+            d_depth_np = cuda.to_device(depth_np, stream=stream)
+>>>>>>> parent of 07063e1... Update cerebellum.py
 
-        nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
+            print(free.__len__())
+            threadsperblock = 32
+            blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 
-        result_pt = d_pt.copy_to_host()
+            nucleusfastigii.check_corridor_kernel[16, 16, stream](d_free, d_obst, d_pt, d_depth_np)
+
+            result_pt = d_pt.copy_to_host(stream=stream)
+
         """
         square = set()
         for p in free:

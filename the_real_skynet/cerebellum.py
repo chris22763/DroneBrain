@@ -233,7 +233,7 @@ class Cerebellum ():
             threadsperblock = 32
             blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 
-            nucleusfastigii.check_corridor_kernel[16, 16, stream](d_free, d_obst, d_pt, d_depth_np)
+            nucleusfastigii.check_corridor_kernel(d_free, d_obst, d_pt, d_depth_np)
 
             result_pt = d_pt.copy_to_host(stream=stream)
 

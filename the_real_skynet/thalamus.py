@@ -177,7 +177,7 @@ class Thalamus:
             # pipeline.start(config)
             self.addon_init['realsense'] = (pipeline, config)
 
-            return pipeline
+            return (pipeline, config)
 
         except Exception as e:
             print(traceback.print_exc())

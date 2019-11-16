@@ -148,7 +148,7 @@ class Cerebellum ():
             try:
                 val = img[seed[1]][seed[0]]
                 fit = self.over_threshold(val, seed)
-                index = seed[0] * img.shape[1] + seed[1]
+                index = seed[0] * img.shape[0] + seed[1]
                 if val <= fit:
                     obst.append(index)
                 else:

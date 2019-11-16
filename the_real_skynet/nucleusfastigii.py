@@ -48,6 +48,7 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max):
     print(obst_counter)
     return potantial_target
 
+
 @cuda.jit
 def haversine_kernel(start, end, distance):
 

@@ -18,8 +18,8 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     y_max = depth_np.shape[0]
     _x = 0
     _y = 0
-    _x = int(math.floor(_p / y_max))
-    _y = int(_p - (_x * y_max))
+    _x = _p // y_max
+    _y = _p - (_x * y_max)
 
     if _p:
         cell_val = depth_np[_y, _x]

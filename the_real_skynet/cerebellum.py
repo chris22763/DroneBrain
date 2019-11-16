@@ -229,7 +229,6 @@ class Cerebellum ():
             d_pt = cuda.to_device(potantial_target, stream=stream)
             d_depth_np = cuda.to_device(depth_np, stream=stream)
 
-            print(free.__len__())
             threadsperblock = 32
             blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 

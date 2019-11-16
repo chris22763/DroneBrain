@@ -164,7 +164,7 @@ class Thalamus:
             # max_x = 424
             # max_y = 240
 
-            self.resolution = (720, 1280)
+            self.resolution = (max_x, max_y)
 
             # todo custom config
             pipeline = rs.pipeline()
@@ -175,7 +175,7 @@ class Thalamus:
 
             # Start streaming
             # pipeline.start(config)
-            self.addon_init['realsense'] = pipeline
+            self.addon_init['realsense'] = pipeline, config
 
             return pipeline
 
@@ -313,7 +313,7 @@ class Thalamus:
                 return [0.0, 0.0]
 
 
-    def get_realsense_data(self, pipeline):
+    def get_realsense_data(self, pipeline, config):
 
         while True:
             try:
@@ -329,7 +329,8 @@ class Thalamus:
                 try:
                     pipeline.stop()
                 except:
-                    pipeline.start()
+                    pipeline.start(config)
+
                 print(e)
         return depth_frame
 

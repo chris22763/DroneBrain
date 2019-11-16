@@ -282,7 +282,7 @@ class Cerebellum ():
 
             # if self.headless:
                 # self.view_points(depth_np, free, obst, potantial_target, self.flower)
-
+        cuda.synchronize()
         print('#### time 264: {}'.format(time.time()-start))
         return correction, rotation
 

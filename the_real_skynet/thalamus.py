@@ -175,7 +175,7 @@ class Thalamus:
 
             # Start streaming
             # pipeline.start(config)
-            self.addon_init['realsense'] = {'pipeline': pipeline, 'config': config}
+            self.addon_init['realsense'] = (pipeline, config)
 
             return pipeline
 
@@ -314,8 +314,8 @@ class Thalamus:
 
 
     def get_realsense_data(self, pipe_package):
-        pipeline = pipe_package['pipeline']
-        config = pipe_package['config']
+        pipeline = pipe_package[0]
+        config = pipe_package[1]
         while True:
             try:
                 # Wait for a coherent pair of frames: depth and color

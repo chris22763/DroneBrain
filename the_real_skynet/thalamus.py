@@ -175,7 +175,7 @@ class Thalamus:
 
             # Start streaming
             # pipeline.start(config)
-            self.addon_init['realsense'] = pipeline, config
+            self.addon_init['realsense'] = {'pipeline': pipeline, 'config': config}
 
             return pipeline
 

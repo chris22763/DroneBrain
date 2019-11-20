@@ -127,7 +127,7 @@ class Cerebellum ():
 
         threshold = threshold - (xo * yo)
 
-        if val > threshold:
+        if val < threshold:
             return True
         else:
             return False
@@ -143,15 +143,17 @@ class Cerebellum ():
     def check_flower(self, img):
         obst = []  # Obstacle
         free = []
+        treshhold = 1500
         # start = time.time()
         for seed in self.flower:
             try:
                 val = img[seed[1]][seed[0]]
-                fit = self.over_threshold(val, seed)
+                # fit = self.over_threshold(val, seed)
                 index = seed[0] * img.shape[0] + seed[1]
-                if val <= fit:
+                
+                if (val != 0 and (val <= treshold)) :
                     obst.append(index)
-                else:
+                elif val > treshold:
                     free.append(index)
                     # print('{}, {}, {}'.format(index, seed, img.shape))
 

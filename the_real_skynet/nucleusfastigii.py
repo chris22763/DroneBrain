@@ -40,11 +40,11 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max):
                 if i == o:
                     obst_counter += 1
 
-            for pt in range(len(potantial_target)):
-                if obst_counter < 100:
-                    if potantial_target[pt] == 0:
-                        potantial_target[pt] = i
-                        break
+    for pt in range(len(potantial_target)):
+        if obst_counter < 100:
+            if potantial_target[pt] == 0:
+               potantial_target[pt] = i
+               break
     # print(obst_counter)
     return potantial_target
 

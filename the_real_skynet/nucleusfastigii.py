@@ -16,6 +16,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
     pos = cuda.grid(1)
     _p = free[pos]
     y_max = depth_np.shape[0]
+    x_max = depth_np.shape[1]
     _x = 0
     _y = 0
     _x = _p // y_max
@@ -23,18 +24,20 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
     if _p:
         cell_val = depth_np[_y, _x]
-        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max)
+        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max, x_max)
 
 
 @cuda.jit(device=True)
-def check_corridor(p, cell_val, obst, potantial_target, y_max):
+def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
 
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
     dip = (np.int16(130/dim), np.int16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
-    obst_counter = 0
-
-    for x in range(dip[0] - p[0], dip[0] + p[0]):
-        for y in range(dip[1] - p[1], dip[1] + p[1]):
+    obst_counter, x_l, x_h, y_l, y_h = 0
+    
+    x_l, x_h, y_l, y_h = dip[0] - p[0], dip[0] + p[0], dip[1] - p[1], dip[1] + p[1]
+    
+    for x in range(x_l if x_l > 0 else 0 , x_h if x_h < x_max else x_max):
+        for y in range(y_l if y_l > 0 else 0, y_h < y_max else y_max):
             i = x * y_max + y
             for o in obst:
                 if i == o:

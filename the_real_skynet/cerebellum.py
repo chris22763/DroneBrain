@@ -151,18 +151,15 @@ class Cerebellum ():
                 # fit = self.over_threshold(val, seed)
                 index = seed[0] * img.shape[0] + seed[1]
                 
-                if (val != 0 and (val <= treshold)) :
+                if (val != 0 and (val <= treshhold)) :
                     obst.append(index)
-                elif val > treshold:
+                elif val > treshhold:
                     free.append(index)
                     # print('{}, {}, {}'.format(index, seed, img.shape))
 
                 # print('{}, {}, {}'.format(index, val, fit))
             except Exception as e:
-                print('{}, {}, {}'.format(seed, fit, e))
-        # print(time.time()-start)
-        # print(free)
-        # print(free)
+                print('{}, {}, {}'.format(seed, e))
         return free, obst
 
 

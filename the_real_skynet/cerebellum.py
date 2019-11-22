@@ -224,15 +224,15 @@ class Cerebellum ():
         print(free.__len__())
         stream = cuda.stream()
         with stream.auto_synchronize():
-            #d_free = cuda.to_device(free, stream=stream)
-            #d_obst = cuda.to_device(obst, stream=stream)
-            #d_pt = cuda.to_device(potantial_target, stream=stream)
-            #d_depth_np = cuda.to_device(depth_np, stream=stream)
+            d_free = cuda.to_device(free, stream=stream)
+            d_obst = cuda.to_device(obst, stream=stream)
+            d_pt = cuda.to_device(potantial_target, stream=stream)
+            d_depth_np = cuda.to_device(depth_np, stream=stream)
 
             threadsperblock = 32
             blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
 
-            nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np)
+            nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
             result_pt = potantial_target.copy_to_host()
 

@@ -231,7 +231,7 @@ class Cerebellum ():
 
             nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
-            result_pt = potantial_target.copy_to_host()
+            result_pt = potantial_target.copy_to_host(stream)
 
         """
         square = set()

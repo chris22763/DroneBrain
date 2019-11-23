@@ -219,6 +219,8 @@ class Cerebellum ():
         start = time.time()
 
         print(free.__len__())
+        """
+        
         stream = cuda.stream()
         with stream.auto_synchronize():
             d_free = cuda.to_device(free, stream=stream)
@@ -232,6 +234,11 @@ class Cerebellum ():
             nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
             result_pt = d_pt.copy_to_host(stream)
+        """
+        threadsperblock = 32
+        blockspergrid = (free.__len__() + (threadsperblock - 1)) // threadsperblock
+
+        nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np)
 
         """
         square = set()

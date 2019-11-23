@@ -32,7 +32,11 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
 
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
     dip = (np.int16(130/dim), np.int16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
-    obst_counter, x_l, x_h, y_l, y_h = 0
+    obst_counter = 0
+    x_l = 0
+    x_h = 0
+    y_l = 0
+    y_h = 0
     
     x_l, x_h, y_l, y_h = dip[0] - p[0], dip[0] + p[0], dip[1] - p[1], dip[1] + p[1]
     

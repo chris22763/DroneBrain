@@ -236,7 +236,7 @@ class Cerebellum ():
             result_pt = d_pt.copy_to_host(stream)
         """
         threadsperblock = 16
-        blockspergrid = (free.__len__() + (threadsperblock)) // threadsperblock
+        blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
         print('cuda block setting [{}, {}]'.format(blockspergrid, threadsperblock))
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np)
 

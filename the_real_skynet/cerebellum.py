@@ -223,24 +223,26 @@ class Cerebellum ():
         
         stream = cuda.stream()
         with stream.auto_synchronize():
-            d_free = cuda.to_device(free, stream=stream)
-            d_obst = cuda.to_device(obst, stream=stream)
-            d_pt = cuda.to_device(potantial_target, stream=stream)
-            d_depth_np = cuda.to_device(depth_np, stream=stream)
-            
-            threadsperblock = 16
-            blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
-
-            nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
-
-            result_pt = d_pt.copy_to_host(stream)
         """
+        d_free = cuda.to_device(free)
+        d_obst = cuda.to_device(obst)
+        d_pt = cuda.to_device(potantial_target)
+        d_depth_np = cuda.to_device(depth_np)
+            
         threadsperblock = 16
         blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
-        print('cuda block setting [{}, {}]'.format(blockspergrid, threadsperblock))
-        nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np,
+
+        nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np,
                                                                               len(obst), len(potantial_target))
 
+        result_pt = d_pt.copy_to_host()
+
+        # threadsperblock = 16
+        # blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
+        # print('cuda block setting [{}, {}]'.format(blockspergrid, threadsperblock))
+        # nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np,
+        #                                                                       len(obst), len(potantial_target))
+        """    
         """
         square = set()
         for p in free:

@@ -10,7 +10,7 @@ from numpy import pi, cos, sin, sqrt, arcsin
 """
 
 @cuda.jit
-def check_corridor_kernel(free, obst, potantial_target, depth_np):
+def check_corridor_kernel(free, obst, potantial_target, depth_np, o_len, pt_len):
 
     cell_val = 0
     pos = cuda.grid(1)
@@ -24,13 +24,11 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
     if _p:
         cell_val = depth_np[_y, _x]
-        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max, x_max)
+        potantial_target = check_corridor((_x, _y), cell_val, obst, o_len, potantial_target, pt_len, y_max, x_max)
 
 
 @cuda.jit(device=True)
-def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
-    o_len = 0
-    o_len = obst.__len__()
+def check_corridor(p, cell_val, obst, o_len, potantial_target, pt_len, y_max, x_max):
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
     dip = (np.int16(130/dim), np.int16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
     obst_counter = 0
@@ -48,7 +46,7 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
                 if i == obst[io]:
                     obst_counter += 1
 
-    for pt in range(len(potantial_target)):
+    for pt in range(pt_len):
         if obst_counter < 10:
             if potantial_target[pt] == 0:
                potantial_target[pt] = p[0] * y_max + p[1]

@@ -36,14 +36,14 @@ def check_corridor(p, cell_val, obst, o_len, potantial_target, pt_len, y_max, x_
     x_h = 0
     y_l = 0
     y_h = 0
-    
+    o = 0
     x_l, x_h, y_l, y_h = dip[0] - p[0], dip[0] + p[0], dip[1] - p[1], dip[1] + p[1]
     
     for x in range(x_l if x_l > 0 else 0 , x_h if x_h < x_max else x_max-1):
         for y in range(y_l if y_l > 0 else 0, y_h if y_h < y_max else y_max-1):
             i = x * y_max + y
-            for io in range(o_len):
-                if i == obst[io]:
+            for o in obst:
+                if i == o:
                     obst_counter += 1
 
     for pt in range(pt_len):

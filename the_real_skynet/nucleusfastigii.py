@@ -54,7 +54,7 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
                potantial_target[pt] = p[0] * y_max + p[1]
                break
 
-    # print('{}, {}, {}'.format(p, cell_val, obst_counter))
+    print('{}, {}, {}'.format(p, cell_val, obst_counter))
     return potantial_target
 
 

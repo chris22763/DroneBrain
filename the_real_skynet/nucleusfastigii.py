@@ -43,8 +43,8 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
     for x in range(x_l if x_l > 0 else 0 , x_h if x_h < x_max else x_max-1):
         for y in range(y_l if y_l > 0 else 0, y_h if y_h < y_max else y_max-1):
             i = x * y_max + y
-            for o in obst:
-                if i == o:
+            for io in range(len(obst)):
+                if i == obst[io]:
                     obst_counter += 1
 
     for pt in range(len(potantial_target)):

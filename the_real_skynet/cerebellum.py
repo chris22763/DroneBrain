@@ -219,8 +219,6 @@ class Cerebellum ():
         start = time.time()
 
         print(free.__len__())
-        print(free[0])
-        print(obst[0])
         """
         
         stream = cuda.stream()

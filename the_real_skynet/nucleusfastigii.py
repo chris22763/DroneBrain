@@ -52,7 +52,7 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
             if potantial_target[pt] == 0:
                potantial_target[pt] = p[0] * y_max + p[1]
                break
-    print(cell_val)
+    print(p)
     return potantial_target
 
 

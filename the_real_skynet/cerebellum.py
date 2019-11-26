@@ -219,7 +219,7 @@ class Cerebellum ():
         start = time.time()
 
         print(free.__len__())
-        # """
+        """
         
         stream = cuda.stream()
         with stream.auto_synchronize():
@@ -240,7 +240,6 @@ class Cerebellum ():
         print('cuda block setting [{}, {}]'.format(blockspergrid, threadsperblock))
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np)
 
-        """
         """
         square = set()
         for p in free:
@@ -272,7 +271,7 @@ class Cerebellum ():
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
         print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
-        print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
+        # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
         # if np.count_nonzero(potantial_target):
             # for i in reversed(range(len(potantial_target))):
             #    if potantial_target[i]:

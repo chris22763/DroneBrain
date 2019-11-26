@@ -14,22 +14,18 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
     cell_val = 0
     pos = cuda.grid(1)
-    try:
-        _p = free[pos]
+    _p = free[pos]
+    y_max = depth_np.shape[0]
+    x_max = depth_np.shape[1]
+    _x = 0
+    _y = 0
+    _x = _p // y_max
+    _y = _p - (_x * y_max)
 
-        y_max = depth_np.shape[0]
-        x_max = depth_np.shape[1]
-        _x = 0
-        _y = 0
-        _x = _p // y_max
-        _y = _p - (_x * y_max)
+    if _p:
+        cell_val = depth_np[_y, _x]
+        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max, x_max)
 
-        if _p:
-            cell_val = depth_np[_y, _x]
-            potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max, x_max)
-
-    except Exception as e:
-        print('{} \t{} \n\t{}'.format(pos, len(free), e))
 
 @cuda.jit(device=True)
 def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
@@ -57,7 +53,7 @@ def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
                potantial_target[pt] = p[0] * y_max + p[1]
                break
 
-    print('{}, {}, {}'.format(p, cell_val, obst_counter))
+    # print('{}, {}, {}'.format(p, cell_val, obst_counter))
     return potantial_target
 
 

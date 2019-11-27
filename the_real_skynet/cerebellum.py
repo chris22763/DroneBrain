@@ -142,7 +142,7 @@ class Cerebellum ():
 
     def check_flower(self, img):
         obst = np.array([]) # Obstacle
-        free = np.array([])
+        free = []
         treshhold = 1500
         # start = time.time()
         for seed in self.flower:

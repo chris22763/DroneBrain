@@ -154,7 +154,7 @@ class Cerebellum ():
                 if (val != 0 and (val <= treshhold)) :
                     np.append(obst, index)
                 elif val > treshhold:
-                    np.append(free, index)
+                    free.append(index)
                     # print('{}, {}, {}'.format(index, seed, img.shape))
 
                 # print('{}, {}, {}'.format(index, val, fit))

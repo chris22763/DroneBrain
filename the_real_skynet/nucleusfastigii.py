@@ -28,7 +28,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
 
 @cuda.jit(device=True)
-def check_corridor(p, cell_val, obst, o_len, potantial_target, pt_len, y_max, x_max):
+def check_corridor(p, cell_val, obst, potantial_target, y_max, x_max):
     dim = (cell_val/1000)# 1000 = depth unit  ## dim = distance in meter
     dip = (np.int16(130/dim), np.int16(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
     obst_counter = 0

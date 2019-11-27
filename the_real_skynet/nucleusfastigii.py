@@ -24,7 +24,7 @@ def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
     if _p:
         cell_val = depth_np[_y, _x]
-        potantial_target = check_corridor((_x, _y), cell_val, obst, o_len, potantial_target, pt_len, y_max, x_max)
+        potantial_target = check_corridor((_x, _y), cell_val, obst, potantial_target, y_max, x_max)
 
 
 @cuda.jit(device=True)

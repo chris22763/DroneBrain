@@ -141,8 +141,8 @@ class Cerebellum ():
 
 
     def check_flower(self, img):
-        obst = set()  # Obstacle
-        free = []
+        obst = np.array([]) # Obstacle
+        free = np.array([])
         treshhold = 1500
         # start = time.time()
         for seed in self.flower:
@@ -152,9 +152,9 @@ class Cerebellum ():
                 index = seed[0] * img.shape[0] + seed[1]
                 
                 if (val != 0 and (val <= treshhold)) :
-                    obst.add(index)
+                    np.append(obst, index)
                 elif val > treshhold:
-                    free.append(index)
+                    np.append(free, index)
                     # print('{}, {}, {}'.format(index, seed, img.shape))
 
                 # print('{}, {}, {}'.format(index, val, fit))

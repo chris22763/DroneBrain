@@ -242,7 +242,7 @@ class Cerebellum ():
         # print('cuda block setting [{}, {}]'.format(blockspergrid, threadsperblock))
         # nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np,
         #                                                                       len(obst), len(potantial_target))
-        """    
+         
         """
         square = set()
         for p in free:

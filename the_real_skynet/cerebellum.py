@@ -230,7 +230,7 @@ class Cerebellum ():
         d_depth_np = cuda.to_device(depth_np)
             
         threadsperblock = 16
-        blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
+        blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - 1
 
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
@@ -273,7 +273,7 @@ class Cerebellum ():
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
         print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
-        # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
+        print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
         # if np.count_nonzero(potantial_target):
             # for i in reversed(range(len(potantial_target))):
             #    if potantial_target[i]:

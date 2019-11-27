@@ -10,7 +10,7 @@ from numpy import pi, cos, sin, sqrt, arcsin
 """
 
 @cuda.jit
-def check_corridor_kernel(free, obst, potantial_target, depth_np, o_len, pt_len):
+def check_corridor_kernel(free, obst, potantial_target, depth_np):
 
     cell_val = 0
     pos = cuda.grid(1)
@@ -46,7 +46,7 @@ def check_corridor(p, cell_val, obst, o_len, potantial_target, pt_len, y_max, x_
                 if i == o:
                     obst_counter += 1
 
-    for pt in range(pt_len):
+    for pt in range(len(potantial_target)):
         if obst_counter < 10:
             if potantial_target[pt] == 0:
                potantial_target[pt] = p[0] * y_max + p[1]

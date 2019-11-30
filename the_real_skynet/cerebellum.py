@@ -133,13 +133,6 @@ class Cerebellum ():
             return False
 
 
-    def check_square(self, p, mx, my, sx, sy):
-        square = set()
-        for px in range(p[0], p[0] + (sx * mx)):
-            for py in range(p[1], p[1] + (sy * my)):
-                square.add((px,py))
-
-
     def check_flower(self, img):
         obst = np.array([]) # Obstacle
         free = []
@@ -182,7 +175,7 @@ class Cerebellum ():
         dif_vec, rad, deg = self.calc_direction_in_rad(pos_now, pos_tar)
 
         correction = 0
-        rotation = 0
+        rotation = deg
 
         return correction, rotation
 
@@ -192,15 +185,35 @@ class Cerebellum ():
         return correction, rotation
 
 
-    def rotate_ship(self, dir):
+    def rotate_ship(self, cor, rot):
         """ Mii Rotor controller rotate for dir degree """
         pass
-
 
 
     def fly_through_gate(self, target):
         """ Mii fly towards target """
         pass
+
+
+    def get_best_point(self, pot, cor, rot):
+        y_max = 480  # depth_np.shape
+        xh = 848 // 2
+        last_nearest_point = [0, 0] # 0. => x value 1. y value
+        p_return = []
+        for i, p in enumerate(pot):
+            if p == 0:
+                break
+            else:
+                _x = p // y_max
+                _y = p - (_x * y_max)
+                y = (1/(y_max//2)) * (_y - (y_max//2))
+                x = (1/xh) * (_x - xh)
+                if last_nearest_point[0] < x < p or last_nearest_point[0] > x > p:
+                    if last_nearest_point[1] < y < p or last_nearest_point[1] > y > p:
+                        last_nearest_point = [x, y]
+                        p_return = [_x, _y]
+
+        return p_return
 
 
     def avoid_obstacle(self, correction, rotation):
@@ -272,16 +285,19 @@ class Cerebellum ():
 
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
-        print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
-        print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
-        # if np.count_nonzero(potantial_target):
-            # for i in reversed(range(len(potantial_target))):
-            #    if potantial_target[i]:
-            #        pass
-            #    else:
-            #        potantial_target[i].pop()
+        # print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
+        # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
 
-            # self.rotate_ship(rotation*2)
+        if result_pt[0] != 0:
+            point = self.get_best_point(result_pt, correction, rotation)
+            self.fly_through_gate(point)
+            print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+
+            if self.headless:
+                self.view_points(depth_np, free, obst, potantial_target, self.flower)
+
+        else:
+            self.rotate_ship(correction, rotation))
 
         # else:
             # self.fly_through_gate(potantial_target[0])
@@ -307,6 +323,7 @@ class Cerebellum ():
                     self.target = self.target[1:]
 
                 print('#### fly_to_target loop :\t{} ####'.format(time.time()-start))
+
 
     def run(self, schlafgemach, queue):
 

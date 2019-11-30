@@ -78,3 +78,9 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 .DS_Store
 .idea/
+.metals/metals.h2.db
+.metals/metals.lock.db
+.metals/metals.log
+the_real_skynet/Brain/model-full.h5
+the_real_skynet/Brain/functions.scala
+the_real_skynet/Brain/main.scala

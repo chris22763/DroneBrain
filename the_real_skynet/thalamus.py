@@ -67,7 +67,7 @@ class Thalamus:
         r = sqrt(indices/num_pts)
         theta = pi * (1 + 5**0.5) * indices
 
-        flower = [(int(x+hx),int(y+hy)) for x, y in zip((r*cos(theta)*hx), (r*sin(theta)*hy))]
+        flower = [[int(x+hx),int(y+hy)] for x, y in zip((r*cos(theta)*hx), (r*sin(theta)*hy))]
 
         return flower
 
@@ -142,8 +142,9 @@ class Thalamus:
 
             print_config = False
             if print_config:
-                serialized_string = advnc_mode.serialize_json()
-                print("Controls as JSON: \n", serialized_string)
+                pass
+                # serialized_string = advnc_mode.serialize_json()
+                # print("Controls as JSON: \n", serialized_string)
 
 
             if self.realsense_json_path:
@@ -155,31 +156,32 @@ class Thalamus:
 
                 json_string = str(as_json_object).replace("'", '\"')
                 advnc_mode.load_json(json_string)
-                serialized_string = advnc_mode.serialize_json()
-                print("Controls as JSON: \n", serialized_string)
+                # serialized_string = advnc_mode.serialize_json()
+                # print("Controls as JSON: \n", serialized_string)
 
             max_x = 848
             max_y = 480
             # max_x = 424
             # max_y = 240
 
-            self.resolution = (720, 1280)
+            self.resolution = (max_y, max_x)
 
             # todo custom config
             pipeline = rs.pipeline()
             config = rs.config()
-            config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 60)
+            config.enable_stream(rs.stream.depth, max_x, max_y, rs.format.z16, 90)
 
             config.enable_stream(rs.stream.color, max_x, max_y, rs.format.bgr8, 30)
 
             # Start streaming
             # pipeline.start(config)
-            self.addon_init['realsense'] = pipeline
+            self.addon_init['realsense'] = (pipeline, config)
 
-            return pipeline
+            return (pipeline, config)
 
         except Exception as e:
             print(traceback.print_exc())
+
 
     def init_bno(self):
         from Adafruit_BNO055 import BNO055
@@ -240,6 +242,7 @@ class Thalamus:
         session = gps.gps("localhost", "2947")
         session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
         self.get_gps(session)
+        print(session)
         return session
 
 
@@ -310,8 +313,9 @@ class Thalamus:
                 return [0.0, 0.0]
 
 
-    def get_realsense_data(self, pipeline):
-
+    def get_realsense_data(self, pipe_package):
+        pipeline = pipe_package[0]
+        config = pipe_package[1]
         while True:
             try:
                 # Wait for a coherent pair of frames: depth and color
@@ -326,16 +330,15 @@ class Thalamus:
                 try:
                     pipeline.stop()
                 except:
-                    pipeline.start()
-                print(e)
+                    pipeline.start(config)
 
+                print(e)
         return depth_frame
 
 
     def realsense_to_numpy(self, frame):
         # convert the realsense img to a numpy array readable by opencv
         image = np.asanyarray(frame.get_data())
-
         return image
 
 

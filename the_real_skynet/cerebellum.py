@@ -2,6 +2,8 @@ import time
 from numpy import pi, cos, sin, sqrt, arctan2
 import numpy as np
 import cv2
+from numba import cuda
+import nucleusfastigii
 
 
 class Cerebellum ():
@@ -47,7 +49,8 @@ class Cerebellum ():
 
     @staticmethod
     def haversine(pos1, pos2):
-        """Calculate the distance in meter between two coordinates on earth, based on the haversine algorithm."""
+        """Calculate the distance in meter between two coordinates on earth, based on the haversine algorithm.
+        in nucleusfastigii is a cuda version"""
 
         # print('{}, {}'.format(pos1, pos2))
         lat1 = float(pos1[0])  # lath
@@ -84,7 +87,7 @@ class Cerebellum ():
 
         RED = (0, 0, 255)
         GREEN = (0, 255, 0)
-        BLUE = np.array([255,0,0])
+        BLUE = (255,0,0)
 
         img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
         img_dot = np.zeros((img_rgb.shape[0],img_rgb.shape[1],3), np.uint8)
@@ -99,8 +102,6 @@ class Cerebellum ():
 
             cv2.circle(img_dot, (p[1],p[0]), 3, color, -1)
 
-
-
         # cv2.namedWindow('targets',cv2.WINDOW_AUTOSIZE)
         cv2.imshow('targets', img_rgb)
         cv2.imshow('dots', img_dot)
@@ -111,7 +112,7 @@ class Cerebellum ():
         cv2.waitKey(1)
 
 
-    def over_threshold(self, val, pos, threshold=32768):
+    def over_threshold(self, val, pos, threshold=1500):
 
         size = (1280, 720)
 
@@ -132,44 +133,35 @@ class Cerebellum ():
             return False
 
 
-    def check_square(self, p, mx, my, sx, sy):
-        square = set()
-        for px in range(p[0], p[0] + (sx * mx)):
-            for py in range(p[1], p[1] + (sy * my)):
-                square.add((px,py))
-
-
     def check_flower(self, img):
-        obst = set()  # Obstacle
-        free = set()
-        start = time.time()
-
-
+        obst = np.array([]) # Obstacle
+        free = []
+        treshhold = 1500
+        # start = time.time()
         for seed in self.flower:
             try:
-                val = img[seed[0]][seed[1]]
-                fit = self.over_threshold(val, seed)
-                if val <= fit:
-                    obst.add(seed)
-                else:
-                    free.add(seed)
-                # print('{}, {}, {}'.format(seed, val, fit))
-            except Exception as e:
-                print('{}, {}, {}'.format(seed, fit, e))
-        # print(time.time()-start)
+                val = img[seed[1]][seed[0]]
+                # fit = self.over_threshold(val, seed)
+                index = seed[0] * img.shape[0] + seed[1]
+                
+                if (val != 0 and (val <= treshhold)) :
+                    np.append(obst, index)
+                elif val > treshhold:
+                    free.append(index)
+                    # print('{}, {}, {}'.format(index, seed, img.shape))
 
+                # print('{}, {}, {}'.format(index, val, fit))
+            except Exception as e:
+                print('{}, {}, {}'.format(seed, e))
         return free, obst
 
 
     def distance_in_pixel(self, val):
-        max_val = 65536  # 65536 is max value
-        val = val if val != max_val else max_val-1
-        # dim = ((1/(val - max_val))*-10)-1   # if val 0..255  # -1 to make 1..10m to 0..9m
-        dim = val * (10/max_val)
-        # dim = val * 10           # if val 0.0 .. 1.0
-        # _d = (int(260/dim), int(120/dim))  # 130x60@2m and 1m x 0.5m 
-        _d = (int(130/dim), int(60/dim))  # only half the pixel ammount is needed.
-        return _d, dim
+
+        dim = (val/1000)# 1000 = depth unit  ## dim = distance in meter
+        dip = (int(130/dim), int(60/dim))  # 130px => 1m auf x; 60 => 0.5m auf y @848x480
+
+        return dip, dim
 
 
     def calculate_vector(self, sensor_data, target):
@@ -177,11 +169,13 @@ class Cerebellum ():
         pos_tar = target
 
         distance = self.haversine(pos_now, pos_tar)
+        # distance = 0
+        # nucleusfastigii.haversine_cuda(pos_now, pos_tar, distance)
 
         dif_vec, rad, deg = self.calc_direction_in_rad(pos_now, pos_tar)
 
         correction = 0
-        rotation = 0
+        rotation = deg
 
         return correction, rotation
 
@@ -191,10 +185,9 @@ class Cerebellum ():
         return correction, rotation
 
 
-    def rotate_ship(self, dir):
+    def rotate_ship(self, cor, rot):
         """ Mii Rotor controller rotate for dir degree """
         pass
-
 
 
     def fly_through_gate(self, target):
@@ -202,23 +195,75 @@ class Cerebellum ():
         pass
 
 
+    def get_best_point(self, pot, cor, rot):
+        y_max = 480  # depth_np.shape
+        xh = 848 // 2
+        last_nearest_point = [0, 0] # 0. => x value 1. y value
+        p_return = []
+        for i, p in enumerate(pot):
+            if p == 0:
+                break
+            else:
+                _x = p // y_max
+                _y = p - (_x * y_max)
+                y = (1/(y_max//2)) * (_y - (y_max//2))
+                x = (1/xh) * (_x - xh)
+                if last_nearest_point[0] < x < p or last_nearest_point[0] > x > p:
+                    if last_nearest_point[1] < y < p or last_nearest_point[1] > y > p:
+                        last_nearest_point = [x, y]
+                        p_return = [_x, _y]
+
+        return p_return
+
+
     def avoid_obstacle(self, correction, rotation):
         """ calculate obstacle positions and return list of free paths"""
+        start = time.time()
         self.risk_list = []
         depth_frame = self.schlafgemach.get_realsense_data(self.schlafgemach.addon_init['realsense'])
         depth_np = self.schlafgemach.realsense_to_numpy(depth_frame)
 
-        print('{}, {}, {}'.format(depth_np.shape, depth_np.max(), self.distance_in_pixel(depth_np.max())))
+        print('{}, {}'.format(depth_np.shape, depth_np.max()))
         free, obst = self.check_flower(depth_np)
-        potantial_target = set()
 
+        potantial_target = np.zeros(free.__len__(), dtype=np.uint16)
+
+        print('#### time 215: {}'.format(time.time()-start))
+        start = time.time()
+
+        print(free.__len__())
+        """
+        
+        stream = cuda.stream()
+        with stream.auto_synchronize():
+        """
+        d_free = cuda.to_device(free)
+        d_obst = cuda.to_device(obst)
+        d_pt = cuda.to_device(potantial_target)
+        d_depth_np = cuda.to_device(depth_np)
+            
+        threadsperblock = 16
+        blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - 1
+
+        nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
+
+        result_pt = d_pt.copy_to_host()
+
+        # threadsperblock = 16
+        # blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
+        # print('cuda block setting [{}, {}]'.format(blockspergrid, threadsperblock))
+        # nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np,
+        #                                                                       len(obst), len(potantial_target))
+
+        """
+        square = set()
         for p in free:
+            sub_time = time.time()
             cell_val = depth_np[p[0]][p[1]]
-
 
             # generiert korridor
             d, d_val = self.distance_in_pixel(cell_val)
-            square = set()
+
             for x in range(p[0] - d[0], p[0] + d[0]):
                 for y in range(p[1] - d[1], p[1] + d[1]):
                     square.add((x, y))
@@ -226,6 +271,8 @@ class Cerebellum ():
             # print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
 
             intersec = square.intersection(obst)
+            square.clear()
+            # print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
 
             if len(intersec) == 0:
                 potantial_target.add(p)
@@ -233,25 +280,33 @@ class Cerebellum ():
                 for point_intersected in intersec:
                     pass
 
-        if not potantial_target:
-            self.rotate_ship(rotation*2)
+            print('### sub time : {}'.format(time.time()-sub_time))
+        """
 
-        else:
-            # self.fly_through_gate(potantial_target[0])
+        print('#### time 239: {}'.format(time.time()-start))
+        start = time.time()
+        # print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
+        # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
+
+        if result_pt[0] != 0:
+            point = self.get_best_point(result_pt, correction, rotation)
+            self.fly_through_gate(point)
             print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 
             if self.headless:
                 self.view_points(depth_np, free, obst, potantial_target, self.flower)
-        # for cord, i in enumerate(self.spiral):
-            #
-            # chunk = self.schlafgemach.create_chunk(cord[0], cord[1], self.spiral[-1][0], self.spiral[-1][1], depth_np)
-            # risk_val = self.calc_risk(cell_val,i ,_spiral_len)
-            # risk_val = int((100/_spiral_len) * (_spiral_len - i))
-            # if risk_val >= self.min_risk:
-                # self.risk_list.append((cell_val, risk_val, i, cord))
-                # if risk_val >= self.max_risk:
-                    # break
 
+        else:
+            self.rotate_ship(correction, rotation))
+
+        # else:
+            # self.fly_through_gate(potantial_target[0])
+            # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+
+            # if self.headless:
+                # self.view_points(depth_np, free, obst, potantial_target, self.flower)
+
+        print('#### time 264: {}'.format(time.time()-start))
         return correction, rotation
 
 
@@ -269,11 +324,12 @@ class Cerebellum ():
 
                 print('#### fly_to_target loop :\t{} ####'.format(time.time()-start))
 
+
     def run(self, schlafgemach, queue):
 
         self.schlafgemach = schlafgemach
         res = self.schlafgemach.resolution
-        self.flower = self.schlafgemach.create_flower(res[0], res[1])
+        self.flower = self.schlafgemach.create_flower(res[1], res[0])
         self.queue = queue
 
         self.fly_to_target()

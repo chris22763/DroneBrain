@@ -26,8 +26,32 @@ class TruncusCerebri:
             if arg.find('-c') > -1:
                 self._config_path = sys.argv[a+1]
 
+            if arg.find('-hc') > -1:
+                from numba import cuda
+                gpu = cuda.get_current_device()
+                print("name = %s" % gpu.name)
+                print("maxThreadsPerBlock = %s" % str(gpu.MAX_THREADS_PER_BLOCK))
+                print("maxBlockDimX = %s" % str(gpu.MAX_BLOCK_DIM_X))
+                print("maxBlockDimY = %s" % str(gpu.MAX_BLOCK_DIM_Y))
+                print("maxBlockDimZ = %s" % str(gpu.MAX_BLOCK_DIM_Z))
+                print("maxGridDimX = %s" % str(gpu.MAX_GRID_DIM_X))
+                print("maxGridDimY = %s" % str(gpu.MAX_GRID_DIM_Y))
+                print("maxGridDimZ = %s" % str(gpu.MAX_GRID_DIM_Z))
+                print("maxSharedMemoryPerBlock = %s" %
+                      str(gpu.MAX_SHARED_MEMORY_PER_BLOCK))
+                print("asyncEngineCount = %s" % str(gpu.ASYNC_ENGINE_COUNT))
+                print("canMapHostMemory = %s" % str(gpu.CAN_MAP_HOST_MEMORY))
+                print("multiProcessorCount = %s" % str(gpu.MULTIPROCESSOR_COUNT))
+                print("warpSize = %s" % str(gpu.WARP_SIZE))
+                print("unifiedAddressing = %s" % str(gpu.UNIFIED_ADDRESSING))
+                print("pciBusID = %s" % str(gpu.PCI_BUS_ID))
+                print("pciDeviceID = %s" % str(gpu.PCI_DEVICE_ID))
+
+                exit()
+
             if arg.find('-h') > -1:
-                print('.py starten mit -c und einem pfad zu einer config')
+                print('.py  -c starten mit und einem pfad zu einer config')
+                exit()
 
         self.load_config()
 
@@ -41,7 +65,8 @@ class TruncusCerebri:
                 self._config[key] = parser[key]
                 for sub_key in parser[key]:
                     self._config[key][sub_key] = parser[key][sub_key]
-        print(self._config)
+
+        # print(self._config)
 
 
     def queue_handler(queue, key=None, data=None):
@@ -78,15 +103,15 @@ class TruncusCerebri:
 
         print(self.schlafgemach.addons)
 
+
     def start(self):
         """ Hier werden alle notwenidigen Processe gestartet und der netzwerkklasse werden alle queues übergeben. """
-        
+
         q_list = []
         p_list = []
 
         # Flugsteuerung
         if self._config['device']['moving'] == 'True':
-
             import cerebellum           # Flugsteuerung
 
             self.check_thalamus()
@@ -122,7 +147,6 @@ class TruncusCerebri:
         process = mp.Process(target=self.balken.run, args=q_list)
         p_list.append(process)
         # process.start()
-
 
 
 hirnstamm = TruncusCerebri()

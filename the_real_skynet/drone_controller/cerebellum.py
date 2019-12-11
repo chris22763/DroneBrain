@@ -237,17 +237,17 @@ class Cerebellum ():
         stream = cuda.stream()
         with stream.auto_synchronize():
         """
-        d_free = free  # cuda.to_device(free)
-        d_obst = obst  # cuda.to_device(obst)
-        d_pt = potantial_target  # cuda.to_device(potantial_target)
-        d_depth_np = depth_np  #  cuda.to_device(depth_np)
+        d_free = cuda.to_device(free)
+        d_obst = cuda.to_device(obst)
+        d_pt = cuda.to_device(potantial_target)
+        d_depth_np =  cuda.to_device(depth_np)
             
         threadsperblock = 32
         blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - 1
 
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
-        # result_pt = d_pt.copy_to_host()
+        result_pt = d_pt.copy_to_host()
 
         # threadsperblock = 16
         # blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
@@ -255,41 +255,13 @@ class Cerebellum ():
         # nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np,
         #                                                                       len(obst), len(potantial_target))
 
-        """
-        square = set()
-        for p in free:
-            sub_time = time.time()
-            cell_val = depth_np[p[0]][p[1]]
-
-            # generiert korridor
-            d, d_val = self.distance_in_pixel(cell_val)
-
-            for x in range(p[0] - d[0], p[0] + d[0]):
-                for y in range(p[1] - d[1], p[1] + d[1]):
-                    square.add((x, y))
-
-            # print('{}: {}: {} => ({}, {}), ({}, {})'.format(cell_val, d_val, d, p[0] - d[0], p[1] - d[1], p[0] + d[0], p[1] + d[1]))
-
-            intersec = square.intersection(obst)
-            square.clear()
-            # print('{}, \t{}'.format(intersec.__len__(), time.time()-start))
-
-            if len(intersec) == 0:
-                potantial_target.add(p)
-            elif len(intersec) <= 10:
-                for point_intersected in intersec:
-                    pass
-
-            print('### sub time : {}'.format(time.time()-sub_time))
-        """
-
         print('#### time 239: {}'.format(time.time()-start))
         start = time.time()
         # print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
         # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
 
-        if d_pt[0] != 0:
-            point = self.get_best_point(d_pt, correction, rotation)
+        if result_pt[0] != 0:
+            point = self.get_best_point(result_pt, correction, rotation)
             # self.fly_through_gate(point)
             # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 

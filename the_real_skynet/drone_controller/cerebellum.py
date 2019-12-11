@@ -237,10 +237,10 @@ class Cerebellum ():
         stream = cuda.stream()
         with stream.auto_synchronize():
         """
-        d_free = cuda.to_device(free)
-        d_obst = cuda.to_device(obst)
-        d_pt = cuda.to_device(potantial_target)
-        d_depth_np = cuda.to_device(depth_np)
+        d_free = free  # cuda.to_device(free)
+        d_obst = obst  # cuda.to_device(obst)
+        d_pt = potantial_target  # cuda.to_device(potantial_target)
+        d_depth_np = depth_np  #  cuda.to_device(depth_np)
             
         threadsperblock = 32
         blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - 1

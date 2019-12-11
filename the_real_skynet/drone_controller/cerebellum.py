@@ -247,7 +247,7 @@ class Cerebellum ():
 
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
-        result_pt = d_pt.copy_to_host()
+        # result_pt = d_pt.copy_to_host()
 
         # threadsperblock = 16
         # blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
@@ -288,8 +288,8 @@ class Cerebellum ():
         # print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
         # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
 
-        if result_pt[0] != 0:
-            point = self.get_best_point(result_pt, correction, rotation)
+        if d_pt[0] != 0:
+            point = self.get_best_point(d_pt, correction, rotation)
             # self.fly_through_gate(point)
             # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 

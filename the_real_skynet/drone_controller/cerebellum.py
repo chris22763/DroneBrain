@@ -244,7 +244,7 @@ class Cerebellum ():
             
         threadsperblock = 32
         blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - 1
-
+        print('[{}][{}]'.format(threadsperblock, blockspergrid))
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
         result_pt = d_pt.copy_to_host()

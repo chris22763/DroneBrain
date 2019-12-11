@@ -298,7 +298,7 @@ class Cerebellum ():
                 self.view_points(depth_np, free, obst, potantial_target, self.flower)
 
         else:
-            self.rotate_ship(correction, rotation))
+            self.rotate_ship(correction, rotation)
 
         # else:
             # self.fly_through_gate(potantial_target[0])

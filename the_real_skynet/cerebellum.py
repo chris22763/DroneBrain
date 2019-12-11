@@ -291,7 +291,8 @@ class Cerebellum ():
         if result_pt[0] != 0:
             point = self.get_best_point(result_pt, correction, rotation)
             self.fly_through_gate(point)
-            print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+            print(point)
+            # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 
             if self.headless:
                 self.view_points(depth_np, free, obst, potantial_target, self.flower)

@@ -243,8 +243,9 @@ class Cerebellum ():
         d_depth_np =  cuda.to_device(depth_np)
             
         threadsperblock = 16
-        blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - 1
-        print('{} : [{}][{}]'.format(free.__len__(), threadsperblock, blockspergrid))
+        offset = 1 if free.__len__() >= threadsperblock else 0
+        blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - offset
+        # print('{} : [{}][{}]'.format(free.__len__(), threadsperblock, blockspergrid))
         nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
 
         result_pt = d_pt.copy_to_host()

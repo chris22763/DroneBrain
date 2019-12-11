@@ -246,40 +246,37 @@ class Cerebellum ():
         offset = 1 if free.__len__() >= threadsperblock else 0
         blockspergrid =  ( (free.__len__() + threadsperblock) // threadsperblock) - offset
         # print('{} : [{}][{}]'.format(free.__len__(), threadsperblock, blockspergrid))
-        nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
+        if free.__len__() > 0 :
+            nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](d_free, d_obst, d_pt, d_depth_np)
+            result_pt = d_pt.copy_to_host()
 
-        result_pt = d_pt.copy_to_host()
+            print('#### time 239: {}'.format(time.time()-start))
+            start = time.time()
+            # print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
+            # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
 
-        # threadsperblock = 16
-        # blockspergrid =  ((free.__len__() + (threadsperblock)) // threadsperblock)-1
-        # print('cuda block setting [{}, {}]'.format(blockspergrid, threadsperblock))
-        # nucleusfastigii.check_corridor_kernel[blockspergrid, threadsperblock](free, obst, potantial_target, depth_np,
-        #                                                                       len(obst), len(potantial_target))
+            if result_pt[0] != 0:
+                point = self.get_best_point(result_pt, correction, rotation)
+                # self.fly_through_gate(point)
+                # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
 
-        print('#### time 239: {}'.format(time.time()-start))
-        start = time.time()
-        # print('### pot len0: {}'.format(np.count_nonzero(potantial_target)))
-        # print('### pot len1: {}'.format(np.count_nonzero(result_pt)))
+                print(point)
 
-        if result_pt[0] != 0:
-            point = self.get_best_point(result_pt, correction, rotation)
-            # self.fly_through_gate(point)
-            # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+                if self.headless:
+                    self.view_points(depth_np, free, obst, potantial_target, self.flower)
 
-            print(point)
+            else:
+                self.rotate_ship(correction, rotation)
 
-            if self.headless:
-                self.view_points(depth_np, free, obst, potantial_target, self.flower)
+            # else:
+                # self.fly_through_gate(potantial_target[0])
+                # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
+
+                # if self.headless:
+                    # self.view_points(depth_np, free, obst, potantial_target, self.flower)
 
         else:
-            self.rotate_ship(correction, rotation)
-
-        # else:
-            # self.fly_through_gate(potantial_target[0])
-            # print('free: {}, obstacles: {}, potantial targets: {}'.format(len(free), len(obst), len(potantial_target)))
-
-            # if self.headless:
-                # self.view_points(depth_np, free, obst, potantial_target, self.flower)
+            print('turn around dude!')
 
         print('#### time 264: {}'.format(time.time()-start))
         return correction, rotation

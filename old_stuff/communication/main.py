@@ -1,7 +1,6 @@
 import pygame
 import drone
 import utils
-import math
 
 pygame.init()
 

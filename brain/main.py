@@ -7,6 +7,8 @@ class Main:
     def __init__(self):
         self._config_path = '../data/test_config.yml' # None
         self._config = None
+        self.sensor = None
+        self.fc = None
 
     def setup(self):
         if self._config_path != None:
@@ -49,7 +51,26 @@ class Main:
                 print(self._config['sensor']['oak-depth'])
             pass
 
+            import sensor_init
+
+            self.sensor = sensor_init.sensor_init()
+            queue = mp.Queue()
+            q_list.append(queue)
+            process = mp.Process(target=self.sensor.run, args=q_list)
+            p_list.append(process)
+            process.start()
+
+
         # init_steuerung
+
+        import flight_controller
+
+        self.fc = flight_controller.flight_controller()
+        queue = mp.Queue()
+        q_list.append(queue)
+        process = mp.Process(target=self.fc.run, args=q_list)
+        p_list.append(process)
+        process.start()
 
         # init_image_recognition
 

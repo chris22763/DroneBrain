@@ -1,0 +1,27 @@
+device:
+    type: 1  # 1 = Drone, 0 = Mothership
+    moving: true
+    movement: 0  # 0 = flying
+    twc: 900  # Time without charge in seconds
+    headless: false
+    got_sensors: true
+
+
+sensor:
+    realsense:
+        json_path: '../data/config_high_bandwidth.json'
+    bno555:
+    oak1:
+    oak-depth:
+
+
+addon:
+    gps: true
+    bno: false
+    realsense: true
+    ground_camera: false
+    wifi: False
+
+data:
+    realsense_json: /home/sloth/Documents/repo/DroneBrain/the_real_skynet/data/config_high_bandwidth.json
+

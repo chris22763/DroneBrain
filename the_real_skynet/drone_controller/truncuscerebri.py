@@ -1,5 +1,5 @@
 # Truncus cerebri oder Hirnstamm
-# das wird die Main
+# das ist die Main
 # Todo make super job managment
 
 import multiprocessing as mp
